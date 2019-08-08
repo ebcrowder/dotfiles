@@ -9,7 +9,7 @@ Plug 'rust-lang/rust.vim'
 " ts / js
 Plug 'Quramy/tsuquyomi'
 Plug 'Shougo/vimproc.vim', {'do' : 'make'}
-Plug 'Valloric/YouCompleteMe'
+Plug 'Valloric/YouCompleteMe', { 'do': './install.py --ts-completer --rust-completer --go-completer' }
 Plug 'leafgarland/typescript-vim'
 " nerdtree
 Plug 'scrooloose/nerdtree'
@@ -42,6 +42,7 @@ set background=dark
 " nerdtree
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+let NERDTreeShowHidden=1
 
 " neomake config
 call neomake#configure#automake('w')
@@ -59,3 +60,4 @@ autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.gra
 """""""""""""""""""""""""""""""""""""""""""""""
 " General
 """""""""""""""""""""""""""""""""""""""""""""""
+set number
