@@ -29,15 +29,9 @@ call plug#end()
 """""""""""""""""""""""""""""""""""""""""""""""
 " Plugin Related Configs
 """""""""""""""""""""""""""""""""""""""""""""""
-
-" Unified color scheme (default: dark)
-colo seoul256
-
-" Light color scheme
-colo seoul256-light
-
-" Switch
-set background=dark
+" theme
+let g:seoul256_background = 235
+color seoul256
 
 " nerdtree
 autocmd StdinReadPre * let s:std_in=1
@@ -60,4 +54,5 @@ autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.gra
 """""""""""""""""""""""""""""""""""""""""""""""
 " General
 """""""""""""""""""""""""""""""""""""""""""""""
+" line numbers
 set number
