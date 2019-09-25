@@ -6,6 +6,11 @@ call plug#begin('~/.vim/plugged')
 Plug 'junegunn/seoul256.vim'
 " rust
 Plug 'rust-lang/rust.vim'
+" RLS
+Plug 'autozimu/LanguageClient-neovim', {
+    \ 'branch': 'next',
+    \ 'do': 'bash install.sh',
+    \ }
 " ts / js
 Plug 'Quramy/tsuquyomi'
 Plug 'Shougo/vimproc.vim', {'do' : 'make'}
@@ -50,6 +55,21 @@ let g:ale_fix_on_save = 1
 " prettier
 let g:prettier#autoformat = 0
 autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue,*.yaml,*.html PrettierAsync
+
+" RLS
+set hidden
+let g:LanguageClient_autoStart = 1
+let g:LanguageClient_serverCommands = {
+    \ 'rust': ['~/.cargo/bin/rustup', 'run', 'stable', 'rls'],
+    \ 'javascript': ['/usr/local/bin/javascript-typescript-stdio'],
+    \ 'javascript.jsx': ['tcp://127.0.0.1:2089'],
+    \ }
+
+nnoremap <F5> :call LanguageClient_contextMenu()<CR>
+" Or map each action separately
+nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
+nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
+nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""
 " General
