@@ -6,6 +6,8 @@ call plug#begin('~/.vim/plugged')
 Plug 'junegunn/seoul256.vim'
 " rust
 Plug 'rust-lang/rust.vim'
+" go
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 " RLS
 Plug 'autozimu/LanguageClient-neovim', {
     \ 'branch': 'next',
