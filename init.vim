@@ -3,7 +3,7 @@ call plug#begin('~/.vim/plugged')
 
 " Declare the list of plugins.
 " theme
-Plug 'junegunn/seoul256.vim'
+Plug 'liuchengxu/space-vim-dark'
 " rust
 Plug 'rust-lang/rust.vim'
 " go
@@ -37,8 +37,10 @@ call plug#end()
 " Plugin Related Configs
 """""""""""""""""""""""""""""""""""""""""""""""
 " theme
-let g:seoul256_background = 235
-color seoul256
+color space-vim-dark
+set termguicolors
+hi LineNr ctermbg=NONE guibg=NONE
+hi Comment guifg=#5C6370 ctermfg=59
 
 " nerdtree
 autocmd StdinReadPre * let s:std_in=1
@@ -78,3 +80,27 @@ nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
 """""""""""""""""""""""""""""""""""""""""""""""
 " line numbers
 set number
+" status line
+function! GitBranch()
+  return system("git rev-parse --abbrev-ref HEAD 2>/dev/null | tr -d '\n'")
+endfunction
+
+function! StatuslineGit()
+  let l:branchname = GitBranch()
+  return strlen(l:branchname) > 0?'  '.l:branchname.' ':''
+endfunction
+
+set statusline=
+set statusline+=%#PmenuSel#
+set statusline+=%{StatuslineGit()}
+set statusline+=%#LineNr#
+set statusline+=\ %f
+set statusline+=%m\
+set statusline+=%=
+set statusline+=%#CursorColumn#
+set statusline+=\ %y
+set statusline+=\ %{&fileencoding?&fileencoding:&encoding}
+set statusline+=\[%{&fileformat}\]
+set statusline+=\ %p%%
+set statusline+=\ %l:%c
+set statusline+=\ 
