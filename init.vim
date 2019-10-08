@@ -67,15 +67,15 @@ nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
 " General
 """""""""""""""""""""""""""""""""""""""""""""""
 " line numbers
-set number
+ set number
 " status line
 function! GitBranch()
-  return system("git rev-parse --abbrev-ref HEAD 2>/dev/null | tr -d '\n'")
+ return system("git rev-parse --abbrev-ref HEAD 2>/dev/null | tr -d '\n'")
 endfunction
 
 function! StatuslineGit()
-  let l:branchname = GitBranch()
-  return strlen(l:branchname) > 0?'  '.l:branchname.' ':''
+ let l:branchname = GitBranch()
+ return strlen(l:branchname) > 0?'  '.l:branchname.' ':''
 endfunction
 
 set statusline=
