@@ -3,7 +3,7 @@ call plug#begin('~/.vim/plugged')
 
 " Declare the list of plugins.
 " theme
-Plug 'liuchengxu/space-vim-dark'
+Plug 'fatih/molokai'
 " rust
 Plug 'rust-lang/rust.vim'
 " go
@@ -23,18 +23,21 @@ Plug 'scrooloose/nerdtree'
 " fzf
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
 Plug 'junegunn/fzf.vim'
+" git
+Plug 'tpope/vim-fugitive'
 
-" List ends here. Plugins become visible to Vim after this call.
 call plug#end()
 
 """""""""""""""""""""""""""""""""""""""""""""""
 " Plugin Related Configs
 """""""""""""""""""""""""""""""""""""""""""""""
 " theme
-color space-vim-dark
-set termguicolors
-hi LineNr ctermbg=NONE guibg=NONE
-hi Comment guifg=#5C6370 ctermfg=59
+syntax enable
+set t_Co=256
+set background=dark
+let g:molokai_original = 1
+let g:rehash256 = 1
+colorscheme molokai
 
 " nerdtree
 autocmd StdinReadPre * let s:std_in=1
@@ -66,29 +69,93 @@ nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
 """""""""""""""""""""""""""""""""""""""""""""""
 " General
 """""""""""""""""""""""""""""""""""""""""""""""
-" line numbers
- set number
+set encoding=utf-8 " set default encoding to UTF-8
+set number " show line numbers
+set showcmd " show what I am typing
+set noswapfile " do not use swapfile
+set nobackup " do not use backup files
+set noerrorbells " no error bells
+
 " status line
-function! GitBranch()
- return system("git rev-parse --abbrev-ref HEAD 2>/dev/null | tr -d '\n'")
+let s:modes = {
+      \ 'n': 'NORMAL', 
+      \ 'i': 'INSERT', 
+      \ 'R': 'REPLACE', 
+      \ 'v': 'VISUAL', 
+      \ 'V': 'V-LINE', 
+      \ "\<C-v>": 'V-BLOCK',
+      \ 'c': 'COMMAND',
+      \ 's': 'SELECT', 
+      \ 'S': 'S-LINE', 
+      \ "\<C-s>": 'S-BLOCK', 
+      \ 't': 'TERMINAL'
+      \}
+
+let s:prev_mode = ""
+function! StatusLineMode()
+  let cur_mode = get(s:modes, mode(), '')
+
+  " do not update higlight if the mode is the same
+  if cur_mode == s:prev_mode
+    return cur_mode
+  endif
+
+  if cur_mode == "NORMAL"
+    exe 'hi! StatusLine ctermfg=236'
+    exe 'hi! myModeColor cterm=bold ctermbg=148 ctermfg=22'
+  elseif cur_mode == "INSERT"
+    exe 'hi! myModeColor cterm=bold ctermbg=23 ctermfg=231'
+  elseif cur_mode == "VISUAL" || cur_mode == "V-LINE" || cur_mode == "V_BLOCK"
+    exe 'hi! StatusLine ctermfg=236'
+    exe 'hi! myModeColor cterm=bold ctermbg=208 ctermfg=88'
+  endif
+
+  let s:prev_mode = cur_mode
+  return cur_mode
 endfunction
 
-function! StatuslineGit()
- let l:branchname = GitBranch()
- return strlen(l:branchname) > 0?'  '.l:branchname.' ':''
+function! StatusLineFiletype()
+  return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype : 'no ft') : ''
 endfunction
 
+function! StatusLinePercent()
+  return (100 * line('.') / line('$')) . '%'
+endfunction
+
+function! StatusLineLeftInfo()
+ let branch = fugitive#head()
+ let filename = '' != expand('%:t') ? expand('%:t') : '[No Name]'
+ if branch !=# ''
+   return printf("%s | %s", branch, filename)
+ endif
+ return filename
+endfunction
+
+exe 'hi! myInfoColor ctermbg=240 ctermfg=252'
+
+" start building our statusline
 set statusline=
-set statusline+=%#PmenuSel#
-set statusline+=%{StatuslineGit()}
-set statusline+=%#LineNr#
-set statusline+=\ %f
-set statusline+=%m\
+
+" mode with custom colors
+set statusline+=%#myModeColor#
+set statusline+=%{StatusLineMode()}               
+set statusline+=%*
+
+" left information bar (after mode)
+set statusline+=%#myInfoColor#
+set statusline+=\ %{StatusLineLeftInfo()}
+set statusline+=\ %*
+
+" go command status (requires vim-go)
+set statusline+=%#goStatuslineColor#
+set statusline+=%{go#statusline#Show()}
+set statusline+=%*
+
+" right section seperator
 set statusline+=%=
-set statusline+=%#CursorColumn#
-set statusline+=\ %y
-set statusline+=\ %{&fileencoding?&fileencoding:&encoding}
-set statusline+=\[%{&fileformat}\]
-set statusline+=\ %p%%
-set statusline+=\ %l:%c
-set statusline+=\ 
+
+" filetype, percentage, line number and column number
+set statusline+=%#myInfoColor#
+set statusline+=\ %{StatusLineFiletype()}\ %{StatusLinePercent()}\ %l:%v
+set statusline+=\ %*
+
