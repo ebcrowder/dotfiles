@@ -25,6 +25,8 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
 Plug 'junegunn/fzf.vim'
 " git
 Plug 'tpope/vim-fugitive'
+" comments
+Plug 'tpope/vim-commentary'
 
 call plug#end()
 
