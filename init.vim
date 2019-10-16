@@ -3,7 +3,7 @@ call plug#begin('~/.vim/plugged')
 
 " Declare the list of plugins.
 " theme
-Plug 'fatih/molokai'
+Plug 'morhetz/gruvbox'
 " rust
 Plug 'rust-lang/rust.vim'
 " go
@@ -35,11 +35,7 @@ call plug#end()
 """""""""""""""""""""""""""""""""""""""""""""""
 " theme
 syntax enable
-set t_Co=256
-set background=dark
-let g:molokai_original = 1
-let g:rehash256 = 1
-colorscheme molokai
+colorscheme gruvbox
 
 " nerdtree
 autocmd StdinReadPre * let s:std_in=1
@@ -104,12 +100,12 @@ function! StatusLineMode()
 
   if cur_mode == "NORMAL"
     exe 'hi! StatusLine ctermfg=236'
-    exe 'hi! myModeColor cterm=bold ctermbg=148 ctermfg=22'
+    exe 'hi! myModeColor cterm=bold ctermbg=108 ctermfg=235'
   elseif cur_mode == "INSERT"
-    exe 'hi! myModeColor cterm=bold ctermbg=23 ctermfg=231'
+    exe 'hi! myModeColor cterm=bold ctermbg=124 ctermfg=229'
   elseif cur_mode == "VISUAL" || cur_mode == "V-LINE" || cur_mode == "V_BLOCK"
     exe 'hi! StatusLine ctermfg=236'
-    exe 'hi! myModeColor cterm=bold ctermbg=208 ctermfg=88'
+    exe 'hi! myModeColor cterm=bold ctermbg=166 ctermfg=229'
   endif
 
   let s:prev_mode = cur_mode
