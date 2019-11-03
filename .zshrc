@@ -2,7 +2,7 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH="/home/ecrowder/.oh-my-zsh"
+export ZSH="/Users/ericcrowder/.oh-my-zsh"
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -78,7 +78,7 @@ source $ZSH/oh-my-zsh.sh
 export GOPATH=$HOME/go
 
 # pure
-fpath+=('/home/ecrowder/.nvm/versions/node/v10.16.3/lib/node_modules/pure-prompt/functions')
+fpath+=('/home/ecrowder/.nvm/versions/node/v12.13.0/lib/node_modules/pure-prompt/functions')
 autoload -U promptinit; promptinit
 prompt pure
 
