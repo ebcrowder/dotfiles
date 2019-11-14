@@ -10,5 +10,7 @@
     "workbench.activityBar.visible": true,
     "go.useLanguageServer": true,
     "editor.fontFamily": "'Dank Mono'",
-    "editor.fontSize": 16
+    "editor.fontSize": 16,
+    "workbench.colorTheme": "Horizon",
+    "workbench.editor.enablePreviewFromQuickOpen": false
 }
