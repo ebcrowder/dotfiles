@@ -1,0 +1,14 @@
+{
+    "telemetry.enableTelemetry": false,
+    "telemetry.enableCrashReporter": false,
+    "workbench.iconTheme": "vscode-icons",
+    "window.zoomLevel": 1,
+    "explorer.confirmDelete": false,
+    "debug.allowBreakpointsEverywhere": true,
+    "window.menuBarVisibility": "default",
+    "workbench.statusBar.visible": true,
+    "workbench.activityBar.visible": true,
+    "go.useLanguageServer": true,
+    "editor.fontFamily": "'Dank Mono'",
+    "editor.fontSize": 16
+}
