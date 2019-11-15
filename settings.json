@@ -1,16 +1,78 @@
 {
-    "telemetry.enableTelemetry": false,
-    "telemetry.enableCrashReporter": false,
-    "workbench.iconTheme": "vscode-icons",
-    "window.zoomLevel": 1,
-    "explorer.confirmDelete": false,
-    "debug.allowBreakpointsEverywhere": true,
-    "window.menuBarVisibility": "default",
-    "workbench.statusBar.visible": true,
-    "workbench.activityBar.visible": true,
-    "go.useLanguageServer": true,
-    "editor.fontFamily": "'Dank Mono'",
-    "editor.fontSize": 16,
-    "workbench.colorTheme": "Horizon",
-    "workbench.editor.enablePreviewFromQuickOpen": false
+  "window.zoomLevel": 0,
+  "editor.fontSize": 16,
+  "editor.fontFamily": "'Dank Mono'",
+  "workbench.iconTheme": "vs-seti",
+  "editor.formatOnSave": true,
+  "emmet.includeLanguages": {
+    "javascript": "javascriptreact"
+  },
+  "telemetry.enableTelemetry": false,
+  "prettier.singleQuote": true,
+  "editor.multiCursorModifier": "ctrlCmd",
+  "breadcrumbs.enabled": true,
+  "terminal.integrated.fontSize": 16,
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "workbench.editor.enablePreview": false,
+  "explorer.confirmDelete": false,
+  "files.autoSave": "afterDelay",
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "cSpell.userWords": [
+    "cloudinary",
+    "darlingdance",
+    "dedup",
+    "dotenv",
+    "ebcrowder",
+    "fontawesome",
+    "formik",
+    "frontmatter",
+    "gmail",
+    "postgres",
+    "prisma",
+    "reqwest",
+    "serverless",
+    "strava",
+    "struct",
+    "styl",
+    "testid"
+  ],
+  "jest.autoEnable": false,
+  "jest.runAllTestsFirst": false,
+  "workbench.editor.showTabs": true,
+  "explorer.confirmDragAndDrop": false,
+  "python.jediEnabled": false,
+  "debug.node.autoAttach": "on",
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "telemetry.enableCrashReporter": false,
+  "[php]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "go.useLanguageServer": true,
+  "go.lintTool": "golangci-lint",
+  "go.lintFlags": [
+    "--fast"
+  ],
+  "rust-client.updateOnStartup": true,
+  "rust.clippy_preference": "on",
+  "editor.formatOnPaste": true,
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "extensions.ignoreRecommendations": false,
+  "gitlens.codeLens.enabled": false,
+  "gitlens.currentLine.enabled": false,
+  "rust.all_features": true,
+  "debug.allowBreakpointsEverywhere": true,
+  "[yaml]": {
+    "editor.defaultFormatter": "redhat.vscode-yaml"
+  },
+  "workbench.colorTheme": "Gruvbox Dark Hard"
 }
