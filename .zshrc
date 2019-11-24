@@ -79,7 +79,7 @@ source $ZSH/oh-my-zsh.sh
 export GOPATH=$HOME/go
 
 # pure
-fpath+=('/home/ecrowder/.nvm/versions/node/v12.13.0/lib/node_modules/pure-prompt/functions')
+fpath+=('/home/ecrowder/.nvm/versions/node/v13.12.0/lib/node_modules/pure-prompt/functions')
 autoload -U promptinit; promptinit
 prompt pure
 

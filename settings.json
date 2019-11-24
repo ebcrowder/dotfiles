@@ -8,6 +8,7 @@
     "javascript": "javascriptreact"
   },
   "telemetry.enableTelemetry": false,
+  "telemetry.enableCrashReporter": false,
   "prettier.singleQuote": true,
   "editor.multiCursorModifier": "ctrlCmd",
   "breadcrumbs.enabled": true,
@@ -36,20 +37,13 @@
     "styl",
     "testid"
   ],
-  "jest.autoEnable": false,
-  "jest.runAllTestsFirst": false,
   "workbench.editor.showTabs": true,
   "explorer.confirmDragAndDrop": false,
-  "python.jediEnabled": false,
   "debug.node.autoAttach": "on",
   "[typescriptreact]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[json]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "telemetry.enableCrashReporter": false,
-  "[php]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "go.useLanguageServer": true,
@@ -67,12 +61,19 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "extensions.ignoreRecommendations": false,
-  "gitlens.codeLens.enabled": false,
-  "gitlens.currentLine.enabled": false,
   "rust.all_features": true,
   "debug.allowBreakpointsEverywhere": true,
   "[yaml]": {
     "editor.defaultFormatter": "redhat.vscode-yaml"
   },
-  "workbench.colorTheme": "Gruvbox Dark Hard"
+  "workbench.colorTheme": "Gruvbox Dark Hard",
+  "auto-rename-tag.activationOnLanguage": [
+    "html",
+    "javascript",
+    "javascriptreact"
+  ],
+  "editor.minimap.enabled": false,
+  "[vue]": {
+    "editor.defaultFormatter": "octref.vetur"
+  }
 }
