@@ -2,8 +2,6 @@
 call plug#begin('~/.vim/plugged')
 
 " Declare the list of plugins.
-" theme
-Plug 'morhetz/gruvbox'
 " rust
 Plug 'rust-lang/rust.vim'
 " go
@@ -30,10 +28,6 @@ call plug#end()
 """""""""""""""""""""""""""""""""""""""""""""""
 " Plugin Related Configs
 """""""""""""""""""""""""""""""""""""""""""""""
-" theme
-syntax enable
-colorscheme gruvbox
-
 " nerdtree
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
