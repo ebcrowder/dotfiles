@@ -11,7 +11,7 @@ export ZSH="/Users/ericcrowder/.oh-my-zsh" #macos
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
 ZSH_THEME=""
 # PROMPT="%(?:%{$fg_bold[green]%}➜ :%{$fg_bold[red]%}➜ )"
-PROMPT=' %{$fg[cyan]%}%c%{$reset_color%} $(git_prompt_info) $ '
+PROMPT='%{$fg[cyan]%}%c%{$reset_color%} $(git_prompt_info) $ '
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
