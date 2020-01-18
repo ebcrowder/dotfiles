@@ -1,10 +1,10 @@
 # Path to your oh-my-zsh installation.
-# export ZSH="/Users/ericcrowder/.oh-my-zsh" #macos
-export ZSH="/home/ecrowder/.oh-my-zsh" #linux
+export ZSH="/Users/ericcrowder/.oh-my-zsh" #macos
+# export ZSH="/home/ecrowder/.oh-my-zsh" #linux
 
 ZSH_THEME=""
 # PROMPT="%(?:%{$fg_bold[green]%}➜ :%{$fg_bold[red]%}➜ )"
-PROMPT='%{$fg[cyan]%}%c%{$reset_color%} $(git_prompt_info) $ '
+PROMPT='%{$fg[green]%}%c%{$reset_color%} $(git_prompt_info)$ '
 
 plugins=(git zsh-syntax-highlighting)
 
