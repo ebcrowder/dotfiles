@@ -3,10 +3,16 @@ export ZSH="/Users/ericcrowder/.oh-my-zsh" #macos
 # export ZSH="/home/ecrowder/.oh-my-zsh" #linux
 
 ZSH_THEME=""
-# PROMPT="%(?:%{$fg_bold[green]%}➜ :%{$fg_bold[red]%}➜ )"
-PROMPT='%{$fg[green]%}%c%{$reset_color%} $(git_prompt_info)$ '
+PROMPT='%~ %# '
 
-plugins=(git zsh-syntax-highlighting)
+autoload -Uz vcs_info
+precmd_vcs_info() { vcs_info }
+precmd_functions+=( precmd_vcs_info )
+setopt prompt_subst
+RPROMPT=\$vcs_info_msg_0_
+zstyle ':vcs_info:git:*' formats '%b'
+
+plugins=(zsh-syntax-highlighting)
 
 source $ZSH/oh-my-zsh.sh
 
