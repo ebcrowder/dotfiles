@@ -3,14 +3,13 @@ export ZSH="/Users/ericcrowder/.oh-my-zsh" #macos
 # export ZSH="/home/ecrowder/.oh-my-zsh" #linux
 
 ZSH_THEME=""
-PROMPT='%~ %# '
 
-autoload -Uz vcs_info
-precmd_vcs_info() { vcs_info }
-precmd_functions+=( precmd_vcs_info )
-setopt prompt_subst
-RPROMPT=\$vcs_info_msg_0_
-zstyle ':vcs_info:git:*' formats '%b'
+source ~/dotfiles/git-prompt.sh
+precmd () { __git_ps1 "%n" " %~ %# " "|%s" }
+GIT_PS1_SHOWCOLORHINTS=true
+GIT_PS1_SHOWDIRTYSTATE=true
+GIT_PS1_SHOWUNTRACKEDFILES=true
+GIT_PS1_SHOWUPSTREAM="auto"
 
 plugins=(zsh-syntax-highlighting)
 
