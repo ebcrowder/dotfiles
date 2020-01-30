@@ -5,7 +5,7 @@ export ZSH="/Users/ericcrowder/.oh-my-zsh" #macos
 ZSH_THEME=""
 
 source ~/dotfiles/git-prompt.sh
-precmd () { __git_ps1 "[%n]" " %~ %# " "[%s]" }
+precmd () { __git_ps1 "[%n]" " %~ $ " "[%s]" }
 GIT_PS1_SHOWCOLORHINTS=true
 GIT_PS1_SHOWDIRTYSTATE=true
 GIT_PS1_SHOWUNTRACKEDFILES=true
