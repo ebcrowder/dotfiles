@@ -1,80 +1,16 @@
 {
-  "window.zoomLevel": 0,
-  "editor.fontSize": 16,
-  "editor.fontFamily": "'Dank Mono'",
-  "workbench.iconTheme": "material-icon-theme",
-  "editor.formatOnSave": true,
-  "emmet.includeLanguages": {
-    "javascript": "javascriptreact"
-  },
-  "telemetry.enableTelemetry": false,
-  "telemetry.enableCrashReporter": false,
-  "prettier.singleQuote": true,
-  "editor.multiCursorModifier": "ctrlCmd",
-  "breadcrumbs.enabled": true,
-  "terminal.integrated.fontSize": 16,
-  "javascript.updateImportsOnFileMove.enabled": "always",
-  "workbench.editor.enablePreview": false,
-  "explorer.confirmDelete": false,
-  "files.autoSave": "afterDelay",
-  "typescript.updateImportsOnFileMove.enabled": "always",
-  "cSpell.userWords": [
-    "cloudinary",
-    "darlingdance",
-    "dedup",
-    "dotenv",
-    "ebcrowder",
-    "fontawesome",
-    "formik",
-    "frontmatter",
-    "gmail",
-    "postgres",
-    "prisma",
-    "reqwest",
-    "serverless",
-    "strava",
-    "struct",
-    "styl",
-    "testid"
-  ],
-  "workbench.editor.showTabs": true,
-  "explorer.confirmDragAndDrop": false,
-  "debug.node.autoAttach": "on",
-  "[typescriptreact]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[json]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "go.useLanguageServer": true,
-  "go.lintTool": "golangci-lint",
-  "go.lintFlags": [
-    "--fast"
-  ],
-  "editor.formatOnPaste": true,
-  "[typescript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[javascript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "extensions.ignoreRecommendations": false,
-  "debug.allowBreakpointsEverywhere": true,
-  "workbench.colorTheme": "Panda Syntax",
-  "auto-rename-tag.activationOnLanguage": [
-    "html",
-    "javascript",
-    "javascriptreact"
-  ],
-  "editor.minimap.enabled": false,
-  "[vue]": {
-    "editor.defaultFormatter": "octref.vetur"
-  },
-  "vetur.grammar.customBlocks": {
-    "page-query": "graphql",
-    "static-query": "graphql"
-  },
-  "rust.all_features": true,
-  "rust-client.updateOnStartup": true,
-  "rust.unstable_features": true,
+    "telemetry.enableTelemetry": false,
+    "telemetry.enableCrashReporter": false,
+    "editor.fontFamily": "Dank Mono",
+    "editor.fontSize": 16,
+    "terminal.integrated.fontSize": 16,
+    "go.useLanguageServer": true,
+    "[javascript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+    },
+    "editor.formatOnSave": true,
+    "window.zoomLevel": 0,
+    "editor.minimap.enabled": false,
+    "workbench.iconTheme": null,
+    "workbench.editor.enablePreview": false,
 }
