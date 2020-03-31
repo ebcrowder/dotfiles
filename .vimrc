@@ -77,18 +77,3 @@ set showcmd " show what I am typing
 set noswapfile " do not use swapfile
 set nobackup " do not use backup files
 set noerrorbells " no error bells
-
-" status line
-set statusline=
-set statusline+=%#PmenuSel#
-set statusline+=%#LineNr#
-set statusline+=\ %f
-set statusline+=%m\
-set statusline+=%=
-set statusline+=%#CursorColumn#
-set statusline+=\ %y
-set statusline+=\ %{&fileencoding?&fileencoding:&encoding}
-set statusline+=\[%{&fileformat}\]
-set statusline+=\ %p%%
-set statusline+=\ %l:%c
-set statusline+=\
