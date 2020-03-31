@@ -62,6 +62,7 @@ augroup END
 
 let g:lsp_signs_enabled = 1 
 let g:lsp_diagnostics_echo_cursor = 1
+
 " rust
 let g:rustfmt_autosave = 1
 
