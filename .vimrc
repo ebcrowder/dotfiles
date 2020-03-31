@@ -71,12 +71,12 @@ let g:rustfmt_autosave = 1
 """""""""""""""""""""""""""""""""""""""""""""""
 " General
 """""""""""""""""""""""""""""""""""""""""""""""
-" set encoding=utf-8 " set default encoding to UTF-8
-" set number " show line numbers
-" set showcmd " show what I am typing
-" set noswapfile " do not use swapfile
-" set nobackup " do not use backup files
-" set noerrorbells " no error bells
+set encoding=utf-8 " set default encoding to UTF-8
+set number " show line numbers
+set showcmd " show what I am typing
+set noswapfile " do not use swapfile
+set nobackup " do not use backup files
+set noerrorbells " no error bells
 
 " status line
 set statusline=
