@@ -1,10 +1,9 @@
 " ec vimrc config
 " Plugins will be downloaded under the specified directory.
 call plug#begin('~/.vim/plugged')
-
 " Declare the list of plugins.
 " theme
-Plug 'morhetz/gruvbox'
+Plug 'tomasiser/vim-code-dark'
 " rust
 Plug 'rust-lang/rust.vim'
 " vim-lsp
@@ -12,29 +11,31 @@ Plug 'prabirshrestha/async.vim'
 Plug 'prabirshrestha/vim-lsp'
 Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
-" nerdtree
-Plug 'scrooloose/nerdtree'
-" fzf
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
-Plug 'junegunn/fzf.vim'
+" go
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 " git
 Plug 'tpope/vim-fugitive'
 " comments
 Plug 'tpope/vim-commentary'
-
 call plug#end()
 
 """""""""""""""""""""""""""""""""""""""""""""""
 " Plugin Related Configs
 """""""""""""""""""""""""""""""""""""""""""""""
 " theme
-colorscheme gruvbox
-set background=dark  
-" nerdtree
-autocmd StdinReadPre * let s:std_in=1
-autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
-map <C-b> :NERDTreeToggle<CR>
-let NERDTreeShowHidden=1
+colorscheme codedark 
+
+" netrw
+map <silent> <C-b> :Lexplore <CR>
+let g:netrw_banner = 0
+let g:netrw_liststyle = 3
+let g:netrw_browse_split = 3
+let g:netrw_altv = 1
+let g:netrw_winsize = 25
+augroup ProjectDrawer
+  autocmd!
+  autocmd VimEnter * :Lexplore
+augroup END
 
 " vim-lsp 
 if executable('rls')
@@ -60,8 +61,11 @@ augroup lsp_install
     autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
 augroup END
 
+let g:lsp_diagnostics_enabled = 1
 let g:lsp_signs_enabled = 1 
-let g:lsp_diagnostics_echo_cursor = 1
+let g:lsp_diagnostics_echo_cursor = 0
+let g:lsp_diagnostics_float_cursor = 1
+let g:lsp_diagnostics_float_delay = 200
 
 " rust
 let g:rustfmt_autosave = 1
