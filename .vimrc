@@ -38,10 +38,11 @@ augroup ProjectDrawer
 augroup END
 
 " vim-lsp 
-if executable('rls')
+" cargo install --git https://github.com/rust-analyzer/rust-analyzer rust-analyzer
+if executable('rust-analyzer')
     au User lsp_setup call lsp#register_server({
-        \ 'name': 'rls',
-        \ 'cmd': {server_info->['rustup', 'run', 'stable', 'rls']},
+        \ 'name': 'rust-analyzer',
+        \ 'cmd': {server_info->['rust-analyzer']},
         \ 'workspace_config': {'rust': {'clippy_preference': 'on'}},
         \ 'whitelist': ['rust'],
         \ })
