@@ -29,13 +29,9 @@ colorscheme codedark
 map <silent> <C-b> :Lexplore <CR>
 let g:netrw_banner = 0
 let g:netrw_liststyle = 3
-let g:netrw_browse_split = 3
+let g:netrw_browse_split = 4
 let g:netrw_altv = 1
 let g:netrw_winsize = 25
-augroup ProjectDrawer
-  autocmd!
-  autocmd VimEnter * :Lexplore
-augroup END
 
 " vim-lsp 
 " cargo install --git https://github.com/rust-analyzer/rust-analyzer rust-analyzer
@@ -52,6 +48,7 @@ function! s:on_lsp_buffer_enabled() abort
     setlocal omnifunc=lsp#complete
     setlocal signcolumn=yes
     nmap <buffer> gd <plug>(lsp-definition)
+    nmap <buffer> <C-k> <plug>(lsp-hover)
     nmap <buffer> <f2> <plug>(lsp-rename)
     " refer to doc to add more commands
 endfunction
