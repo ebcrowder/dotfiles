@@ -13,4 +13,9 @@
     "editor.minimap.enabled": false,
     "workbench.iconTheme": null,
     "workbench.editor.enablePreview": false,
+    "rust-analyzer.updates.askBeforeDownload": false,
+    "rust-analyzer.updates.channel": "nightly",
+    "rust-analyzer.inlayHints.typeHints": false,
+    "rust-analyzer.inlayHints.parameterHints": false,
+    "rust-analyzer.inlayHints.chainingHints": false
 }
