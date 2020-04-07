@@ -2,3 +2,5 @@
 [user]
 	name = ebcrowder
 	email = ebcrowder@gmail.com
+[core]
+	editor = vim
