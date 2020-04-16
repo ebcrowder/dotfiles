@@ -6,13 +6,14 @@ call plug#begin('~/.vim/plugged')
 Plug 'tomasiser/vim-code-dark'
 " rust
 Plug 'rust-lang/rust.vim'
+" go
+Plug 'vim-jp/vim-go-extra'
 " vim-lsp
 Plug 'prabirshrestha/async.vim'
 Plug 'prabirshrestha/vim-lsp'
 Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
-" go
-Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+Plug 'mattn/vim-lsp-settings'
 " git
 Plug 'tpope/vim-fugitive'
 " comments
@@ -44,6 +45,15 @@ if executable('rust-analyzer')
         \ })
 endif
 
+if executable('gopls')
+    au User lsp_setup call lsp#register_server({
+        \ 'name': 'gopls',
+        \ 'cmd': {server_info->['gopls']},
+        \ 'whitelist': ['go'],
+        \ })
+    autocmd BufWritePre *.go LspDocumentFormatSync
+endif
+
 function! s:on_lsp_buffer_enabled() abort
     setlocal omnifunc=lsp#complete
     setlocal signcolumn=yes
@@ -65,8 +75,9 @@ let g:lsp_diagnostics_echo_cursor = 0
 let g:lsp_diagnostics_float_cursor = 1
 let g:lsp_diagnostics_float_delay = 200
 
-" rust
+" format on save 
 let g:rustfmt_autosave = 1
+autocmd FileType go autocmd BufWritePre <buffer> Fmt
 
 """""""""""""""""""""""""""""""""""""""""""""""
 " General
