@@ -88,3 +88,4 @@ set showcmd " show what I am typing
 set noswapfile " do not use swapfile
 set nobackup " do not use backup files
 set noerrorbells " no error bells
+set backspace=indent,eol,start " enable backspace in insert mode
