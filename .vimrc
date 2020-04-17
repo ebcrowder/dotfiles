@@ -1,7 +1,6 @@
 " ec vimrc config
-" Plugins will be downloaded under the specified directory.
+" plugins will be downloaded under the specified directory.
 call plug#begin('~/.vim/plugged')
-" Declare the list of plugins.
 " theme
 Plug 'tomasiser/vim-code-dark'
 " rust
