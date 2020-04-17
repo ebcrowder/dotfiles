@@ -14,8 +14,6 @@ Plug 'prabirshrestha/vim-lsp'
 Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
 Plug 'mattn/vim-lsp-settings'
-" git
-Plug 'tpope/vim-fugitive'
 " comments
 Plug 'tpope/vim-commentary'
 call plug#end()
@@ -74,6 +72,7 @@ let g:lsp_signs_enabled = 1
 let g:lsp_diagnostics_echo_cursor = 0
 let g:lsp_diagnostics_float_cursor = 1
 let g:lsp_diagnostics_float_delay = 200
+let g:lsp_highlight_references_enabled = 1
 
 " format on save 
 let g:rustfmt_autosave = 1
