@@ -1,7 +1,7 @@
 {
     "telemetry.enableTelemetry": false,
     "telemetry.enableCrashReporter": false,
-    "editor.fontFamily": "Dank Mono",
+    "editor.fontFamily": "JetBrains Mono",
     "editor.fontSize": 16,
     "terminal.integrated.fontSize": 16,
     "go.useLanguageServer": true,
