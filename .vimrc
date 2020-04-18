@@ -13,6 +13,10 @@ Plug 'prabirshrestha/vim-lsp'
 Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
 Plug 'mattn/vim-lsp-settings'
+" prettier
+Plug 'prettier/vim-prettier', {
+  \ 'do': 'npm install',
+  \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'yaml', 'html'] }
 " comments
 Plug 'tpope/vim-commentary'
 call plug#end()
@@ -76,6 +80,7 @@ let g:lsp_highlight_references_enabled = 1
 " format on save 
 let g:rustfmt_autosave = 1
 autocmd FileType go autocmd BufWritePre <buffer> Fmt
+let g:prettier#autoformat = 1
 
 """""""""""""""""""""""""""""""""""""""""""""""
 " General
