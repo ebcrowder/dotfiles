@@ -2,7 +2,7 @@
 " plugins will be downloaded under the specified directory.
 call plug#begin('~/.vim/plugged')
 " theme
-Plug 'tomasiser/vim-code-dark'
+Plug 'doums/darcula'
 " rust
 Plug 'rust-lang/rust.vim'
 " go
@@ -25,7 +25,8 @@ call plug#end()
 " Plugin Related Configs
 """""""""""""""""""""""""""""""""""""""""""""""
 " theme
-colorscheme codedark 
+colorscheme darcula
+set termguicolors
 
 " netrw
 map <silent> <C-b> :Lexplore <CR>
@@ -33,7 +34,7 @@ let g:netrw_banner = 0
 let g:netrw_liststyle = 3
 let g:netrw_browse_split = 4
 let g:netrw_altv = 1
-let g:netrw_winsize = 25
+let g:netrw_winsize = 20
 
 " vim-lsp 
 " cargo install --git https://github.com/rust-analyzer/rust-analyzer rust-analyzer
