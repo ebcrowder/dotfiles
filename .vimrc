@@ -2,7 +2,7 @@
 " plugins will be downloaded under the specified directory.
 call plug#begin('~/.vim/plugged')
 " theme
-Plug 'doums/darcula'
+Plug 'tomasiser/vim-code-dark'
 " rust
 Plug 'rust-lang/rust.vim'
 " go
@@ -25,8 +25,7 @@ call plug#end()
 " Plugin Related Configs
 """""""""""""""""""""""""""""""""""""""""""""""
 " theme
-colorscheme darcula
-set termguicolors
+colorscheme codedark 
 
 " netrw
 map <silent> <C-b> :Lexplore <CR>
