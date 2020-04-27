@@ -6,7 +6,7 @@ Plug 'tomasiser/vim-code-dark'
 " rust
 Plug 'rust-lang/rust.vim'
 " go
-Plug 'vim-jp/vim-go-extra'
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 " vim-lsp
 Plug 'prabirshrestha/async.vim'
 Plug 'prabirshrestha/vim-lsp'
@@ -46,15 +46,6 @@ if executable('rust-analyzer')
         \ })
 endif
 
-if executable('gopls')
-    au User lsp_setup call lsp#register_server({
-        \ 'name': 'gopls',
-        \ 'cmd': {server_info->['gopls']},
-        \ 'whitelist': ['go'],
-        \ })
-    autocmd BufWritePre *.go LspDocumentFormatSync
-endif
-
 function! s:on_lsp_buffer_enabled() abort
     setlocal omnifunc=lsp#complete
     setlocal signcolumn=yes
@@ -77,9 +68,14 @@ let g:lsp_diagnostics_float_cursor = 1
 let g:lsp_diagnostics_float_delay = 200
 let g:lsp_highlight_references_enabled = 1
 
+" vim-go
+let g:go_highlight_functions = 1
+let g:go_highlight_function_parameters = 1
+let g:go_highlight_types = 1
+let g:go_highlight_fields = 1
+
 " format on save 
 let g:rustfmt_autosave = 1
-autocmd FileType go autocmd BufWritePre <buffer> Fmt
 let g:prettier#autoformat = 1
 
 """""""""""""""""""""""""""""""""""""""""""""""
