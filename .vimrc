@@ -13,10 +13,6 @@ Plug 'prabirshrestha/vim-lsp'
 Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
 Plug 'mattn/vim-lsp-settings'
-" prettier
-Plug 'prettier/vim-prettier', {
-  \ 'do': 'npm install',
-  \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'yaml', 'html'] }
 " comments
 Plug 'tpope/vim-commentary'
 call plug#end()
@@ -76,7 +72,6 @@ let g:go_highlight_fields = 1
 
 " format on save 
 let g:rustfmt_autosave = 1
-let g:prettier#autoformat = 1
 
 """""""""""""""""""""""""""""""""""""""""""""""
 " General
@@ -89,8 +84,6 @@ set nobackup " do not use backup files
 set noerrorbells " no error bells
 set backspace=indent,eol,start " enable backspace in insert mode
 
-" autoclose brackets and quotes
-inoremap " ""<left>
-inoremap ' ''<left>
+" autoclose brackets
 inoremap [ []<left>
 inoremap { {}<left>
