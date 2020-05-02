@@ -6,8 +6,6 @@ GIT_PS1_SHOWDIRTYSTATE=true
 GIT_PS1_SHOWUNTRACKEDFILES=true
 GIT_PS1_SHOWUPSTREAM="auto"
 
-# User configuration
-
 # go
 export GOPATH=$HOME/go
 
