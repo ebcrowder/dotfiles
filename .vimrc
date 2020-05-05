@@ -73,6 +73,9 @@ let g:go_highlight_fields = 1
 " format on save 
 let g:rustfmt_autosave = 1
 
+" yaml
+autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
+
 """""""""""""""""""""""""""""""""""""""""""""""
 " General
 """""""""""""""""""""""""""""""""""""""""""""""
