@@ -1,3 +1,9 @@
+# zshrc
+
+# alias
+alias ll="ls -la"
+alias ..="cd .."
+
 # git
 source ~/dotfiles/git-prompt.sh
 precmd () { __git_ps1 "[%n]" " %~ $ " "[%s]" }
