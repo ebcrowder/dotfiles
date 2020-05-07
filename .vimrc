@@ -1,4 +1,4 @@
-" ec vimrc config
+" vimrc
 " plugins will be downloaded under the specified directory.
 call plug#begin('~/.vim/plugged')
 " theme
@@ -13,8 +13,9 @@ Plug 'prabirshrestha/vim-lsp'
 Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
 Plug 'mattn/vim-lsp-settings'
-" comments
+" comments, git
 Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-fugitive'
 call plug#end()
 
 """""""""""""""""""""""""""""""""""""""""""""""
