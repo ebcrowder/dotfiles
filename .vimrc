@@ -23,6 +23,7 @@ call plug#end()
 """""""""""""""""""""""""""""""""""""""""""""""
 " theme
 colorscheme codedark 
+syntax on
 
 " netrw
 map <silent> <C-b> :Lexplore <CR>
@@ -91,3 +92,18 @@ set backspace=indent,eol,start " enable backspace in insert mode
 " autoclose brackets
 inoremap [ []<left>
 inoremap { {}<left>
+
+"statusline - modifiedflag, charcount, filepercent, filepath
+set laststatus=2
+set statusline=
+set statusline+=%#PmenuSel#
+set statusline+=%#LineNr#
+set statusline+=\ %f
+set statusline+=%m
+set statusline+=%=
+set statusline+=%#CursorColumn#
+set statusline+=\ %y
+set statusline+=\ %{&fileencoding?&fileencoding:&encoding}
+set statusline+=\[%{&fileformat}]
+set statusline+=\ %p%%
+set statusline+=\ %l:%c
