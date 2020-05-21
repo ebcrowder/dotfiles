@@ -2,7 +2,7 @@
 " plugins will be downloaded under the specified directory.
 call plug#begin('~/.vim/plugged')
 " theme
-Plug 'tomasiser/vim-code-dark'
+Plug 'zaki/zazen'
 " rust
 Plug 'rust-lang/rust.vim'
 " go
@@ -22,7 +22,7 @@ call plug#end()
 " Plugin Related Configs
 """""""""""""""""""""""""""""""""""""""""""""""
 " theme
-colorscheme codedark 
+colorscheme zazen
 syntax on
 
 " netrw
