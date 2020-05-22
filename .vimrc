@@ -2,7 +2,7 @@
 " plugins will be downloaded under the specified directory.
 call plug#begin('~/.vim/plugged')
 " theme
-Plug 'zaki/zazen'
+Plug 'ewilazarus/preto'
 " rust
 Plug 'rust-lang/rust.vim'
 " go
@@ -22,7 +22,7 @@ call plug#end()
 " Plugin Related Configs
 """""""""""""""""""""""""""""""""""""""""""""""
 " theme
-colorscheme zazen
+colorscheme preto
 syntax on
 
 " netrw
