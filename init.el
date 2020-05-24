@@ -22,19 +22,11 @@
 (menu-bar-mode -1)                        ; Disable menu bar
 (toggle-scroll-bar -1)                    ; Disable scroll bar
 (tool-bar-mode -1)                        ; Disable tool bar
-(setq-default cursor-type 'bar)           ; Line-style cursor similar to other text editors
 (setq inhibit-startup-screen t)           ; Disable startup screen
 (setq initial-scratch-message "")         ; Make *scratch* buffer blank
 (setq-default frame-title-format '("%b")) ; Make window title the buffer name
-(setq ring-bell-function 'ignore)         ; Disable bell sound
-(fset 'yes-or-no-p 'y-or-n-p)             ; y-or-n-p makes answering questions faster
 (show-paren-mode 1)                       ; Show closing parens by default
-(add-hook 'prog-mode-hook                 ; Show line numbers in programming modes
-          (if (fboundp 'display-line-numbers-mode)
-              #'display-line-numbers-mode
-            #'linum-mode))
-(use-package undo-tree                    ; Enable undo-tree, sane undo/redo behavior
-  :init (global-undo-tree-mode))
+(global-display-line-numbers-mode)        ; Always show line numbers
 
 ;;; Offload the custom-set-variables to a separate file
 ;;; This keeps your init.el neater and you have the option
