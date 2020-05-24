@@ -1,59 +1,97 @@
-;; melpa
-(require 'package)
-(let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
-                    (not (gnutls-available-p))))
-       (proto (if no-ssl "http" "https")))
-  (when no-ssl (warn "\
-Your version of Emacs does not support SSL connections,
-which is unsafe because it allows man-in-the-middle attacks.
-There are two things you can do about this warning:
-1. Install an Emacs version that does support SSL and be safe.
-2. Remove this warning from your init file so you won't see it again."))
-  (add-to-list 'package-archives (cons "melpa" (concat proto "://melpa.org/packages/")) t)
-  ;; Comment/uncomment this line to enable MELPA Stable if desired.  See `package-archive-priorities`
-  ;; and `package-pinned-packages`. Most users will not need or want to do this.
-  ;;(add-to-list 'package-archives (cons "melpa-stable" (concat proto "://stable.melpa.org/packages/")) t)
-  )
-(package-initialize)
+;;; package --- Summary - ec emacs config
 
-;; disable menu bar, scroll bar and tool bar
-(menu-bar-mode -1)
-(toggle-scroll-bar -1)
-(tool-bar-mode -1)
+;;; Commentary:
+
+;;; Code:
+ 
+;;; Setup package.el
+(require 'package)
+(setq package-enable-at-startup nil)
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
+(unless package--initialized (package-initialize))
+
+;;; Setup use-package
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
+(eval-when-compile
+  (require 'use-package))
+(setq use-package-always-ensure t)
+
+;;; Useful Defaults
+(menu-bar-mode -1)                        ; Disable menu bar
+(toggle-scroll-bar -1)                    ; Disable scroll bar
+(tool-bar-mode -1)                        ; Disable tool bar
+(setq-default cursor-type 'bar)           ; Line-style cursor similar to other text editors
+(setq inhibit-startup-screen t)           ; Disable startup screen
+(setq initial-scratch-message "")         ; Make *scratch* buffer blank
+(setq-default frame-title-format '("%b")) ; Make window title the buffer name
+(setq ring-bell-function 'ignore)         ; Disable bell sound
+(fset 'yes-or-no-p 'y-or-n-p)             ; y-or-n-p makes answering questions faster
+(show-paren-mode 1)                       ; Show closing parens by default
+(add-hook 'prog-mode-hook                 ; Show line numbers in programming modes
+          (if (fboundp 'display-line-numbers-mode)
+              #'display-line-numbers-mode
+            #'linum-mode))
+(use-package undo-tree                    ; Enable undo-tree, sane undo/redo behavior
+  :init (global-undo-tree-mode))
+
+;;; Offload the custom-set-variables to a separate file
+;;; This keeps your init.el neater and you have the option
+;;; to gitignore your custom.el if you see fit.
+(setq custom-file "~/.emacs.d/custom.el")
+(unless (file-exists-p custom-file)
+  (write-region "" nil custom-file))
+;;; Load custom file. Don't hide errors. Hide success message
+(load custom-file nil t)
+
+;;; Avoid littering the user's filesystem with backups
+(setq
+   backup-by-copying t      ; don't clobber symlinks
+   backup-directory-alist
+    '((".*" . "~/.emacs.d/saves/"))    ; don't litter my fs tree
+   delete-old-versions t
+   kept-new-versions 6
+   kept-old-versions 2
+   version-control t)       ; use versioned backups
+
+;;; Lockfiles unfortunately cause more pain than benefit
+(setq create-lockfiles nil)
 
 ;; font
-(set-frame-font "JetBrains Mono 14" nil t)
+(set-frame-font "JetBrains Mono 16" nil t)
 
 ;; vim
-(require 'evil)
-(evil-mode 1)
+(use-package evil
+  :ensure t
+  :config
+  (evil-mode 1))
 
 ;; lsp
-(require 'lsp-mode)
-(add-hook 'prog-mode-hook #'lsp)
-(add-hook 'after-init-hook #'global-company-mode)
-(add-hook 'after-init-hook #'global-flycheck-mode)
+(use-package lsp-mode
+  :ensure t
+  :init
+  (add-hook 'prog-mode-hook #'lsp))
+
+(use-package company
+  :ensure t
+  :diminish company-mode
+  :config
+  (add-hook 'after-init-hook #'global-company-mode))
+
+(use-package flycheck
+  :ensure t
+  :diminish flycheck-mode
+  :config
+  (add-hook 'after-init-hook #'global-flycheck-mode))
 
 ;; rust
-(require 'rust-mode)
-(setq rust-format-on-save t)
+(use-package rust-mode
+  :ensure t
+  :config (setq rust-format-on-save t))
 
 ;; theme
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
 (load-theme 'vscode-dark-plus t)
 
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(inhibit-startup-screen t)
- '(package-selected-packages
-   (quote
-    (flycheck company list-packages-ext rust-mode evil lsp-mode))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+;;; init.el ends here
