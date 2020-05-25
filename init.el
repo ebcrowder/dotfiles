@@ -83,6 +83,13 @@
   :ensure t
   :config (setq rust-format-on-save t))
 
+;; go
+(use-package go-mode
+  :ensure t
+  :hook (
+	 (before-save . lsp-format-buffer)
+	 (before-save . lsp-organize-imports)))
+
 ;; theme
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
 (load-theme 'vscode-dark-plus t)
