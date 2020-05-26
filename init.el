@@ -52,7 +52,7 @@
 (setq create-lockfiles nil)
 
 ;; font
-(set-frame-font "JetBrains Mono 14" nil t)
+(set-frame-font "JetBrains Mono 12" nil t)
 
 ;; vim
 (use-package evil
