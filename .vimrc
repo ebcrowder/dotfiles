@@ -55,7 +55,6 @@ endfunction
 
 augroup lsp_install
     au!
-    " call s:on_lsp_buffer_enabled only for languages that has the server registered.
     autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
 augroup END
 
@@ -93,7 +92,7 @@ set backspace=indent,eol,start " enable backspace in insert mode
 inoremap [ []<left>
 inoremap { {}<left>
 
-"statusline - modifiedflag, charcount, filepercent, filepath
+"statusline 
 set laststatus=2
 set statusline=
 set statusline+=%#PmenuSel#
