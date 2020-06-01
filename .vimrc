@@ -32,8 +32,8 @@ let g:netrw_altv = 1
 let g:netrw_winsize = 20
 
 " vim-lsp 
-" cargo install --git https://github.com/rust-analyzer/rust-analyzer rust-analyzer
 if executable('rust-analyzer')
+" cargo install --git https://github.com/rust-analyzer/rust-analyzer rust-analyzer
     au User lsp_setup call lsp#register_server({
         \ 'name': 'rust-analyzer',
         \ 'cmd': {server_info->['rust-analyzer']},
@@ -48,6 +48,28 @@ if executable('gopls')
         \ 'cmd': {server_info->['gopls']},
         \ 'whitelist': ['go'],
         \ })
+endif
+
+if executable('yaml-language-server')
+" npm install -g yaml-language-server	
+  augroup LspYaml
+   autocmd!
+   autocmd User lsp_setup call lsp#register_server({
+       \ 'name': 'yaml-language-server',
+       \ 'cmd': {server_info->['yaml-language-server', '--stdio']},
+       \ 'whitelist': ['yaml', 'yaml.ansible'],
+       \ 'workspace_config': {
+       \   'yaml': {
+       \     'validate': v:true,
+       \     'hover': v:true,
+       \     'completion': v:true,
+       \     'customTags': [],
+       \     'schemas': { "kubernetes": "/*" },
+       \     'schemaStore': { 'enable': v:true },
+       \   }
+       \ }
+       \})
+  augroup END
 endif
 
 function! s:on_lsp_buffer_enabled() abort
