@@ -5,8 +5,6 @@ call plug#begin('~/.vim/plugged')
 Plug 'tomasiser/vim-code-dark'
 " rust
 Plug 'rust-lang/rust.vim'
-" go
-Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 " vim-lsp
 Plug 'prabirshrestha/async.vim'
 Plug 'prabirshrestha/vim-lsp'
@@ -44,13 +42,21 @@ if executable('rust-analyzer')
         \ })
 endif
 
+if executable('gopls')
+    au User lsp_setup call lsp#register_server({
+        \ 'name': 'gopls',
+        \ 'cmd': {server_info->['gopls']},
+        \ 'whitelist': ['go'],
+        \ })
+endif
+
 function! s:on_lsp_buffer_enabled() abort
     setlocal omnifunc=lsp#complete
     setlocal signcolumn=yes
     nmap <buffer> gd <plug>(lsp-definition)
     nmap <buffer> <C-k> <plug>(lsp-hover)
     nmap <buffer> <f2> <plug>(lsp-rename)
-    " refer to doc to add more commands
+    autocmd BufWritePre *.go LspDocumentFormat
 endfunction
 
 augroup lsp_install
@@ -65,17 +71,8 @@ let g:lsp_diagnostics_float_cursor = 1
 let g:lsp_diagnostics_float_delay = 200
 let g:lsp_highlight_references_enabled = 1
 
-" vim-go
-let g:go_highlight_functions = 1
-let g:go_highlight_function_parameters = 1
-let g:go_highlight_types = 1
-let g:go_highlight_fields = 1
-
-" format on save 
+" rust config 
 let g:rustfmt_autosave = 1
-
-" yaml
-autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
 
 """""""""""""""""""""""""""""""""""""""""""""""
 " General
