@@ -1,5 +1,9 @@
 # zshrc
 
+# autocomplete
+autoload -Uz compinit
+compinit
+
 # alias
 alias ll="ls -la"
 alias ..="cd .."

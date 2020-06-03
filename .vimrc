@@ -33,7 +33,6 @@ let g:netrw_winsize = 20
 
 " vim-lsp 
 if executable('rust-analyzer')
-" cargo install --git https://github.com/rust-analyzer/rust-analyzer rust-analyzer
     au User lsp_setup call lsp#register_server({
         \ 'name': 'rust-analyzer',
         \ 'cmd': {server_info->['rust-analyzer']},
