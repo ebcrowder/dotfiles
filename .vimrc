@@ -20,6 +20,7 @@ call plug#end()
 " Plugin Related Configs
 """""""""""""""""""""""""""""""""""""""""""""""
 " theme
+set t_Co=256
 colorscheme codedark 
 syntax on
 
