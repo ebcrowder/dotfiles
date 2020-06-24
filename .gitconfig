@@ -4,3 +4,6 @@
 	email = ebcrowder@gmail.com
 [core]
 	editor = vim
+
+[pull]
+	rebase = true 
