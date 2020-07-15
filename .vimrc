@@ -11,9 +11,10 @@ Plug 'prabirshrestha/vim-lsp'
 Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
 Plug 'mattn/vim-lsp-settings'
-" comments, git
+" comments, git, text
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-surround'
 call plug#end()
 
 """""""""""""""""""""""""""""""""""""""""""""""
@@ -106,10 +107,6 @@ set noswapfile " do not use swapfile
 set nobackup " do not use backup files
 set noerrorbells " no error bells
 set backspace=indent,eol,start " enable backspace in insert mode
-
-" autoclose brackets
-inoremap [ []<left>
-inoremap { {}<left>
 
 "statusline 
 set laststatus=2
