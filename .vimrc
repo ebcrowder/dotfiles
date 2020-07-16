@@ -5,6 +5,10 @@ call plug#begin('~/.vim/plugged')
 Plug 'tomasiser/vim-code-dark'
 " rust
 Plug 'rust-lang/rust.vim'
+" prettier
+Plug 'prettier/vim-prettier', {
+  \ 'do': 'yarn install',
+  \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'yaml', 'html'] }
 " vim-lsp
 Plug 'prabirshrestha/async.vim'
 Plug 'prabirshrestha/vim-lsp'
@@ -96,6 +100,10 @@ let g:lsp_highlight_references_enabled = 1
 
 " rust config 
 let g:rustfmt_autosave = 1
+
+" prettier config
+let g:prettier#quickfix_enabled = 0
+autocmd TextChanged,InsertLeave *.js,*.jsx,*.ts,*.tsx,*.css,*.json,*.md,*.vue,*.html PrettierAsync
 
 """""""""""""""""""""""""""""""""""""""""""""""
 " General
