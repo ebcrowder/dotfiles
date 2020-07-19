@@ -8,13 +8,12 @@ Plug 'rust-lang/rust.vim'
 " prettier
 Plug 'prettier/vim-prettier', {
   \ 'do': 'yarn install',
-  \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'yaml', 'html'] }
+  \ 'for': ['javascript', 'typescript', 'css', 'json', 'graphql', 'vue', 'yaml', 'html'] }
 " vim-lsp
 Plug 'prabirshrestha/async.vim'
 Plug 'prabirshrestha/vim-lsp'
 Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
-Plug 'mattn/vim-lsp-settings'
 " comments, git, text
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
@@ -42,8 +41,7 @@ if executable('rust-analyzer')
     au User lsp_setup call lsp#register_server({
         \ 'name': 'rust-analyzer',
         \ 'cmd': {server_info->['rust-analyzer']},
-        \ 'workspace_config': {'rust': {'clippy_preference': 'on'}},
-        \ 'whitelist': ['rust'],
+        \ 'allowlist': ['rust'],
         \ })
 endif
 
@@ -51,7 +49,7 @@ if executable('gopls')
     au User lsp_setup call lsp#register_server({
         \ 'name': 'gopls',
         \ 'cmd': {server_info->['gopls']},
-        \ 'whitelist': ['go'],
+        \ 'allowlist': ['go'],
         \ })
 endif
 
@@ -93,10 +91,11 @@ augroup END
 
 let g:lsp_diagnostics_enabled = 1
 let g:lsp_signs_enabled = 1 
-let g:lsp_diagnostics_echo_cursor = 0
+let g:lsp_diagnostics_echo_cursor = 1
 let g:lsp_diagnostics_float_cursor = 1
 let g:lsp_diagnostics_float_delay = 200
 let g:lsp_highlight_references_enabled = 1
+let g:lsp_signs_error = {'text': '✗'}
 
 " rust config 
 let g:rustfmt_autosave = 1
