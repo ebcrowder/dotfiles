@@ -5,6 +5,8 @@ call plug#begin('~/.vim/plugged')
 Plug 'tomasiser/vim-code-dark'
 " rust
 Plug 'rust-lang/rust.vim'
+" go
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 " prettier
 Plug 'prettier/vim-prettier', {
   \ 'do': 'yarn install',
@@ -45,14 +47,6 @@ if executable('rust-analyzer')
         \ })
 endif
 
-if executable('gopls')
-    au User lsp_setup call lsp#register_server({
-        \ 'name': 'gopls',
-        \ 'cmd': {server_info->['gopls']},
-        \ 'allowlist': ['go'],
-        \ })
-endif
-
 if executable('yaml-language-server')
 " npm install -g yaml-language-server	
   augroup LspYaml
@@ -81,7 +75,6 @@ function! s:on_lsp_buffer_enabled() abort
     nmap <buffer> gd <plug>(lsp-definition)
     nmap <buffer> gh <plug>(lsp-hover)
     nmap <buffer> <f2> <plug>(lsp-rename)
-    autocmd BufWritePre *.go LspDocumentFormat
 endfunction
 
 augroup lsp_install
@@ -100,9 +93,20 @@ let g:lsp_signs_error = {'text': '✗'}
 " rust config 
 let g:rustfmt_autosave = 1
 
+" vim-go
+let g:go_highlight_functions = 1
+let g:go_highlight_function_parameters = 1
+let g:go_highlight_types = 1
+let g:go_highlight_fields = 1
+let g:go_highlight_diagnostic_errors = 1
+let g:go_highlight_diagnostic_warnings = 1
+let g:go_metalinter_autosave = 1
+let g:go_metalinter_command = 'gopls'
+let g:go_gopls_staticcheck = 1
+
 " prettier config
 let g:prettier#quickfix_enabled = 0
-autocmd TextChanged,InsertLeave *.js,*.jsx,*.ts,*.tsx,*.css,*.json,*.md,*.vue,*.html PrettierAsync
+autocmd TextChanged,InsertLeave *.js,*.jsx,*.ts,*.tsx,*.css,*.json,*.vue,*.html PrettierAsync
 
 """""""""""""""""""""""""""""""""""""""""""""""
 " General
