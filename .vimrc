@@ -73,6 +73,7 @@ function! s:on_lsp_buffer_enabled() abort
     setlocal omnifunc=lsp#complete
     setlocal signcolumn=yes
     nmap <buffer> gd <plug>(lsp-definition)
+    nmap <buffer> gr <plug>(lsp-references)
     nmap <buffer> gh <plug>(lsp-hover)
     nmap <buffer> <f2> <plug>(lsp-rename)
 endfunction
