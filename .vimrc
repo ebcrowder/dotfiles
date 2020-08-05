@@ -51,6 +51,7 @@ endif
 
 " ts
 if executable('typescript-language-server')
+" npm install -g typescript typescript-language-server	
     au User lsp_setup call lsp#register_server({
 	\ 'name': 'typescript-language-server',
 	\ 'cmd': {server_info->[&shell, &shellcmdflag, 'typescript-language-server --stdio']},
@@ -103,7 +104,7 @@ let g:lsp_diagnostics_float_delay = 200
 let g:lsp_highlight_references_enabled = 1
 let g:lsp_signs_error = {'text': '✗'}
 
-" rust config 
+" rust 
 let g:rustfmt_autosave = 1
 
 " vim-go
@@ -117,9 +118,9 @@ let g:go_metalinter_autosave = 1
 let g:go_metalinter_command = 'gopls'
 let g:go_gopls_staticcheck = 1
 
-" prettier config
+" prettier 
 let g:prettier#quickfix_enabled = 0
-autocmd TextChanged,InsertLeave *.js,*.jsx,*.ts,*.tsx,*.css,*.json,*.vue,*.html PrettierAsync
+let g:prettier#exec_cmd_async = 1
 
 """""""""""""""""""""""""""""""""""""""""""""""
 " General
