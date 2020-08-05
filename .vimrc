@@ -16,29 +16,22 @@ Plug 'prabirshrestha/async.vim'
 Plug 'prabirshrestha/vim-lsp'
 Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
-" comments, git, text
+" comments, git, text, netrw
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
+Plug 'tpope/vim-vinegar'
 call plug#end()
 
 """""""""""""""""""""""""""""""""""""""""""""""
-" Plugin Related Configs
+" plugin config
 """""""""""""""""""""""""""""""""""""""""""""""
 " theme
 set t_Co=256
 colorscheme codedark 
 syntax on
-
-" netrw
-map <silent> <C-b> :Lexplore <CR>
-let g:netrw_banner = 0
-let g:netrw_liststyle = 3
-let g:netrw_browse_split = 4
-let g:netrw_altv = 1
-let g:netrw_winsize = 20
 
 " vim-lsp 
 if executable('rust-analyzer')
@@ -123,7 +116,7 @@ let g:prettier#quickfix_enabled = 0
 let g:prettier#exec_cmd_async = 1
 
 """""""""""""""""""""""""""""""""""""""""""""""
-" General
+" general config
 """""""""""""""""""""""""""""""""""""""""""""""
 set encoding=utf-8 " set default encoding to UTF-8
 set number " show line numbers
