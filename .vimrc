@@ -18,6 +18,8 @@ Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
 " comments, git, text
 Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
 call plug#end()
@@ -47,6 +49,16 @@ if executable('rust-analyzer')
         \ })
 endif
 
+" ts
+if executable('typescript-language-server')
+    au User lsp_setup call lsp#register_server({
+	\ 'name': 'typescript-language-server',
+	\ 'cmd': {server_info->[&shell, &shellcmdflag, 'typescript-language-server --stdio']},
+	\ 'root_uri':{server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_file_directory(lsp#utils#get_buffer_path(), 'tsconfig.json'))},
+	\ 'allowlist': ['typescript', 'typescript.tsx', 'javascript', 'javascript.jsx'],
+	\ })
+endif
+
 if executable('yaml-language-server')
 " npm install -g yaml-language-server	
   augroup LspYaml
@@ -54,7 +66,7 @@ if executable('yaml-language-server')
    autocmd User lsp_setup call lsp#register_server({
        \ 'name': 'yaml-language-server',
        \ 'cmd': {server_info->['yaml-language-server', '--stdio']},
-       \ 'whitelist': ['yaml', 'yaml.ansible'],
+       \ 'allowlist': ['yaml', 'yaml.ansible'],
        \ 'workspace_config': {
        \   'yaml': {
        \     'validate': v:true,
