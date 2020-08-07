@@ -10,7 +10,7 @@ Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 " prettier
 Plug 'prettier/vim-prettier', {
   \ 'do': 'yarn install',
-  \ 'for': ['javascript', 'typescript', 'css', 'json', 'graphql', 'vue', 'yaml', 'html'] }
+  \ 'for': ['javascript', 'typescript', 'css', 'json', 'graphql', 'markdown', 'vue', 'yaml', 'html'] }
 " vim-lsp
 Plug 'prabirshrestha/async.vim'
 Plug 'prabirshrestha/vim-lsp'
