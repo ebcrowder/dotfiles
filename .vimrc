@@ -6,7 +6,7 @@
 "" git add .gitmodules vim/pack/plugins/start/PLUGIN_NAME
 
 " update a plugin:
-"" git submodule update --remote --merge
+"" git submodule update --remote
 
 " rm a plugin:
 "" git submodule deinit .vim/pack/plugins/start/PLUGIN_NAME
@@ -117,6 +117,7 @@ set showmatch " highlight matching parens, braces and brackets
 set hlsearch " highlight all search results
 set noerrorbells " no error bells
 set backspace=indent,eol,start " enable backspace in insert mode
+filetype plugin on " enable plugins
 
 "statusline 
 set laststatus=2
