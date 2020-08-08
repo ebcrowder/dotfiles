@@ -119,10 +119,14 @@ let g:prettier#exec_cmd_async = 1
 " general config
 """""""""""""""""""""""""""""""""""""""""""""""
 set encoding=utf-8 " set default encoding to UTF-8
+set autoindent " autoindent
 set number " show line numbers
 set showcmd " show what I am typing
-set noswapfile " do not use swapfile
-set nobackup " do not use backup files
+set backupdir=~/.cache " backup files dir
+set directory=~/.cache " swp files dir
+set incsearch " highlight search results
+set showmatch " highlight matching parens, braces and brackets
+set hlsearch " highlight all search results
 set noerrorbells " no error bells
 set backspace=indent,eol,start " enable backspace in insert mode
 
