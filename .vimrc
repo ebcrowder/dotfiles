@@ -1,6 +1,18 @@
 " vimrc
 " plugins are managed at .vim/pack/plugins/start as git submodules
 
+" add a plugin:
+"" git submodule add PLUGIN_URL/PLUGIN_NAME.git .vim/pack/plugins/start/PLUGIN_NAME
+"" git add .gitmodules vim/pack/plugins/start/PLUGIN_NAME
+
+" update a plugin:
+"" git submodule update --remote --merge
+
+" rm a plugin:
+"" git submodule deinit .vim/pack/plugins/start/PLUGIN_NAME
+"" git rm .vim/pack/plugins/start/PLUGIN_NAME
+"" rm -rf .git/modules/.vim/pack/plugins/start/PLUGIN_NAME
+
 """""""""""""""""""""""""""""""""""""""""""""""
 " plugin config
 """""""""""""""""""""""""""""""""""""""""""""""
