@@ -1,29 +1,5 @@
 " vimrc
-" plugins will be downloaded under the specified directory.
-call plug#begin('~/.vim/plugged')
-" theme
-Plug 'tomasiser/vim-code-dark'
-" rust
-Plug 'rust-lang/rust.vim'
-" go
-Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
-" prettier
-Plug 'prettier/vim-prettier', {
-  \ 'do': 'yarn install',
-  \ 'for': ['javascript', 'typescript', 'css', 'json', 'graphql', 'markdown', 'vue', 'yaml', 'html'] }
-" vim-lsp
-Plug 'prabirshrestha/async.vim'
-Plug 'prabirshrestha/vim-lsp'
-Plug 'prabirshrestha/asyncomplete.vim'
-Plug 'prabirshrestha/asyncomplete-lsp.vim'
-" comments, git, text, netrw
-Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-repeat'
-Plug 'tpope/vim-unimpaired'
-Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-surround'
-Plug 'tpope/vim-vinegar'
-call plug#end()
+" plugins are managed at .vim/pack/plugins/start as git submodules
 
 """""""""""""""""""""""""""""""""""""""""""""""
 " plugin config
