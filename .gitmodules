@@ -28,3 +28,6 @@
 [submodule ".vim/pack/plugins/start/vim-lsp"]
 	path = .vim/pack/plugins/start/vim-lsp
 	url = https://github.com/prabirshrestha/vim-lsp.git
+[submodule ".vim/pack/plugins/start/vim-prettier"]
+	path = .vim/pack/plugins/start/vim-prettier
+	url = https://github.com/prettier/vim-prettier.git
