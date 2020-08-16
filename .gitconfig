@@ -1,9 +1,9 @@
-# This is Git's per-user configuration file.
 [user]
 	name = ebcrowder
 	email = ebcrowder@gmail.com
 [core]
 	editor = vim
-
 [pull]
 	rebase = true 
+[diff]
+	tool = vimdiff
