@@ -30,6 +30,15 @@ if executable('rust-analyzer')
         \ })
 endif
 
+if executable('gopls')
+    au User lsp_setup call lsp#register_server({
+        \ 'name': 'gopls',
+        \ 'cmd': {server_info->['gopls']},
+        \ 'whitelist': ['go'],
+        \ })
+    autocmd BufWritePre *.go LspDocumentFormatSync
+endif
+
 " ts
 if executable('typescript-language-server')
 " npm install -g typescript typescript-language-server	
@@ -70,6 +79,7 @@ function! s:on_lsp_buffer_enabled() abort
     nmap <buffer> gr <plug>(lsp-references)
     nmap <buffer> gh <plug>(lsp-hover)
     nmap <buffer> <f2> <plug>(lsp-rename)
+    " inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
 endfunction
 
 augroup lsp_install
