@@ -16,24 +16,9 @@
 [submodule ".vim/pack/plugins/start/vim-vinegar"]
 	path = .vim/pack/plugins/start/vim-vinegar
 	url = https://github.com/tpope/vim-vinegar.git
-[submodule ".vim/pack/plugins/start/async.vim"]
-	path = .vim/pack/plugins/start/async.vim
-	url = https://github.com/prabirshrestha/async.vim.git
-[submodule ".vim/pack/plugins/start/asyncomplete.vim"]
-	path = .vim/pack/plugins/start/asyncomplete.vim
-	url = https://github.com/prabirshrestha/asyncomplete.vim.git
-[submodule ".vim/pack/plugins/start/asyncomplete-lsp.vim"]
-	path = .vim/pack/plugins/start/asyncomplete-lsp.vim
-	url = https://github.com/prabirshrestha/asyncomplete-lsp.vim.git
-[submodule ".vim/pack/plugins/start/vim-lsp"]
-	path = .vim/pack/plugins/start/vim-lsp
-	url = https://github.com/prabirshrestha/vim-lsp.git
 [submodule ".vim/pack/plugins/start/vim-prettier"]
 	path = .vim/pack/plugins/start/vim-prettier
 	url = https://github.com/prettier/vim-prettier.git
-[submodule ".vim/pack/plugins/start/vim-go"]
-	path = .vim/pack/plugins/start/vim-go
-	url = https://github.com/fatih/vim-go.git
 [submodule ".vim/pack/plugins/start/rust.vim"]
 	path = .vim/pack/plugins/start/rust.vim
 	url = https://github.com/rust-lang/rust.vim.git
@@ -46,3 +31,6 @@
 [submodule ".vim/pack/plugins/start/ale"]
 	path = .vim/pack/plugins/start/ale
 	url = https://github.com/dense-analysis/ale.git
+[submodule ".vim/pack/plugins/start/coc.nvim"]
+	path = .vim/pack/plugins/start/coc.nvim
+	url = https://github.com/neoclide/coc.nvim.git
