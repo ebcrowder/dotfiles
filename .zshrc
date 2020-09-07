@@ -16,6 +16,9 @@ GIT_PS1_SHOWDIRTYSTATE=true
 GIT_PS1_SHOWUNTRACKEDFILES=true
 GIT_PS1_SHOWUPSTREAM="auto"
 
+# fzf
+export FZF_DEFAULT_COMMAND='rg --files --follow --hidden'
+
 # go
 export GOPATH=$HOME/go
 

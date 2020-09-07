@@ -87,13 +87,20 @@ augroup lsp_install
     autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
 augroup END
 
-let g:lsp_diagnostics_enabled = 1
+let g:lsp_diagnostics_enabled = 0
 let g:lsp_signs_enabled = 1 
-let g:lsp_diagnostics_echo_cursor = 1
-let g:lsp_diagnostics_float_cursor = 1
-let g:lsp_diagnostics_float_delay = 200
+" let g:lsp_diagnostics_echo_cursor = 1
+" let g:lsp_diagnostics_float_cursor = 1
+" let g:lsp_diagnostics_float_delay = 200
 let g:lsp_highlight_references_enabled = 1
-let g:lsp_signs_error = {'text': '✗'}
+" let g:lsp_signs_error = {'text': '✗'}
+
+" ale
+let g:ale_disable_lsp = 1
+let g:ale_set_highlights = 0
+
+" fzf
+nnoremap <C-p> :Files<CR>
 
 " rust 
 let g:rustfmt_autosave = 1
