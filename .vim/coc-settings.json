@@ -1,1 +1,13 @@
-{ "diagnostic.displayByAle": true }
+{
+  "diagnostic.displayByAle": true,
+  "coc.preferences.formatOnSaveFiletypes": [
+    "rust",
+    "go",
+    "typescript",
+    "javascript",
+    "json",
+    "html",
+    "css",
+    "markdown"
+  ]
+}

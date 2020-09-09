@@ -45,16 +45,22 @@ endfunction
 " ale
 let g:ale_disable_lsp = 1
 let g:ale_set_highlights = 0
+let g:ale_linters_explicit = 1
+let g:ale_fixers = {
+\   'rust': ['rustfmt'],
+\   'go': ['gofmt', 'goimports', 'remove_trailing_lines', 'trim_whitespace'],
+\   'typescript': ['prettier'],
+\   'javascript': ['prettier'],
+\   'html': ['prettier'],
+\   'css': ['prettier'],
+\   'markdown': ['prettier'],
+\}
 
 " fzf
 nnoremap <C-p> :Files<CR>
 
 " rust 
 let g:rustfmt_autosave = 1
-
-" prettier 
-let g:prettier#quickfix_enabled = 0
-let g:prettier#exec_cmd_async = 1
 
 """""""""""""""""""""""""""""""""""""""""""""""
 " general config
