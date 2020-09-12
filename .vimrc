@@ -78,18 +78,3 @@ set hlsearch " highlight all search results
 set noerrorbells " no error bells
 set backspace=indent,eol,start " enable backspace in insert mode
 filetype plugin on " enable plugins
-
-"statusline 
-set laststatus=2
-set statusline=
-set statusline+=%#PmenuSel#
-set statusline+=%#LineNr#
-set statusline+=\ %f
-set statusline+=%m
-set statusline+=%=
-set statusline+=%#CursorColumn#
-set statusline+=\ %y
-set statusline+=\ %{&fileencoding?&fileencoding:&encoding}
-set statusline+=\[%{&fileformat}]
-set statusline+=\ %p%%
-set statusline+=\ %l:%c
