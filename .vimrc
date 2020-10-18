@@ -21,46 +21,21 @@ set t_Co=256
 colorscheme codedark 
 syntax on
 
-" coc-nvim
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
-nmap <leader>rn <Plug>(coc-rename)
-set nobackup
-set nowritebackup
-set cmdheight=2
-set updatetime=300
-set shortmess+=c
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
-
-" ale
-let g:ale_disable_lsp = 1
-let g:ale_set_highlights = 0
-let g:ale_linters_explicit = 1
-let g:ale_fixers = {
-\   'rust': ['rustfmt'],
-\   'go': ['gofmt', 'goimports', 'remove_trailing_lines', 'trim_whitespace'],
-\   'typescript': ['prettier'],
-\   'javascript': ['prettier'],
-\   'html': ['prettier'],
-\   'css': ['prettier'],
-\   'markdown': ['prettier'],
-\}
-
 " fzf
 nnoremap <C-p> :Files<CR>
 
 " rust 
 let g:rustfmt_autosave = 1
+
+" vim-go
+let g:go_highlight_functions = 1
+let g:go_highlight_function_parameters = 1
+let g:go_highlight_types = 1
+let g:go_highlight_fields = 1
+let g:go_highlight_diagnostic_errors = 1
+let g:go_highlight_diagnostic_warnings = 1
+let g:go_auto_type_info = 1 
+let g:go_metalinter_autosave = 1
 
 """""""""""""""""""""""""""""""""""""""""""""""
 " general config
