@@ -1,17 +1,16 @@
-" vimrc
-" plugins are managed at .vim/pack/plugins/start as git submodules
-
-" add a plugin:
-"" git submodule add PLUGIN_URL/PLUGIN_NAME.git .vim/pack/plugins/start/PLUGIN_NAME
-"" git add .gitmodules .vim/pack/plugins/start/PLUGIN_NAME
-
-" update a plugin:
-"" git submodule update --remote
-
-" rm a plugin:
-"" git submodule deinit .vim/pack/plugins/start/PLUGIN_NAME
-"" git rm .vim/pack/plugins/start/PLUGIN_NAME
-"" rm -rf .git/modules/.vim/pack/plugins/start/PLUGIN_NAME
+call plug#begin('~/.vim/plugged')
+" Plug 'fatih/vim-go'
+" Plug 'prabirshrestha/vim-lsp'
+" Plug 'junegunn/fzf.vim'
+" Plug 'tpope/vim-commentary'
+" Plug 'tpope/vim-repeat'
+" Plug 'tpope/vim-unimpaired'
+" Plug 'tpope/vim-fugitive'
+" Plug 'tpope/vim-surround'
+" Plug 'tpope/vim-vinegar'
+" Plug 'rust-lang/rust.vim'
+" Plug 'tomasiser/vim-code-dark'
+call plug#end()
 
 """""""""""""""""""""""""""""""""""""""""""""""
 " plugin config
@@ -36,6 +35,34 @@ let g:go_highlight_diagnostic_errors = 1
 let g:go_highlight_diagnostic_warnings = 1
 let g:go_auto_type_info = 1 
 let g:go_metalinter_autosave = 1
+
+
+" vim-lsp 
+if executable('rust-analyzer')
+    au User lsp_setup call lsp#register_server({
+        \ 'name': 'rust-analyzer',
+        \ 'cmd': {server_info->['rust-analyzer']},
+        \ 'allowlist': ['rust'],
+        \ })
+endif
+
+
+function! s:on_lsp_buffer_enabled() abort
+    setlocal omnifunc=lsp#complete
+    setlocal signcolumn=yes
+    if exists('+tagfunc') | setlocal tagfunc=lsp#tagfunc | endif
+    nmap <buffer> gd <plug>(lsp-definition)
+    nmap <buffer> gr <plug>(lsp-references)
+    nmap <buffer> gh <plug>(lsp-hover)
+    nmap <buffer> <leader>rn <plug>(lsp-rename)
+    inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+endfunction
+
+augroup lsp_install
+    au!
+    " call s:on_lsp_buffer_enabled only for languages that has the server registered.
+    autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
+augroup END
 
 """""""""""""""""""""""""""""""""""""""""""""""
 " general config
