@@ -1,15 +1,15 @@
 call plug#begin('~/.vim/plugged')
-" Plug 'fatih/vim-go'
-" Plug 'prabirshrestha/vim-lsp'
-" Plug 'junegunn/fzf.vim'
-" Plug 'tpope/vim-commentary'
-" Plug 'tpope/vim-repeat'
-" Plug 'tpope/vim-unimpaired'
-" Plug 'tpope/vim-fugitive'
-" Plug 'tpope/vim-surround'
-" Plug 'tpope/vim-vinegar'
-" Plug 'rust-lang/rust.vim'
-" Plug 'tomasiser/vim-code-dark'
+Plug 'fatih/vim-go'
+Plug 'prabirshrestha/vim-lsp'
+Plug 'junegunn/fzf.vim'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-unimpaired'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-vinegar'
+Plug 'rust-lang/rust.vim'
+Plug 'tomasiser/vim-code-dark'
 call plug#end()
 
 """""""""""""""""""""""""""""""""""""""""""""""
