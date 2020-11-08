@@ -11,7 +11,6 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-vinegar'
 Plug 'rust-lang/rust.vim'
-Plug 'tomasiser/vim-code-dark'
 call plug#end()
 
 """""""""""""""""""""""""""""""""""""""""""""""
@@ -19,7 +18,6 @@ call plug#end()
 """""""""""""""""""""""""""""""""""""""""""""""
 " theme
 set t_Co=256
-colorscheme codedark 
 syntax on
 
 " fzf
