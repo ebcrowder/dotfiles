@@ -5,5 +5,3 @@
 	editor = vim
 [pull]
 	rebase = true 
-[diff]
-	tool = vimdiff

@@ -1,8 +1,4 @@
-# zshrc
-
-# autocomplete
-autoload -Uz compinit
-compinit
+# bashrc
 
 # alias
 alias ll="ls -la"
@@ -10,7 +6,7 @@ alias ..="cd .."
 
 # git
 source ~/dotfiles/git-prompt.sh
-precmd () { __git_ps1 "[%n]" " %~ $ " "[%s]" }
+PROMPT_COMMAND='__git_ps1 "[\w]" "\\\$ "'
 GIT_PS1_SHOWCOLORHINTS=true
 GIT_PS1_SHOWDIRTYSTATE=true
 GIT_PS1_SHOWUNTRACKEDFILES=true
