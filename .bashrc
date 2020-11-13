@@ -6,7 +6,7 @@ alias ..="cd .."
 
 # git
 source ~/dotfiles/git-prompt.sh
-PROMPT_COMMAND='__git_ps1 "[\w]" "\\\$ "'
+PROMPT_COMMAND='__git_ps1 "\u@\h:\w" "\\\$ "'
 GIT_PS1_SHOWCOLORHINTS=true
 GIT_PS1_SHOWDIRTYSTATE=true
 GIT_PS1_SHOWUNTRACKEDFILES=true
