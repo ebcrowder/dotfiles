@@ -7,16 +7,9 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-vinegar'
 call plug#end()
 
-"""""""""""""""""""""""""""""""""""""""""""""""
-" plugin config
-"""""""""""""""""""""""""""""""""""""""""""""""
-" theme
 set t_Co=256
 syntax on
 
-"""""""""""""""""""""""""""""""""""""""""""""""
-" general config
-"""""""""""""""""""""""""""""""""""""""""""""""
 set encoding=utf-8 " set default encoding to UTF-8
 set autoindent " autoindent
 set number " show line numbers
