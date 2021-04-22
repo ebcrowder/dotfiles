@@ -15,25 +15,6 @@ call plug#end()
 
 set t_Co=256
 syntax on
-
-" vim-lsp
-function! s:on_lsp_buffer_enabled() abort
-    setlocal omnifunc=lsp#complete
-    setlocal signcolumn=yes
-    if exists('+tagfunc') | setlocal tagfunc=lsp#tagfunc | endif
-    nmap <buffer> gd <plug>(lsp-definition)
-    nmap <buffer> gr <plug>(lsp-references)
-    nmap <buffer> gh <plug>(lsp-hover)
-    nmap <buffer> <leader>rn <plug>(lsp-rename)
-    inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
-endfunction
-
-augroup lsp_install
-    au!
-    " call s:on_lsp_buffer_enabled only for languages that has the server registered.
-    autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
-augroup END
-
 set encoding=utf-8 " set default encoding to UTF-8
 set autoindent " autoindent
 set number " show line numbers
@@ -47,3 +28,32 @@ set hlsearch " highlight all search results
 set noerrorbells " no error bells
 set backspace=indent,eol,start " enable backspace in insert mode
 filetype plugin on " enable plugins
+
+" vim-lsp
+function! s:on_lsp_buffer_enabled() abort
+	setlocal omnifunc=lsp#complete
+	setlocal signcolumn=yes
+	if exists('+tagfunc') | setlocal tagfunc=lsp#tagfunc | endif
+	nmap <buffer> gd <plug>(lsp-definition)
+	nmap <buffer> gr <plug>(lsp-references)
+	nmap <buffer> gh <plug>(lsp-hover)
+	nmap <buffer> gi <plug>(lsp-implementation)
+	nmap <buffer> gt <plug>(lsp-type-definition)
+	nmap <buffer> <leader>rn <plug>(lsp-rename)
+	" asyncomplete tab completion
+	inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+	inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+	inoremap <expr> <cr>    pumvisible() ? asyncomplete#close_popup() : "\<cr>"
+	let g:lsp_format_sync_timeout = 1000
+	autocmd! BufWritePre *.rs,*.go call execute('LspDocumentFormatSync')
+endfunction
+
+augroup lsp_install
+	au!
+	" call s:on_lsp_buffer_enabled only for languages that has the server registered.
+	autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
+augroup END
+
+" vim-lsp options
+let g:lsp_diagnostics_echo_cursor = 1
+
