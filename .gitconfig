@@ -3,6 +3,7 @@
 	email = eric@ebcrowder.dev
 [core]
 	editor = vim
+	excludesfile = ~/dotfiles/.gitignore
 [pull]
 	rebase = true 
 [init]
