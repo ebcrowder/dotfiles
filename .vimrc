@@ -15,7 +15,6 @@ Plug 'prabirshrestha/vim-lsp'
 Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
 Plug 'mattn/vim-lsp-settings'
-Plug 'rust-lang/rust.vim'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 call plug#end()
@@ -64,7 +63,4 @@ augroup END
 
 " vim-lsp options
 let g:lsp_diagnostics_echo_cursor = 1
-
-" rust.vim options
-let g:rustfmt_autosave = 1
 
