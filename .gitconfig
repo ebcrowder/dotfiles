@@ -1,10 +1,10 @@
 [user]
 	name = ebcrowder
 	email = eric@ebcrowder.dev
+[includeIf "gitdir:~/Projects/"]
+	path = ~/Projects/.gitconfig
 [core]
 	editor = vim
 	excludesfile = ~/dotfiles/.gitignore
-[pull]
-	rebase = true 
 [init]
 	defaultBranch = main
