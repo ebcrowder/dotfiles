@@ -1,5 +1,5 @@
 [user]
-	name = ebcrowder
+	name = Eric Crowder
 	email = eric@ebcrowder.dev
 [includeIf "gitdir:~/Projects/"]
 	path = ~/Projects/.gitconfig
