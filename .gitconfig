@@ -3,6 +3,8 @@
 	email = eric@ebcrowder.dev
 [includeIf "gitdir:~/Projects/"]
 	path = ~/Projects/.gitconfig
+[pull]
+	rebase = true 
 [core]
 	editor = vim
 	excludesfile = ~/dotfiles/.gitignore
