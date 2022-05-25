@@ -1,0 +1,9 @@
+[user]
+	name = Eric Crowder
+	email = eric@ebcrowder.dev
+[pull]
+	rebase = true 
+[core]
+	editor = nvim
+[init]
+	defaultBranch = main
