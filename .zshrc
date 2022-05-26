@@ -3,16 +3,11 @@ export HISTSIZE=1000
 export SAVEHIST=1000
 
 # aliases
-alias ll="exa -la --git"
+alias ll="ls -la"
 alias vim="nvim"
 alias vi="nvim"
 alias vimdiff="nvim -d"
 alias tmux="env TERM=xterm-256color tmux"
-
-# prompt
-source "$HOME/.zsh/git-prompt.sh"
-precmd () { __git_ps1 "%n" ":%~$ " "|%s" }
-export GIT_PS1_SHOWCOLORHINTS=true
 
 # aws cli
 alias aws='podman run --privileged --rm -it -v ~/.aws:/root/.aws -v $(pwd):/aws amazon/aws-cli'
@@ -44,3 +39,5 @@ export PATH="$PATH:$HOME/Projects/lua-language-server/bin"
 source "$HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh"
 source "$HOME/.zsh/zsh-autocomplete/zsh-autocomplete.plugin.zsh"
 source "$HOME/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+
+eval "$(starship init zsh)"
