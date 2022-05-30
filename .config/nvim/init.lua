@@ -246,6 +246,7 @@ vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist)
 
 -- LSP settings
 local lspconfig = require("lspconfig")
+local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
 local on_attach = function(client, bufnr)
 	local opts = { buffer = bufnr }
 	vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
@@ -263,20 +264,25 @@ local on_attach = function(client, bufnr)
 	vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
 	vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
 	vim.keymap.set("n", "<leader>so", require("telescope.builtin").lsp_document_symbols, opts)
-	vim.api.nvim_create_user_command("Format", vim.lsp.buf.formatting, {})
+	vim.api.nvim_create_user_command("Format", vim.lsp.buf.format, {})
 
-	-- for js/ts projects, null-ls will handle format on save
-	-- TODO when neovim 0.8+ is stable, refactor via
-	-- https://github.com/jose-elias-alvarez/null-ls.nvim/wiki/Formatting-on-save#filtering-formatting-clients
+	-- for js/ts projects, null-ls handles formatting so prevent tsserver from doing so
 	if client.name == "tsserver" then
-		client.resolved_capabilities.document_formatting = false
+		client.server_capabilities.documentFormattingProvider = false
 	end
 
 	-- for all other lsps, handle format on save
-	if client.resolved_capabilities.document_formatting then
-		vim.api.nvim_create_autocmd({ "BufWritePre" }, {
-			command = "lua vim.lsp.buf.formatting_seq_sync()",
-		})
+	if client.server_capabilities.documentFormattingProvider then
+		if client.supports_method("textDocument/formatting") then
+			vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
+			vim.api.nvim_create_autocmd("BufWritePre", {
+				group = augroup,
+				buffer = bufnr,
+				callback = function()
+					vim.lsp.buf.format({ bufnr = bufnr })
+				end,
+			})
+		end
 	end
 end
 
@@ -293,8 +299,7 @@ require("null-ls").setup({
 				group = augroup,
 				buffer = bufnr,
 				callback = function()
-					-- TODO on neovim 0.8+, you should use vim.lsp.buf.format({ bufnr = bufnr }) instead
-					vim.lsp.buf.formatting_sync()
+					vim.lsp.buf.format({ bufnr = bufnr })
 				end,
 			})
 		end
@@ -306,13 +311,28 @@ local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
 
 -- Enable the following language servers
-local servers = { "tsserver", "pyright", "gopls", "rust_analyzer", "sumneko_lua" }
+local servers = { "tsserver", "pyright", "gopls", "rust_analyzer" }
 for _, lsp in ipairs(servers) do
 	lspconfig[lsp].setup({
 		on_attach = on_attach,
 		capabilities = capabilities,
 	})
 end
+
+lspconfig.sumneko_lua.setup({
+	on_attach = on_attach,
+	capabilities = capabilities,
+	settings = {
+		Lua = {
+			diagnostics = {
+				globals = { "vim" },
+			},
+			telemetry = {
+				enable = false,
+			},
+		},
+	},
+})
 
 -- luasnip setup
 local luasnip = require("luasnip")
