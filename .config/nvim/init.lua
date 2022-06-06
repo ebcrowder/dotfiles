@@ -247,6 +247,15 @@ vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist)
 -- LSP settings
 local lspconfig = require("lspconfig")
 local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
+local lsp_format = function(bufnr)
+  vim.lsp.buf.format({
+    filter = function(client)
+      -- null-ls handles formatting for tsserver projects
+      return client.name ~= "tsserver"
+    end,
+    bufnr = bufnr,
+  })
+end
 local on_attach = function(client, bufnr)
   local opts = { buffer = bufnr }
   vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
@@ -266,44 +275,24 @@ local on_attach = function(client, bufnr)
   vim.keymap.set("n", "<leader>so", require("telescope.builtin").lsp_document_symbols, opts)
   vim.api.nvim_create_user_command("Format", vim.lsp.buf.format, {})
 
-  -- for js/ts projects, null-ls handles formatting so prevent tsserver from doing so
-  if client.name == "tsserver" then
-    client.server_capabilities.documentFormattingProvider = false
-  end
-
-  -- for all other lsps, handle format on save
-  if client.server_capabilities.documentFormattingProvider then
-    if client.supports_method("textDocument/formatting") then
-      vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
-      vim.api.nvim_create_autocmd("BufWritePre", {
-        group = augroup,
-        buffer = bufnr,
-        callback = function()
-          vim.lsp.buf.format({ bufnr = bufnr })
-        end,
-      })
-    end
+  if client.supports_method("textDocument/formatting") then
+    vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
+    vim.api.nvim_create_autocmd("BufWritePre", {
+      group = augroup,
+      buffer = bufnr,
+      callback = function()
+        lsp_format(bufnr)
+      end,
+    })
   end
 end
 
--- for js/ts projects, null-ls handles prettier and eslint
+-- for tsserver projects, null-ls handles prettier and eslint
 require("null-ls").setup({
   sources = {
     require("null-ls").builtins.diagnostics.eslint,
     require("null-ls").builtins.formatting.prettier,
   },
-  on_attach = function(client, bufnr)
-    if client.supports_method("textDocument/formatting") then
-      vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
-      vim.api.nvim_create_autocmd("BufWritePre", {
-        group = augroup,
-        buffer = bufnr,
-        callback = function()
-          vim.lsp.buf.format({ bufnr = bufnr })
-        end,
-      })
-    end
-  end,
 })
 
 -- nvim-cmp supports additional completion capabilities
