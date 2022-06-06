@@ -288,10 +288,15 @@ local on_attach = function(client, bufnr)
 end
 
 -- for tsserver projects, null-ls handles prettier and eslint
-require("null-ls").setup({
+local null_ls = require("null-ls")
+null_ls.setup({
   sources = {
-    require("null-ls").builtins.diagnostics.eslint,
-    require("null-ls").builtins.formatting.prettier,
+    null_ls.builtins.diagnostics.eslint.with({
+      prefer_local = "node_modules/.bin",
+    }),
+    null_ls.builtins.formatting.prettier.with({
+      prefer_local = "node_modules/.bin",
+    }),
   },
 })
 

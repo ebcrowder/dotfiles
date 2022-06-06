@@ -28,9 +28,6 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
-# export ts/js project bin for nvim null-ls
-export PATH="$PATH:./node_modules/.bin"
-
 # lua
 alias luamake="$HOME/Projects/lua-language-server/3rd/luamake/luamake"
 export PATH="$PATH:$HOME/Projects/lua-language-server/bin"
