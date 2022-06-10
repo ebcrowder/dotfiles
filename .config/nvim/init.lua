@@ -77,13 +77,6 @@ vim.g.maplocalleader = " "
 vim.keymap.set("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 vim.keymap.set("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 
--- Diagnostic signs for gutter
-local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
-for type, icon in pairs(signs) do
-  local hl = "DiagnosticSign" .. type
-  vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
-end
-
 -- Highlight on yank
 local highlight_group = vim.api.nvim_create_augroup("YankHighlight", { clear = true })
 vim.api.nvim_create_autocmd("TextYankPost", {
@@ -99,7 +92,7 @@ local theme = require("lualine.themes.kanagawa")
 theme.normal.c.bg = "NONE"
 require("lualine").setup({
   options = {
-    icons_enabled = true,
+    icons_enabled = false,
     component_separators = { left = "", right = "" },
     section_separators = { left = "", right = "" },
     globalstatus = true,
