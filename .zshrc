@@ -38,6 +38,9 @@ source "$HOME/.zsh/zsh-autocomplete/zsh-autocomplete.plugin.zsh"
 source "$HOME/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 
 # prompt
+# refer to https://github.com/sindresorhus/pure
 fpath+=($HOME/.zsh/pure)
 autoload -U promptinit; promptinit
+zstyle :prompt:pure:path color default
+zstyle :prompt:pure:git:stash show yes
 prompt pure
