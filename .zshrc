@@ -1,9 +1,16 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 export HISTFILE=~/.zsh_history
 export HISTSIZE=1000
 export SAVEHIST=1000
 
 # aliases
-alias ll="ls -la"
+alias ll="exa -la --icons --git"
 alias vim="nvim"
 alias vi="nvim"
 alias vimdiff="nvim -d"
@@ -36,11 +43,7 @@ export PATH="$PATH:$HOME/Projects/lua-language-server/bin"
 source "$HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh"
 source "$HOME/.zsh/zsh-autocomplete/zsh-autocomplete.plugin.zsh"
 source "$HOME/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+source "$HOME/.zsh/powerlevel10k/powerlevel10k.zsh-theme"
 
-# prompt
-# refer to https://github.com/sindresorhus/pure
-fpath+=($HOME/.zsh/pure)
-autoload -U promptinit; promptinit
-zstyle :prompt:pure:path color default
-zstyle :prompt:pure:git:stash show yes
-prompt pure
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh

@@ -25,7 +25,7 @@ require("packer").startup(function(use)
   use({ "lewis6991/gitsigns.nvim", requires = { "nvim-lua/plenary.nvim" } })
   use({ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" })
   use("nvim-treesitter/nvim-treesitter-textobjects")
-  use("nvim-lualine/lualine.nvim")
+  use({ "nvim-lualine/lualine.nvim", requires = { 'kyazdani42/nvim-web-devicons', opt = true } })
   use("neovim/nvim-lspconfig")
   use("jose-elias-alvarez/null-ls.nvim")
   use("hrsh7th/nvim-cmp")
@@ -88,62 +88,15 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 })
 
 -- Lualine
-local theme = require("lualine.themes.kanagawa")
-theme.normal.c.bg = "NONE"
 require("lualine").setup({
   options = {
-    icons_enabled = false,
-    component_separators = { left = "", right = "" },
-    section_separators = { left = "", right = "" },
+    icons_enabled = true,
     globalstatus = true,
-    theme = theme,
-  },
-  sections = {
-    lualine_a = {
-      {},
-    },
-    lualine_b = {
-      {
-        "branch",
-        color = { fg = "#DCD7BA", bg = "NONE" },
-      },
-      {
-        "diff",
-        color = { bg = "NONE" },
-      },
-      {
-        "diagnostics",
-        color = { bg = "NONE" },
-      },
-    },
-    lualine_x = {
-      {},
-    },
-    lualine_y = {
-      {
-        "progress",
-        color = { fg = "#DCD7BA", bg = "NONE" },
-      },
-    },
-    lualine_z = {
-      {
-        "location",
-        color = { fg = "#DCD7BA", bg = "NONE" },
-      },
-    },
   },
 })
 
 -- Gitsigns
-require("gitsigns").setup({
-  signs = {
-    add = { text = "+" },
-    change = { text = "~" },
-    delete = { text = "_" },
-    topdelete = { text = "‾" },
-    changedelete = { text = "~" },
-  },
-})
+require("gitsigns").setup({})
 
 -- Telescope
 require("telescope").setup({
@@ -153,10 +106,6 @@ require("telescope").setup({
         ["<C-u>"] = false,
         ["<C-d>"] = false,
       },
-    },
-    layout_strategy = "vertical",
-    layout_config = {
-      vertical = { width = 0.75 },
     },
   },
 })
@@ -230,6 +179,13 @@ require("nvim-treesitter.configs").setup({
     },
   },
 })
+
+-- Diagnostic signs
+local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
+for type, icon in pairs(signs) do
+  local hl = "DiagnosticSign" .. type
+  vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
+end
 
 -- Diagnostic keymaps
 vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float)
