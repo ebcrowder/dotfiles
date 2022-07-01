@@ -255,7 +255,7 @@ local lsp_format = function(bufnr)
     bufnr = bufnr,
   })
 end
-local on_attach = function(client, bufnr)
+local on_attach = function(_, bufnr)
   local opts = { buffer = bufnr }
   vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
   vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
@@ -272,18 +272,17 @@ local on_attach = function(client, bufnr)
   vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
   vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
   vim.keymap.set("n", "<leader>so", require("telescope.builtin").lsp_document_symbols, opts)
-  vim.api.nvim_create_user_command("Format", vim.lsp.buf.format, {})
 
-  if client.supports_method("textDocument/formatting") then
-    vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
-    vim.api.nvim_create_autocmd("BufWritePre", {
-      group = augroup,
-      buffer = bufnr,
-      callback = function()
-        lsp_format(bufnr)
-      end,
-    })
-  end
+  -- format on save
+  vim.api.nvim_create_user_command("Format", vim.lsp.buf.format, {})
+  vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
+  vim.api.nvim_create_autocmd("BufWritePre", {
+    group = augroup,
+    buffer = bufnr,
+    callback = function()
+      lsp_format(bufnr)
+    end,
+  })
 end
 
 -- for tsserver projects, null-ls handles prettier and eslint
@@ -304,7 +303,7 @@ local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
 
 -- Enable the following language servers
-local servers = { "tsserver", "pyright", "gopls", "rust_analyzer" }
+local servers = { "tsserver", "pyright", "gopls", "rust_analyzer", "solargraph" }
 for _, lsp in ipairs(servers) do
   lspconfig[lsp].setup({
     on_attach = on_attach,
