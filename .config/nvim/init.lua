@@ -32,6 +32,8 @@ require("packer").startup(function(use)
   use("hrsh7th/cmp-nvim-lsp")
   use("L3MON4D3/LuaSnip")
   use("saadparwaiz1/cmp_luasnip")
+  use("windwp/nvim-autopairs")
+  use("windwp/nvim-ts-autotag")
 end)
 
 --Integrate with system clipboard
@@ -86,6 +88,10 @@ vim.api.nvim_create_autocmd("TextYankPost", {
   group = highlight_group,
   pattern = "*",
 })
+
+-- autopairs and autotag
+require("nvim-autopairs").setup({})
+require("nvim-ts-autotag").setup({})
 
 -- Lualine
 local theme = require("lualine.themes.kanagawa")
@@ -248,10 +254,6 @@ local lspconfig = require("lspconfig")
 local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
 local lsp_format = function(bufnr)
   vim.lsp.buf.format({
-    filter = function(client)
-      -- null-ls handles formatting for tsserver projects
-      return client.name ~= "tsserver"
-    end,
     bufnr = bufnr,
   })
 end
@@ -291,9 +293,15 @@ null_ls.setup({
   sources = {
     null_ls.builtins.diagnostics.eslint.with({
       prefer_local = "node_modules/.bin",
+      condition = function(utils)
+        return utils.root_has_file({ "package.json" })
+      end,
     }),
     null_ls.builtins.formatting.prettier.with({
       prefer_local = "node_modules/.bin",
+      condition = function(utils)
+        return utils.root_has_file({ "package.json" })
+      end,
     }),
   },
 })
@@ -303,13 +311,23 @@ local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
 
 -- Enable the following language servers
-local servers = { "tsserver", "pyright", "gopls", "rust_analyzer", "solargraph" }
+local servers = { "pyright", "gopls", "rust_analyzer", "solargraph" }
 for _, lsp in ipairs(servers) do
   lspconfig[lsp].setup({
     on_attach = on_attach,
     capabilities = capabilities,
   })
 end
+
+lspconfig.denols.setup {
+  on_attach = on_attach,
+  root_dir = lspconfig.util.root_pattern("deno.json", "deno.jsonc"),
+}
+
+lspconfig.tsserver.setup {
+  on_attach = on_attach,
+  root_dir = lspconfig.util.root_pattern("package.json"),
+}
 
 lspconfig.sumneko_lua.setup({
   on_attach = on_attach,
