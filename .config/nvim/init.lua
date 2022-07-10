@@ -6,12 +6,6 @@ if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
   vim.fn.execute("!git clone https://github.com/wbthomason/packer.nvim " .. install_path)
 end
 
-local packer_group = vim.api.nvim_create_augroup("Packer", { clear = true })
-vim.api.nvim_create_autocmd(
-  "BufWritePost",
-  { command = "source <afile> | PackerCompile", group = packer_group, pattern = "init.lua" }
-)
-
 require("packer").startup(function(use)
   use("wbthomason/packer.nvim")
   use("tpope/vim-commentary")
@@ -25,7 +19,7 @@ require("packer").startup(function(use)
   use({ "lewis6991/gitsigns.nvim", requires = { "nvim-lua/plenary.nvim" } })
   use({ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" })
   use("nvim-treesitter/nvim-treesitter-textobjects")
-  use({ "nvim-lualine/lualine.nvim", requires = { 'kyazdani42/nvim-web-devicons', opt = true } })
+  use("nvim-lualine/lualine.nvim")
   use("neovim/nvim-lspconfig")
   use("jose-elias-alvarez/null-ls.nvim")
   use("hrsh7th/nvim-cmp")
@@ -53,7 +47,7 @@ vim.o.mouse = "a"
 vim.o.breakindent = true
 
 --Save undo history
-vim.opt.undofile = true
+vim.o.undofile = true
 
 --Case insensitive searching UNLESS /C or capital in search
 vim.o.ignorecase = true
@@ -98,7 +92,7 @@ local theme = require("lualine.themes.kanagawa")
 theme.normal.c.bg = "NONE"
 require("lualine").setup({
   options = {
-    icons_enabled = true,
+    icons_enabled = false,
     globalstatus = true,
     component_separators = { left = "", right = "" },
     section_separators = { left = "", right = "" },
@@ -182,11 +176,21 @@ vim.keymap.set("n", "<leader>fo", function()
   require("telescope.builtin").tags({ only_current_buffer = true })
 end)
 vim.keymap.set("n", "<leader>?", require("telescope.builtin").oldfiles)
+vim.keymap.set('n', '<leader>/', function()
+  -- You can pass additional configuration to telescope to change theme, layout, etc.
+  require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
+    winblend = 10,
+    previewer = false,
+  })
+end, { desc = '[/] Fuzzily search in current buffer]' })
 
 -- Treesitter configuration
 require("nvim-treesitter.configs").setup({
   ensure_installed = "all",
   highlight = {
+    enable = true,
+  },
+  indent = {
     enable = true,
   },
   incremental_selection = {
@@ -197,9 +201,6 @@ require("nvim-treesitter.configs").setup({
       scope_incremental = "grc",
       node_decremental = "grm",
     },
-  },
-  indent = {
-    enable = true,
   },
   textobjects = {
     select = {
@@ -236,17 +237,10 @@ require("nvim-treesitter.configs").setup({
   },
 })
 
--- Diagnostic signs
-local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
-for type, icon in pairs(signs) do
-  local hl = "DiagnosticSign" .. type
-  vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
-end
-
 -- Diagnostic keymaps
-vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float)
 vim.keymap.set("n", "[d", vim.diagnostic.goto_prev)
 vim.keymap.set("n", "]d", vim.diagnostic.goto_next)
+vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float)
 vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist)
 
 -- LSP settings
@@ -263,7 +257,7 @@ local on_attach = function(_, bufnr)
   vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
   vim.keymap.set("n", "gh", vim.lsp.buf.hover, opts)
   vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
-  vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
+  vim.keymap.set("n", "gr", require("telescope.builtin").lsp_references, opts)
   vim.keymap.set("n", "gt", vim.lsp.buf.type_definition, opts)
   vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, opts)
   vim.keymap.set("n", "<leader>wa", vim.lsp.buf.add_workspace_folder, opts)
@@ -273,7 +267,8 @@ local on_attach = function(_, bufnr)
   end, opts)
   vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
   vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
-  vim.keymap.set("n", "<leader>so", require("telescope.builtin").lsp_document_symbols, opts)
+  vim.keymap.set("n", "<leader>ds", require("telescope.builtin").lsp_document_symbols, opts)
+  vim.keymap.set("n", "<leader>ws", require("telescope.builtin").lsp_dynamic_workspace_symbols, opts)
 
   -- format on save
   vim.api.nvim_create_user_command("Format", vim.lsp.buf.format, {})
