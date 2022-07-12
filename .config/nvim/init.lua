@@ -19,7 +19,6 @@ require("packer").startup(function(use)
   use({ "lewis6991/gitsigns.nvim", requires = { "nvim-lua/plenary.nvim" } })
   use({ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" })
   use("nvim-treesitter/nvim-treesitter-textobjects")
-  use("nvim-lualine/lualine.nvim")
   use("neovim/nvim-lspconfig")
   use("jose-elias-alvarez/null-ls.nvim")
   use("hrsh7th/nvim-cmp")
@@ -83,67 +82,13 @@ vim.api.nvim_create_autocmd("TextYankPost", {
   pattern = "*",
 })
 
+-- statusline
+vim.cmd([[hi StatusLine guibg=NONE]])
+vim.opt.laststatus = 3
+
 -- autopairs and autotag
 require("nvim-autopairs").setup({})
 require("nvim-ts-autotag").setup({})
-
--- Lualine
-local theme = require("lualine.themes.kanagawa")
-theme.normal.c.bg = "NONE"
-require("lualine").setup({
-  options = {
-    icons_enabled = false,
-    globalstatus = true,
-    component_separators = { left = "", right = "" },
-    section_separators = { left = "", right = "" },
-    theme = theme,
-  },
-  sections = {
-    lualine_a = {
-      {},
-    },
-    lualine_b = {
-      {
-        "branch",
-        color = { fg = "#DCD7BA", bg = "NONE" },
-      },
-      {
-        "diff",
-        color = { bg = "NONE" },
-      },
-      {
-        "diagnostics",
-        color = { bg = "NONE" },
-      },
-    },
-    lualine_x = {
-      {
-        "encoding",
-        color = { fg = "#DCD7BA", bg = "NONE" },
-      },
-      {
-        "fileformat",
-        color = { fg = "#DCD7BA", bg = "NONE" },
-      },
-      {
-        "filetype",
-        color = { fg = "#DCD7BA", bg = "NONE" },
-      },
-    },
-    lualine_y = {
-      {
-        "progress",
-        color = { fg = "#DCD7BA", bg = "NONE" },
-      },
-    },
-    lualine_z = {
-      {
-        "location",
-        color = { fg = "#DCD7BA", bg = "NONE" },
-      },
-    },
-  },
-})
 
 -- Gitsigns
 require("gitsigns").setup({})

@@ -10,7 +10,7 @@ export HISTSIZE=1000
 export SAVEHIST=1000
 
 # aliases
-alias ll="exa -la --icons --git"
+alias ll="exa -la --git"
 alias vim="nvim"
 alias vi="nvim"
 alias vimdiff="nvim -d"
