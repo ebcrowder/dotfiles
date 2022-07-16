@@ -18,7 +18,6 @@ require("packer").startup(function(use)
   use({ "nvim-telescope/telescope-fzf-native.nvim", run = "make" })
   use({ "lewis6991/gitsigns.nvim", requires = { "nvim-lua/plenary.nvim" } })
   use({ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" })
-  use("nvim-treesitter/nvim-treesitter-textobjects")
   use("neovim/nvim-lspconfig")
   use("jose-elias-alvarez/null-ls.nvim")
   use("hrsh7th/nvim-cmp")
@@ -68,10 +67,6 @@ vim.keymap.set({ "n", "v" }, "<Space>", "<Nop>", { silent = true })
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
---Remap for dealing with word wrap
-vim.keymap.set("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
-vim.keymap.set("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
-
 -- Highlight on yank
 local highlight_group = vim.api.nvim_create_augroup("YankHighlight", { clear = true })
 vim.api.nvim_create_autocmd("TextYankPost", {
@@ -117,17 +112,6 @@ vim.keymap.set("n", "<leader>ft", require("telescope.builtin").tags)
 vim.keymap.set("n", "<leader>fd", require("telescope.builtin").diagnostics)
 vim.keymap.set("n", "<leader>fr", require("telescope.builtin").lsp_references)
 vim.keymap.set("n", "<leader>fg", require("telescope.builtin").live_grep)
-vim.keymap.set("n", "<leader>fo", function()
-  require("telescope.builtin").tags({ only_current_buffer = true })
-end)
-vim.keymap.set("n", "<leader>?", require("telescope.builtin").oldfiles)
-vim.keymap.set('n', '<leader>/', function()
-  -- You can pass additional configuration to telescope to change theme, layout, etc.
-  require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
-    winblend = 10,
-    previewer = false,
-  })
-end, { desc = '[/] Fuzzily search in current buffer]' })
 
 -- Treesitter configuration
 require("nvim-treesitter.configs").setup({
@@ -137,48 +121,6 @@ require("nvim-treesitter.configs").setup({
   },
   indent = {
     enable = true,
-  },
-  incremental_selection = {
-    enable = true,
-    keymaps = {
-      init_selection = "gnn",
-      node_incremental = "grn",
-      scope_incremental = "grc",
-      node_decremental = "grm",
-    },
-  },
-  textobjects = {
-    select = {
-      enable = true,
-      lookahead = true, -- Automatically jump forward to textobj, similar to targets.vim
-      keymaps = {
-        -- You can use the capture groups defined in textobjects.scm
-        ["af"] = "@function.outer",
-        ["if"] = "@function.inner",
-        ["ac"] = "@class.outer",
-        ["ic"] = "@class.inner",
-      },
-    },
-    move = {
-      enable = true,
-      set_jumps = true, -- whether to set jumps in the jumplist
-      goto_next_start = {
-        ["]m"] = "@function.outer",
-        ["]]"] = "@class.outer",
-      },
-      goto_next_end = {
-        ["]M"] = "@function.outer",
-        ["]["] = "@class.outer",
-      },
-      goto_previous_start = {
-        ["[m"] = "@function.outer",
-        ["[["] = "@class.outer",
-      },
-      goto_previous_end = {
-        ["[M"] = "@function.outer",
-        ["[]"] = "@class.outer",
-      },
-    },
   },
 })
 
@@ -261,11 +203,13 @@ end
 
 lspconfig.denols.setup {
   on_attach = on_attach,
+  capabilities = capabilities,
   root_dir = lspconfig.util.root_pattern("deno.json", "deno.jsonc"),
 }
 
 lspconfig.tsserver.setup {
   on_attach = on_attach,
+  capabilities = capabilities,
   root_dir = lspconfig.util.root_pattern("package.json"),
 }
 
