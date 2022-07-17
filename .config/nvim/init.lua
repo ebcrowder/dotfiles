@@ -60,7 +60,7 @@ vim.o.termguicolors = true
 vim.cmd([[colorscheme kanagawa]])
 
 -- Set completeopt to have a better completion experience
-vim.o.completeopt = "menuone,noselect"
+vim.opt.completeopt = { "menu", "menuone", "noselect" }
 
 --Remap space as leader key
 vim.keymap.set({ "n", "v" }, "<Space>", "<Nop>", { silent = true })
@@ -193,25 +193,13 @@ local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
 
 -- Enable the following language servers
-local servers = { "pyright", "gopls", "rust_analyzer", "solargraph" }
+local servers = { "tsserver", "pyright", "gopls", "rust_analyzer" }
 for _, lsp in ipairs(servers) do
   lspconfig[lsp].setup({
     on_attach = on_attach,
     capabilities = capabilities,
   })
 end
-
-lspconfig.denols.setup {
-  on_attach = on_attach,
-  capabilities = capabilities,
-  root_dir = lspconfig.util.root_pattern("deno.json", "deno.jsonc"),
-}
-
-lspconfig.tsserver.setup {
-  on_attach = on_attach,
-  capabilities = capabilities,
-  root_dir = lspconfig.util.root_pattern("package.json"),
-}
 
 lspconfig.sumneko_lua.setup({
   on_attach = on_attach,
@@ -234,6 +222,19 @@ local luasnip = require("luasnip")
 -- nvim-cmp setup
 local cmp = require("cmp")
 cmp.setup({
+  formatting = {
+    format = function(entry, item)
+      item.kind = string.format('%s', item.kind)
+      item.menu = ({
+        buffer = "[Buffer]",
+        nvim_lsp = "[LSP]",
+        luasnip = "[LuaSnip]",
+        nvim_lua = "[Lua]",
+        latex_symbols = "[LaTeX]",
+      })[entry.source.name]
+      return item
+    end
+  },
   snippet = {
     expand = function(args)
       luasnip.lsp_expand(args.body)
