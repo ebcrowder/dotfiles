@@ -201,21 +201,6 @@ for _, lsp in ipairs(servers) do
   })
 end
 
-lspconfig.sumneko_lua.setup({
-  on_attach = on_attach,
-  capabilities = capabilities,
-  settings = {
-    Lua = {
-      diagnostics = {
-        globals = { "vim" },
-      },
-      telemetry = {
-        enable = false,
-      },
-    },
-  },
-})
-
 -- luasnip setup
 local luasnip = require("luasnip")
 
@@ -224,7 +209,7 @@ local cmp = require("cmp")
 cmp.setup({
   formatting = {
     format = function(entry, item)
-      item.kind = string.format('%s', item.kind)
+      item.kind = string.format("%s", item.kind)
       item.menu = ({
         buffer = "[Buffer]",
         nvim_lsp = "[LSP]",

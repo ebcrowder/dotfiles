@@ -35,15 +35,6 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
-# lua
-alias luamake="$HOME/Projects/lua-language-server/3rd/luamake/luamake"
-export PATH="$PATH:$HOME/Projects/lua-language-server/bin"
-
-# rbenv / ruby
-export PATH="$PATH:$HOME/.local/share/gem/ruby/3.1.0/bin"
-export PATH="$PATH:$HOME/.rbenv/bin"
-eval "$(rbenv init - zsh)"
-
 # plugins
 source "$HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh"
 source "$HOME/.zsh/zsh-autocomplete/zsh-autocomplete.plugin.zsh"
