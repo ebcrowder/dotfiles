@@ -10,7 +10,8 @@ export HISTSIZE=1000
 export SAVEHIST=1000
 
 # aliases
-alias ll="exa -la --git"
+alias ls="ls --color"
+alias ll="ls -la --color"
 alias vim="nvim"
 alias vi="nvim"
 alias vimdiff="nvim -d"
@@ -25,10 +26,6 @@ export PATH="$PATH:$GOPATH/bin"
 
 # cargo
 . "$HOME/.cargo/env"
-
-# sdkman
-export SDKMAN_DIR="$HOME/.sdkman"
-[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
 
 # nvm
 export NVM_DIR="$HOME/.nvm"
