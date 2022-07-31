@@ -10,16 +10,10 @@
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!
 
 # disable title bars
-new_window 1pixel
+# new_window 1pixel
 
 # keyboard repeat
-exec_always xset r rate 200 50
-
-# set background
-exec_always nitrogen --restore
-
-# start picom
-exec_always --no-startup-id picom -CGb
+# exec_always xset r rate 200 50
 
 set $mod Mod4
 
@@ -205,10 +199,5 @@ bar {
 		background #1F1F28
 		statusline #DCD7BA
 		separator #DCD7BA
-	        # focused_workspace  #DCD7BA #1F1F28 #DCD7BA
-	        # active_workspace   #2D4F67 #2D4F67 #DCD7BA
-	        # inactive_workspace #2D4F67 #2D4F67 #DCD7BA
-		# urgent_workspace   #2f343a #900000 #ffffff
-		# binding_mode       #2f343a #900000 #ffffff
 	}
 }
