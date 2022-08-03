@@ -28,7 +28,7 @@ default_border none
 ### Output configuration
 #
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
-output * bg /usr/share/backgrounds/canvas_by_roytanck.jpg fill
+output * bg /usr/share/backgrounds/gnome/blobs-l.svg fill
 #
 # Example configuration:
 #
@@ -42,10 +42,10 @@ output DP-2 scale 2
 #
 # Example configuration:
 #
-# exec swayidle -w \
-#          timeout 300 'swaylock -f -c 000000' \
-#          timeout 600 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' \
-#          before-sleep 'swaylock -f -c 000000'
+exec swayidle -w \
+         timeout 300 'swaylock -f -c 000000' \
+         timeout 600 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' \
+         before-sleep 'swaylock -f -c 000000'
 #
 # This will lock your screen after 300 seconds of inactivity, then turn off
 # your displays after another 300 seconds, and turn your screens back on when
@@ -66,6 +66,11 @@ output DP-2 scale 2
 # Read `man 5 sway-input` for more information about this section.
 
 input "1:1:AT_Translated_Set_2_keyboard" {
+	repeat_delay 300
+	repeat_rate 60
+}
+
+input "1133:45913:ERGO_K860_Keyboard" {
 	repeat_delay 300
 	repeat_rate 60
 }
