@@ -25,6 +25,9 @@ include /etc/sway/config-vars.d/*
 # disable window borders
 default_border none
 
+# gammastep
+exec --no-startup-id gammastep
+
 ### Output configuration
 #
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)

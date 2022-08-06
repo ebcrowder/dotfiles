@@ -192,6 +192,14 @@
   (( ! $+functions[p10k] )) || p10k reload
 }
 
+if [[ -f /run/.containerenv && -f /run/.toolboxenv ]]; then
+  # Display diamond when in a toolbox: ⬢ user@host.
+  typeset -g POWERLEVEL9K_CONTEXT_VISUAL_IDENTIFIER_EXPANSION='⬢'
+else
+  # When not in a toolbox, don't show context unless running with privileges or in SSH.
+  typeset -g POWERLEVEL9K_CONTEXT_{DEFAULT,SUDO}_{CONTENT,VISUAL_IDENTIFIER}_EXPANSION=
+fi
+
 # Tell `p10k configure` which file it should overwrite.
 typeset -g POWERLEVEL9K_CONFIG_FILE=${${(%):-%x}:a}
 
