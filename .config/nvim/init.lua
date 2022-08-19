@@ -103,15 +103,15 @@ require("telescope").setup({
 -- Enable telescope fzf native
 require("telescope").load_extension("fzf")
 
---Add leader shortcuts
+-- Telescope keymaps
 vim.keymap.set("n", "<leader><space>", require("telescope.builtin").buffers)
-vim.keymap.set("n", "<leader>ff", require("telescope.builtin").find_files)
-vim.keymap.set("n", "<leader>fb", require("telescope.builtin").current_buffer_fuzzy_find)
-vim.keymap.set("n", "<leader>fh", require("telescope.builtin").help_tags)
-vim.keymap.set("n", "<leader>ft", require("telescope.builtin").tags)
-vim.keymap.set("n", "<leader>fd", require("telescope.builtin").diagnostics)
-vim.keymap.set("n", "<leader>fr", require("telescope.builtin").lsp_references)
-vim.keymap.set("n", "<leader>fg", require("telescope.builtin").live_grep)
+vim.keymap.set("n", "<leader>f", require("telescope.builtin").find_files)
+vim.keymap.set("n", "<leader>b", require("telescope.builtin").current_buffer_fuzzy_find)
+vim.keymap.set("n", "<leader>h", require("telescope.builtin").help_tags)
+vim.keymap.set("n", "<leader>t", require("telescope.builtin").tags)
+vim.keymap.set("n", "<leader>d", require("telescope.builtin").diagnostics)
+vim.keymap.set("n", "<leader>g", require("telescope.builtin").live_grep)
+vim.keymap.set('n', '<leader>?', require("telescope.builtin").oldfiles)
 
 -- Treesitter configuration
 require("nvim-treesitter.configs").setup({
@@ -135,7 +135,7 @@ local lspconfig = require("lspconfig")
 local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
 local lsp_format = function(bufnr)
   vim.lsp.buf.format({
-    bufnr = bufnr,
+    bufnr,
   })
 end
 local on_attach = function(_, bufnr)
@@ -189,8 +189,7 @@ null_ls.setup({
 })
 
 -- nvim-cmp supports additional completion capabilities
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
+local capabilities = require("cmp_nvim_lsp").update_capabilities(vim.lsp.protocol.make_client_capabilities())
 
 -- Enable the following language servers
 local servers = { "tsserver", "pyright", "gopls", "rust_analyzer" }
@@ -201,25 +200,26 @@ for _, lsp in ipairs(servers) do
   })
 end
 
+-- lua language server setup
+require('lspconfig').sumneko_lua.setup {
+  on_attach = on_attach,
+  capabilities = capabilities,
+  settings = {
+    Lua = {
+      diagnostics = {
+        globals = { 'vim' },
+      },
+      telemetry = { enable = false, },
+    },
+  },
+}
+
 -- luasnip setup
 local luasnip = require("luasnip")
 
 -- nvim-cmp setup
 local cmp = require("cmp")
 cmp.setup({
-  formatting = {
-    format = function(entry, item)
-      item.kind = string.format("%s", item.kind)
-      item.menu = ({
-        buffer = "[Buffer]",
-        nvim_lsp = "[LSP]",
-        luasnip = "[LuaSnip]",
-        nvim_lua = "[Lua]",
-        latex_symbols = "[LaTeX]",
-      })[entry.source.name]
-      return item
-    end
-  },
   snippet = {
     expand = function(args)
       luasnip.lsp_expand(args.body)
