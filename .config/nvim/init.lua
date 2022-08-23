@@ -133,11 +133,6 @@ vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist)
 -- LSP settings
 local lspconfig = require("lspconfig")
 local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
-local lsp_format = function(bufnr)
-  vim.lsp.buf.format({
-    bufnr,
-  })
-end
 local on_attach = function(_, bufnr)
   local opts = { buffer = bufnr }
   vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
@@ -164,8 +159,8 @@ local on_attach = function(_, bufnr)
     group = augroup,
     buffer = bufnr,
     callback = function()
-      lsp_format(bufnr)
-    end,
+      vim.lsp.buf.format({ bufnr })
+    end
   })
 end
 
@@ -192,7 +187,7 @@ null_ls.setup({
 local capabilities = require("cmp_nvim_lsp").update_capabilities(vim.lsp.protocol.make_client_capabilities())
 
 -- Enable the following language servers
-local servers = { "tsserver", "pyright", "gopls", "rust_analyzer" }
+local servers = { "tsserver", "pyright", "gopls", "rust_analyzer", "phpactor" }
 for _, lsp in ipairs(servers) do
   lspconfig[lsp].setup({
     on_attach = on_attach,
