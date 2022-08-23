@@ -91,6 +91,7 @@ require("gitsigns").setup({})
 -- Telescope
 require("telescope").setup({
   defaults = {
+    layout_strategy = "vertical",
     mappings = {
       i = {
         ["<C-u>"] = false,
