@@ -14,6 +14,7 @@ require("packer").startup(function(use)
   use("tpope/vim-vinegar")
   use("tpope/vim-repeat")
   use("rebelot/kanagawa.nvim")
+  use("arcticicestudio/nord-vim")
   use({ "nvim-telescope/telescope.nvim", requires = { "nvim-lua/plenary.nvim" } })
   use({ "nvim-telescope/telescope-fzf-native.nvim", run = "make" })
   use({ "lewis6991/gitsigns.nvim", requires = { "nvim-lua/plenary.nvim" } })
@@ -57,7 +58,10 @@ vim.wo.signcolumn = "yes"
 
 --Set colorscheme
 vim.o.termguicolors = true
-vim.cmd([[colorscheme kanagawa]])
+vim.g.nord_uniform_diff_background = 1
+vim.g.nord_italic = 1
+vim.g.nord_italic_comments = 1
+vim.cmd([[colorscheme nord]])
 
 -- Set completeopt to have a better completion experience
 vim.opt.completeopt = { "menu", "menuone", "noselect" }
@@ -132,8 +136,13 @@ vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float)
 vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist)
 
 -- LSP settings
+vim.diagnostic.config({
+  virtual_text = false,
+  float = {
+    source = "always",
+  },
+})
 local lspconfig = require("lspconfig")
-local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
 local on_attach = function(_, bufnr)
   local opts = { buffer = bufnr }
   vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
@@ -153,16 +162,9 @@ local on_attach = function(_, bufnr)
   vim.keymap.set("n", "<leader>ds", require("telescope.builtin").lsp_document_symbols, opts)
   vim.keymap.set("n", "<leader>ws", require("telescope.builtin").lsp_dynamic_workspace_symbols, opts)
 
-  -- format on save
-  vim.api.nvim_create_user_command("Format", vim.lsp.buf.format, {})
-  vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
-  vim.api.nvim_create_autocmd("BufWritePre", {
-    group = augroup,
-    buffer = bufnr,
-    callback = function()
-      vim.lsp.buf.format({ bufnr })
-    end
-  })
+  -- Create a command `:Format` local to the LSP buffer
+  vim.api.nvim_buf_create_user_command(bufnr, 'Format', vim.lsp.buf.format or vim.lsp.buf.formatting,
+    { desc = 'Format current buffer with LSP' })
 end
 
 -- for tsserver projects, null-ls handles prettier and eslint
