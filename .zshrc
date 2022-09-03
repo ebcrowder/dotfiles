@@ -9,12 +9,11 @@ export HISTFILE=~/.zsh_history
 export HISTSIZE=1000
 export SAVEHIST=1000
 
+export BAT_THEME="Nord"
+
 # aliases
 alias ls="ls --color"
 alias ll="ls -la --color"
-alias vim="nvim"
-alias vi="nvim"
-alias vimdiff="nvim -d"
 alias tmux="env TERM=xterm-256color tmux"
 
 # aws cli
