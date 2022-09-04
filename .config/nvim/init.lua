@@ -14,6 +14,7 @@ require("packer").startup(function(use)
   use("tpope/vim-vinegar")
   use("tpope/vim-repeat")
   use("arcticicestudio/nord-vim")
+  use({ "nvim-lualine/lualine.nvim", requires = { "kyazdani42/nvim-web-devicons", opt = true } })
   use({ "nvim-telescope/telescope.nvim", requires = { "nvim-lua/plenary.nvim" } })
   use({ "nvim-telescope/telescope-fzf-native.nvim", run = "make" })
   use({ "lewis6991/gitsigns.nvim", requires = { "nvim-lua/plenary.nvim" } })
@@ -80,9 +81,15 @@ vim.api.nvim_create_autocmd("TextYankPost", {
   pattern = "*",
 })
 
--- statusline
-vim.cmd([[hi StatusLine guibg=NONE]])
-vim.opt.laststatus = 3
+-- lualine setup
+require("lualine").setup({
+  options = {
+    icons_enabled = true,
+    component_separators = { left = "", right = "" },
+    section_separators = { left = "", right = "" },
+    globalstatus = true,
+  },
+})
 
 -- autopairs and autotag
 require("nvim-autopairs").setup({})
@@ -136,7 +143,9 @@ vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist)
 
 -- LSP settings
 vim.diagnostic.config({
-  virtual_text = false,
+  virtual_text = {
+    source = "always",
+  },
   float = {
     source = "always",
   },
