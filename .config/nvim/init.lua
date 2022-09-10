@@ -13,7 +13,7 @@ require("packer").startup(function(use)
   use("tpope/vim-surround")
   use("tpope/vim-vinegar")
   use("tpope/vim-repeat")
-  use("arcticicestudio/nord-vim")
+  use("rebelot/kanagawa.nvim")
   use("kyazdani42/nvim-web-devicons")
   use("nvim-lualine/lualine.nvim")
   use({ "nvim-telescope/telescope.nvim", requires = { "nvim-lua/plenary.nvim" } })
@@ -59,10 +59,12 @@ vim.wo.signcolumn = "yes"
 
 --Set colorscheme
 vim.o.termguicolors = true
-vim.g.nord_uniform_diff_background = 1
-vim.g.nord_italic = 1
-vim.g.nord_italic_comments = 1
-vim.cmd([[colorscheme nord]])
+require("kanagawa").setup({
+  transparent = true,
+  globalStatus = true,
+  theme = "default"
+})
+vim.cmd([[colorscheme kanagawa]])
 
 -- Set completeopt to have a better completion experience
 vim.opt.completeopt = { "menu", "menuone", "noselect" }
@@ -82,14 +84,14 @@ vim.api.nvim_create_autocmd("TextYankPost", {
   pattern = "*",
 })
 
--- diagnostics setup
+-- diagnostics
 local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
 for type, icon in pairs(signs) do
   local hl = "DiagnosticSign" .. type
   vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
 end
 
--- lualine setup
+-- lualine
 require("lualine").setup({
   options = {
     icons_enabled = true,
@@ -159,7 +161,8 @@ vim.diagnostic.config({
   },
 })
 local lspconfig = require("lspconfig")
-local on_attach = function(_, bufnr)
+local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
+local on_attach = function(client, bufnr)
   local opts = { buffer = bufnr }
   vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
   vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
@@ -177,6 +180,28 @@ local on_attach = function(_, bufnr)
   vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
   vim.keymap.set("n", "<leader>ds", require("telescope.builtin").lsp_document_symbols, opts)
   vim.keymap.set("n", "<leader>ws", require("telescope.builtin").lsp_dynamic_workspace_symbols, opts)
+
+  -- TODO when neovim 0.8+ is stable, refactor formatting logic with this:
+  -- vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
+  -- vim.api.nvim_create_autocmd("BufWritePre", {
+  --   group = augroup,
+  --   buffer = bufnr,
+  --   callback = function()
+  --     vim.lsp.buf.format({ bufnr })
+  --   end
+  -- })
+
+  -- for js/ts projects, null-ls will handle format on save
+  if client.name == "tsserver" then
+    client.resolved_capabilities.document_formatting = false
+  end
+
+  -- for all other lsps, handle format on save
+  if client.resolved_capabilities.document_formatting then
+    vim.api.nvim_create_autocmd({ "BufWritePre" }, {
+      command = "lua vim.lsp.buf.formatting_seq_sync()",
+    })
+  end
 
   -- Create a command `:Format` local to the LSP buffer
   vim.api.nvim_buf_create_user_command(bufnr, 'Format', vim.lsp.buf.format or vim.lsp.buf.formatting,
@@ -200,6 +225,19 @@ null_ls.setup({
       end,
     }),
   },
+  on_attach = function(client, bufnr)
+    if client.supports_method("textDocument/formatting") then
+      vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
+      vim.api.nvim_create_autocmd("BufWritePre", {
+        group = augroup,
+        buffer = bufnr,
+        callback = function()
+          -- TODO on neovim 0.8+, you should use vim.lsp.buf.format({ bufnr = bufnr }) instead
+          vim.lsp.buf.formatting_sync()
+        end,
+      })
+    end
+  end,
 })
 
 -- nvim-cmp supports additional completion capabilities
