@@ -14,7 +14,6 @@ require("packer").startup(function(use)
   use("tpope/vim-vinegar")
   use("tpope/vim-repeat")
   use("rebelot/kanagawa.nvim")
-  use("kyazdani42/nvim-web-devicons")
   use("nvim-lualine/lualine.nvim")
   use({ "nvim-telescope/telescope.nvim", requires = { "nvim-lua/plenary.nvim" } })
   use({ "nvim-telescope/telescope-fzf-native.nvim", run = "make" })
@@ -84,17 +83,10 @@ vim.api.nvim_create_autocmd("TextYankPost", {
   pattern = "*",
 })
 
--- diagnostics
-local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
-for type, icon in pairs(signs) do
-  local hl = "DiagnosticSign" .. type
-  vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
-end
-
 -- lualine
 require("lualine").setup({
   options = {
-    icons_enabled = true,
+    icons_enabled = false,
     component_separators = { left = "", right = "" },
     section_separators = { left = "", right = "" },
     globalstatus = true,
