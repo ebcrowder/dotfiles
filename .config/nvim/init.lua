@@ -13,7 +13,7 @@ require("packer").startup(function(use)
   use("tpope/vim-surround")
   use("tpope/vim-vinegar")
   use("tpope/vim-repeat")
-  use("rebelot/kanagawa.nvim")
+  use({ "rose-pine/neovim", as = "rose-pine" })
   use("nvim-lualine/lualine.nvim")
   use({ "nvim-telescope/telescope.nvim", requires = { "nvim-lua/plenary.nvim" } })
   use({ "nvim-telescope/telescope-fzf-native.nvim", run = "make" })
@@ -58,12 +58,11 @@ vim.wo.signcolumn = "yes"
 
 --Set colorscheme
 vim.o.termguicolors = true
-require("kanagawa").setup({
-  transparent = true,
-  globalStatus = true,
-  theme = "default"
+require("rose-pine").setup({
+  dark_variant = "moon",
+  disable_background = true,
 })
-vim.cmd([[colorscheme kanagawa]])
+vim.cmd([[colorscheme rose-pine]])
 
 -- Set completeopt to have a better completion experience
 vim.opt.completeopt = { "menu", "menuone", "noselect" }
