@@ -13,7 +13,7 @@ require("packer").startup(function(use)
   use("tpope/vim-surround")
   use("tpope/vim-vinegar")
   use("tpope/vim-repeat")
-  use({ "rose-pine/neovim", as = "rose-pine" })
+  use("mcchrish/zenbones.nvim")
   use("nvim-lualine/lualine.nvim")
   use({ "nvim-telescope/telescope.nvim", requires = { "nvim-lua/plenary.nvim" } })
   use({ "nvim-telescope/telescope-fzf-native.nvim", run = "make" })
@@ -58,12 +58,8 @@ vim.wo.signcolumn = "yes"
 
 --Set colorscheme
 vim.o.termguicolors = true
-require("rose-pine").setup({
-  dark_variant = "moon",
-  disable_italics = true,
-  disable_background = true,
-})
-vim.cmd([[colorscheme rose-pine]])
+vim.g.zenbones_compat = true
+vim.cmd([[colorscheme zenbones]])
 
 -- Set completeopt to have a better completion experience
 vim.opt.completeopt = { "menu", "menuone", "noselect" }
