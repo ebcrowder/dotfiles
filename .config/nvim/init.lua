@@ -13,7 +13,7 @@ require("packer").startup(function(use)
   use("tpope/vim-surround")
   use("tpope/vim-vinegar")
   use("tpope/vim-repeat")
-  use("mcchrish/zenbones.nvim")
+  use("rebelot/kanagawa.nvim")
   use("nvim-lualine/lualine.nvim")
   use({ "nvim-telescope/telescope.nvim", requires = { "nvim-lua/plenary.nvim" } })
   use({ "nvim-telescope/telescope-fzf-native.nvim", run = "make" })
@@ -58,8 +58,7 @@ vim.wo.signcolumn = "yes"
 
 --Set colorscheme
 vim.o.termguicolors = true
-vim.g.zenbones_compat = true
-vim.cmd([[colorscheme zenbones]])
+vim.cmd([[colorscheme kanagawa]])
 
 -- Set completeopt to have a better completion experience
 vim.opt.completeopt = { "menu", "menuone", "noselect" }
