@@ -123,7 +123,6 @@ vim.keymap.set('n', '<leader>?', require("telescope.builtin").oldfiles)
 
 -- Treesitter configuration
 require("nvim-treesitter.configs").setup({
-  ensure_installed = "all",
   highlight = {
     enable = true,
   },
