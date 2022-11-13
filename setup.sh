@@ -17,5 +17,7 @@ ln -s ~/dotfiles/.config/kitty/kitty.conf ~/.config/kitty/kitty.conf
 
 echo "init zsh plugins maintained as git submodules..."
 cd .zsh && git submodule update --init --recursive
+# to update
+# git submodule update --remote --merge
 
 echo "done"
