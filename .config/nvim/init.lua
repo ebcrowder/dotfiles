@@ -176,7 +176,6 @@ local on_attach = function(_, bufnr)
       vim.lsp.buf.format({
         bufnr,
         filter = function(client)
-          -- do not permit tsserver to format files
           return client.name ~= "tsserver"
         end
       })
@@ -207,13 +206,23 @@ null_ls.setup({
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 -- Enable the following language servers
-local servers = { "tsserver", "pyright" }
+local servers = { "pyright", "rust_analyzer" }
 for _, lsp in ipairs(servers) do
   lspconfig[lsp].setup({
     on_attach = on_attach,
     capabilities = capabilities,
   })
 end
+
+lspconfig.denols.setup {
+  on_attach = on_attach,
+  root_dir = lspconfig.util.root_pattern("deno.json", "deno.jsonc"),
+}
+
+lspconfig.tsserver.setup {
+  on_attach = on_attach,
+  root_dir = lspconfig.util.root_pattern("package.json"),
+}
 
 -- lua language server setup
 require('lspconfig').sumneko_lua.setup {
