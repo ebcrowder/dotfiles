@@ -79,12 +79,60 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 })
 
 -- lualine
+local theme = require("lualine.themes.kanagawa")
+theme.normal.c.bg = "NONE"
 require("lualine").setup({
   options = {
     icons_enabled = false,
     component_separators = { left = "", right = "" },
     section_separators = { left = "", right = "" },
     globalstatus = true,
+    theme = theme,
+  },
+  sections = {
+    lualine_a = {
+      {},
+    },
+    lualine_b = {
+      {
+        "branch",
+        color = { fg = "#DCD7BA", bg = "NONE" },
+      },
+      {
+        "diff",
+        color = { bg = "NONE" },
+      },
+      {
+        "diagnostics",
+        color = { bg = "NONE" },
+      },
+    },
+    lualine_x = {
+      {
+        "encoding",
+        color = { fg = "#DCD7BA", bg = "NONE" },
+      },
+      {
+        "fileformat",
+        color = { fg = "#DCD7BA", bg = "NONE" },
+      },
+      {
+        "filetype",
+        color = { fg = "#DCD7BA", bg = "NONE" },
+      },
+    },
+    lualine_y = {
+      {
+        "progress",
+        color = { fg = "#DCD7BA", bg = "NONE" },
+      },
+    },
+    lualine_z = {
+      {
+        "location",
+        color = { fg = "#DCD7BA", bg = "NONE" },
+      },
+    },
   },
 })
 
