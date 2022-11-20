@@ -162,8 +162,8 @@ vim.keymap.set('n', '<leader>?', require("telescope.builtin").oldfiles)
 
 -- Treesitter configuration
 require("nvim-treesitter.configs").setup({
-  ensure_installed = { "vim", "help", "c", "lua", "comment", "bash", "html", "css", "json", "tsx", "typescript",
-    "javascript", "sql", "markdown", "toml", "rust" },
+  ensure_installed = { "vim", "help", "c", "lua", "comment", "bash", "html", "css", "json", "jsonc", "tsx", "typescript",
+    "javascript", "sql", "markdown", "yaml", "toml", "rust" },
   highlight = {
     enable = true,
   },
