@@ -13,7 +13,7 @@ require("packer").startup(function(use)
   use("tpope/vim-surround")
   use("tpope/vim-vinegar")
   use("tpope/vim-repeat")
-  use("rebelot/kanagawa.nvim")
+  use("rose-pine/neovim")
   use("nvim-lualine/lualine.nvim")
   use({ "nvim-telescope/telescope.nvim", requires = { "nvim-lua/plenary.nvim" } })
   use({ "nvim-telescope/telescope-fzf-native.nvim", run = "make" })
@@ -58,7 +58,11 @@ vim.wo.signcolumn = "yes"
 
 --Set colorscheme
 vim.o.termguicolors = true
-vim.cmd([[colorscheme kanagawa]])
+require("rose-pine").setup({
+  dark_variant = "main",
+  disable_italics = true,
+})
+vim.cmd([[colorscheme rose-pine]])
 
 -- Set completeopt to have a better completion experience
 vim.opt.completeopt = { "menu", "menuone", "noselect" }
@@ -79,9 +83,7 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 })
 
 -- lualine
-local theme = require("lualine.themes.kanagawa")
-theme.normal.c.bg = "NONE"
-local fg = "#DCD7BA"
+local fg = "#e0def4"
 local bg = "NONE"
 require("lualine").setup({
   options = {
@@ -89,7 +91,6 @@ require("lualine").setup({
     component_separators = { left = "", right = "" },
     section_separators = { left = "", right = "" },
     globalstatus = true,
-    theme = theme,
   },
   sections = {
     lualine_a = {
@@ -102,11 +103,11 @@ require("lualine").setup({
       },
       {
         "diff",
-        color = { bg = bg },
+        color = { fg = fg, bg = bg },
       },
       {
         "diagnostics",
-        color = { bg = bg },
+        color = { fg = fg, bg = bg },
       },
     },
     lualine_x = {
