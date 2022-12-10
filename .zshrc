@@ -44,3 +44,7 @@ source "$HOME/.zsh/powerlevel10k/powerlevel10k.zsh-theme"
 
 # rbenv
 eval "$(~/.rbenv/bin/rbenv init - zsh)"
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="$HOME/.sdkman"
+[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
