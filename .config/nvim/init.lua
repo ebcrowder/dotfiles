@@ -21,6 +21,9 @@ require("packer").startup(function(use)
   use({ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" })
   use("neovim/nvim-lspconfig")
   use("jose-elias-alvarez/null-ls.nvim")
+  use("j-hui/fidget.nvim")
+  use("williamboman/mason.nvim")
+  use("williamboman/mason-lspconfig.nvim")
   use("hrsh7th/nvim-cmp")
   use("hrsh7th/cmp-nvim-lsp")
   use("L3MON4D3/LuaSnip")
@@ -128,11 +131,11 @@ require("lualine").setup({
 })
 
 -- autopairs and autotag
-require("nvim-autopairs").setup({})
-require("nvim-ts-autotag").setup({})
+require("nvim-autopairs").setup()
+require("nvim-ts-autotag").setup()
 
 -- Gitsigns
-require("gitsigns").setup({})
+require("gitsigns").setup()
 
 -- Telescope
 require("telescope").setup({
@@ -158,7 +161,7 @@ vim.keymap.set("n", "<leader>h", require("telescope.builtin").help_tags)
 vim.keymap.set("n", "<leader>t", require("telescope.builtin").tags)
 vim.keymap.set("n", "<leader>d", require("telescope.builtin").diagnostics)
 vim.keymap.set("n", "<leader>g", require("telescope.builtin").live_grep)
-vim.keymap.set('n', '<leader>?', require("telescope.builtin").oldfiles)
+vim.keymap.set("n", "<leader>?", require("telescope.builtin").oldfiles)
 
 -- Treesitter configuration
 require("nvim-treesitter.configs").setup({
@@ -197,7 +200,7 @@ local on_attach = function(_, bufnr)
   vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
   vim.keymap.set("n", "gr", require("telescope.builtin").lsp_references, opts)
   vim.keymap.set("n", "gt", vim.lsp.buf.type_definition, opts)
-  vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, opts)
+  vim.keymap.set("n", "gs", vim.lsp.buf.signature_help, opts)
   vim.keymap.set("n", "<leader>wa", vim.lsp.buf.add_workspace_folder, opts)
   vim.keymap.set("n", "<leader>wr", vim.lsp.buf.remove_workspace_folder, opts)
   vim.keymap.set("n", "<leader>wl", function()
@@ -240,13 +243,13 @@ null_ls.setup({
     end
   end,
   sources = {
-    null_ls.builtins.diagnostics.eslint.with({
+    null_ls.builtins.diagnostics.eslint_d.with({
       prefer_local = "node_modules/.bin",
       condition = function(utils)
         return utils.root_has_file({ "package.json" })
       end,
     }),
-    null_ls.builtins.formatting.prettier.with({
+    null_ls.builtins.formatting.prettierd.with({
       prefer_local = "node_modules/.bin",
     }),
   },
@@ -255,38 +258,42 @@ null_ls.setup({
 -- nvim-cmp supports additional completion capabilities
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
+-- Setup mason so it can manage external tooling (LSPs)
+require("mason").setup()
+
+-- Ensure the servers above are installed
+local mason_lspconfig = require "mason-lspconfig"
+
 -- Enable the following language servers
-local servers = { "pyright", "rust_analyzer" }
-for _, lsp in ipairs(servers) do
-  lspconfig[lsp].setup({
-    on_attach = on_attach,
-    capabilities = capabilities,
-  })
-end
-
-lspconfig.denols.setup {
-  on_attach = on_attach,
-  root_dir = lspconfig.util.root_pattern("deno.json", "deno.jsonc"),
-}
-
-lspconfig.tsserver.setup {
-  on_attach = on_attach,
-  root_dir = lspconfig.util.root_pattern("package.json"),
-}
-
--- lua language server setup
-require('lspconfig').sumneko_lua.setup {
-  on_attach = on_attach,
-  capabilities = capabilities,
-  settings = {
+local servers = {
+  clangd = {},
+  gopls = {},
+  pyright = {},
+  rust_analyzer = {},
+  tsserver = {},
+  sumneko_lua = {
     Lua = {
+      workspace = { checkThirdParty = false },
+      telemetry = { enable = false },
       diagnostics = {
-        globals = { 'vim' },
+        globals = { "vim" },
       },
-      telemetry = { enable = false, },
     },
   },
 }
+
+mason_lspconfig.setup_handlers {
+  function(server_name)
+    lspconfig[server_name].setup {
+      capabilities = capabilities,
+      on_attach = on_attach,
+      settings = servers[server_name],
+    }
+  end,
+}
+
+-- lsp status
+require("fidget").setup()
 
 -- luasnip setup
 local luasnip = require("luasnip")
