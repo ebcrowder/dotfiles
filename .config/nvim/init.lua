@@ -165,8 +165,7 @@ vim.keymap.set("n", "<leader>?", require("telescope.builtin").oldfiles)
 
 -- Treesitter configuration
 require("nvim-treesitter.configs").setup({
-  ensure_installed = { "vim", "help", "c", "lua", "comment", "bash", "html", "css", "json", "jsonc", "tsx", "typescript",
-    "javascript", "sql", "markdown", "yaml", "toml", "rust" },
+  ensure_installed = "all",
   highlight = {
     enable = true,
   },
@@ -271,6 +270,8 @@ local servers = {
   pyright = {},
   rust_analyzer = {},
   tsserver = {},
+  dockerls = {},
+  phpactor = {},
   sumneko_lua = {
     Lua = {
       workspace = { checkThirdParty = false },
