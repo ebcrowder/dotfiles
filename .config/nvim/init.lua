@@ -250,6 +250,9 @@ null_ls.setup({
     }),
     null_ls.builtins.formatting.prettierd.with({
       prefer_local = "node_modules/.bin",
+      condition = function(utils)
+        return utils.root_has_file({ "package.json" })
+      end,
     }),
   },
 })
@@ -269,9 +272,7 @@ local servers = {
   gopls = {},
   pyright = {},
   rust_analyzer = {},
-  tsserver = {},
   dockerls = {},
-  phpactor = {},
   sumneko_lua = {
     Lua = {
       workspace = { checkThirdParty = false },
@@ -290,8 +291,20 @@ mason_lspconfig.setup_handlers {
       on_attach = on_attach,
       settings = servers[server_name],
     }
+    -- prevent denols and tsserver from colliding with each other
+    lspconfig.denols.setup {
+      on_attach = on_attach,
+      root_dir = lspconfig.util.root_pattern("deno.json", "deno.jsonc"),
+    }
+
+    lspconfig.tsserver.setup {
+      on_attach = on_attach,
+      root_dir = lspconfig.util.root_pattern("package.json"),
+      single_file_support = false
+    }
   end,
 }
+
 
 -- lsp status
 require("fidget").setup()
