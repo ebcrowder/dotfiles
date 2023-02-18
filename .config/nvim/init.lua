@@ -226,7 +226,7 @@ local on_attach = function(_, bufnr)
   })
 end
 
--- for tsserver projects, null-ls handles prettier and eslint
+-- for tsserver projects, null-ls handles prettier
 local null_ls = require("null-ls")
 null_ls.setup({
   on_attach = function(client, bufnr)
@@ -242,12 +242,6 @@ null_ls.setup({
     end
   end,
   sources = {
-    null_ls.builtins.diagnostics.eslint_d.with({
-      prefer_local = "node_modules/.bin",
-      condition = function(utils)
-        return utils.root_has_file({ "package.json" })
-      end,
-    }),
     null_ls.builtins.formatting.prettierd.with({
       prefer_local = "node_modules/.bin",
       condition = function(utils)
@@ -297,6 +291,12 @@ mason_lspconfig.setup_handlers {
       root_dir = lspconfig.util.root_pattern("deno.json", "deno.jsonc"),
     }
 
+    lspconfig.eslint.setup {
+      on_attach = on_attach,
+      root_dir = lspconfig.util.root_pattern("package.json"),
+      single_file_support = false
+    }
+
     lspconfig.tsserver.setup {
       on_attach = on_attach,
       root_dir = lspconfig.util.root_pattern("package.json"),
@@ -321,7 +321,7 @@ cmp.setup({
     end,
   },
   mapping = cmp.mapping.preset.insert({
-    ["<C-d>"] = cmp.mapping.scroll_docs(-4),
+    ["<C-d>"] = cmp.mapping.scroll_docs( -4),
     ["<C-f>"] = cmp.mapping.scroll_docs(4),
     ["<C-Space>"] = cmp.mapping.complete(),
     ["<CR>"] = cmp.mapping.confirm({
@@ -340,8 +340,8 @@ cmp.setup({
     ["<S-Tab>"] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_prev_item()
-      elseif luasnip.jumpable(-1) then
-        luasnip.jump(-1)
+      elseif luasnip.jumpable( -1) then
+        luasnip.jump( -1)
       else
         fallback()
       end
