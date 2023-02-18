@@ -21,7 +21,6 @@ require("packer").startup(function(use)
   use({ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" })
   use("neovim/nvim-lspconfig")
   use("jose-elias-alvarez/null-ls.nvim")
-  use("j-hui/fidget.nvim")
   use("williamboman/mason.nvim")
   use("williamboman/mason-lspconfig.nvim")
   use("hrsh7th/nvim-cmp")
@@ -267,7 +266,7 @@ local servers = {
   pyright = {},
   rust_analyzer = {},
   dockerls = {},
-  sumneko_lua = {
+  lua_ls = {
     Lua = {
       workspace = { checkThirdParty = false },
       telemetry = { enable = false },
@@ -304,10 +303,6 @@ mason_lspconfig.setup_handlers {
     }
   end,
 }
-
-
--- lsp status
-require("fidget").setup()
 
 -- luasnip setup
 local luasnip = require("luasnip")
