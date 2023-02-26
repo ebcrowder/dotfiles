@@ -241,7 +241,7 @@ null_ls.setup({
     end
   end,
   sources = {
-    null_ls.builtins.formatting.prettierd.with({
+    null_ls.builtins.formatting.prettier.with({
       prefer_local = "node_modules/.bin",
       condition = function(utils)
         return utils.root_has_file({ "package.json" })
