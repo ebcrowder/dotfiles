@@ -66,10 +66,6 @@ require("packer").startup(function(use)
   use("williamboman/mason.nvim")
   use("williamboman/mason-lspconfig.nvim")
   use("jose-elias-alvarez/null-ls.nvim")
-  use({
-    "simrat39/rust-tools.nvim",
-    config = function() require("rust-tools").setup() end
-  })
   use("hrsh7th/nvim-cmp")
   use("hrsh7th/cmp-nvim-lsp")
   use("L3MON4D3/LuaSnip")
