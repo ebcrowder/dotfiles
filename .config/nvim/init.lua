@@ -14,13 +14,15 @@ require("packer").startup(function(use)
   use("tpope/vim-vinegar")
   use("tpope/vim-repeat")
   use({
-    "rose-pine/neovim",
-    as = "rose-pine",
+    "rebelot/kanagawa.nvim",
     config = function()
-      require("rose-pine").setup({
-        disable_italics = true,
+      require("kanagawa").setup({
+        colors = {
+          theme = { all = { ui = { bg_gutter = "none" } } }
+        },
+        transparent = true,
       })
-      vim.cmd("colorscheme rose-pine")
+      vim.cmd("colorscheme kanagawa-wave")
     end
   })
   use({
@@ -44,8 +46,8 @@ require("packer").startup(function(use)
         layout_strategy = "vertical",
         mappings = {
           i = {
-                ["<C-u>"] = false,
-                ["<C-d>"] = false,
+            ["<C-u>"] = false,
+            ["<C-d>"] = false,
           },
         },
       },
@@ -70,8 +72,6 @@ require("packer").startup(function(use)
   use("hrsh7th/cmp-nvim-lsp")
   use("L3MON4D3/LuaSnip")
   use("saadparwaiz1/cmp_luasnip")
-  use({ "windwp/nvim-autopairs", config = function() require("nvim-autopairs").setup() end })
-  use({ "windwp/nvim-ts-autotag", config = function() require("nvim-ts-autotag").setup() end })
 end)
 
 --Integrate with system clipboard
@@ -137,7 +137,11 @@ vim.keymap.set("n", "<leader>?", require("telescope.builtin").oldfiles)
 
 -- Treesitter configuration
 require("nvim-treesitter.configs").setup({
-  ensure_installed = "all",
+  ensure_installed = { "vim", "help", "c", "lua", "comment",
+    "bash", "html", "css", "json", "jsonc", "tsx", "typescript",
+    "javascript", "markdown", "yaml", "toml", "rust", "go",
+    "python", "php"
+  },
   highlight = {
     enable = true,
   },
@@ -289,14 +293,14 @@ cmp.setup({
     end,
   },
   mapping = cmp.mapping.preset.insert({
-        ["<C-d>"] = cmp.mapping.scroll_docs(-4),
-        ["<C-f>"] = cmp.mapping.scroll_docs(4),
-        ["<C-Space>"] = cmp.mapping.complete(),
-        ["<CR>"] = cmp.mapping.confirm({
+    ["<C-d>"] = cmp.mapping.scroll_docs(-4),
+    ["<C-f>"] = cmp.mapping.scroll_docs(4),
+    ["<C-Space>"] = cmp.mapping.complete(),
+    ["<CR>"] = cmp.mapping.confirm({
       behavior = cmp.ConfirmBehavior.Replace,
       select = true,
     }),
-        ["<Tab>"] = cmp.mapping(function(fallback)
+    ["<Tab>"] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_next_item()
       elseif luasnip.expand_or_jumpable() then
@@ -305,7 +309,7 @@ cmp.setup({
         fallback()
       end
     end, { "i", "s" }),
-        ["<S-Tab>"] = cmp.mapping(function(fallback)
+    ["<S-Tab>"] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_prev_item()
       elseif luasnip.jumpable(-1) then
