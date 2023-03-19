@@ -13,45 +13,26 @@ require("packer").startup(function(use)
   use("tpope/vim-surround")
   use("tpope/vim-vinegar")
   use("tpope/vim-repeat")
-  use({
-    "rebelot/kanagawa.nvim",
-    config = function()
-      require("kanagawa").setup({
-        colors = {
-          theme = { all = { ui = { bg_gutter = "none" } } }
-        },
-        transparent = true,
-      })
-      vim.cmd("colorscheme kanagawa-wave")
-    end
-  })
-  use({
-    "nvim-lualine/lualine.nvim",
-    config = function()
-      require("lualine").setup({
-        options = {
-          icons_enabled = false,
-          component_separators = { left = "", right = "" },
-          section_separators = { left = "", right = "" },
-          globalstatus = true,
-        },
-      })
-    end
-  })
+  use("rebelot/kanagawa.nvim")
+  use("nvim-lualine/lualine.nvim")
   use({
     "nvim-telescope/telescope.nvim",
     requires = { "nvim-lua/plenary.nvim" },
-    config = {
-      defaults = {
-        layout_strategy = "vertical",
-        mappings = {
-          i = {
-            ["<C-u>"] = false,
-            ["<C-d>"] = false,
+    config = function()
+      require("telescope").setup({
+        {
+          defaults = {
+            layout_strategy = "vertical",
+            mappings = {
+              i = {
+                ["<C-u>"] = false,
+                ["<C-d>"] = false,
+              },
+            },
           },
-        },
-      },
-    }
+        }
+      })
+    end
   })
   use({ "nvim-telescope/telescope-fzf-native.nvim", run = "make" })
   use({
@@ -103,6 +84,15 @@ vim.wo.signcolumn = "yes"
 
 --Set colorscheme
 vim.o.termguicolors = true
+require("kanagawa").setup({
+  colors = {
+    theme = { all = { ui = { bg_gutter = "none" } } }
+  },
+  background = {
+    dark = "dragon",
+  },
+})
+vim.cmd("colorscheme kanagawa")
 
 -- Set completeopt to have a better completion experience
 vim.opt.completeopt = { "menu", "menuone", "noselect" }
@@ -122,18 +112,69 @@ vim.api.nvim_create_autocmd("TextYankPost", {
   pattern = "*",
 })
 
+-- lualine
+local theme = require("lualine.themes.kanagawa")
+theme.normal.c.bg = "NONE"
+local fg = "#c5c9c5"
+require("lualine").setup({
+  options = {
+    icons_enabled = false,
+    component_separators = { left = "", right = "" },
+    section_separators = { left = "", right = "" },
+    globalstatus = true,
+    theme = theme,
+  },
+  sections = {
+    lualine_a = {
+      {},
+    },
+    lualine_b = {
+      {
+        "branch",
+        color = { fg = fg, bg = "NONE" },
+      },
+      {
+        "diff",
+        color = { bg = "NONE" },
+      },
+      {
+        "diagnostics",
+        color = { bg = "NONE" },
+      },
+    },
+    lualine_x = {
+      {},
+    },
+    lualine_y = {
+      {
+        "progress",
+        color = { fg = fg, bg = "NONE" },
+      },
+    },
+    lualine_z = {
+      {
+        "location",
+        color = { fg = fg, bg = "NONE" },
+      },
+    },
+  },
+})
+
 -- Enable telescope fzf native
 require("telescope").load_extension("fzf")
 
 -- Telescope keymaps
-vim.keymap.set("n", "<leader><space>", require("telescope.builtin").buffers)
-vim.keymap.set("n", "<leader>f", require("telescope.builtin").find_files)
-vim.keymap.set("n", "<leader>b", require("telescope.builtin").current_buffer_fuzzy_find)
-vim.keymap.set("n", "<leader>h", require("telescope.builtin").help_tags)
-vim.keymap.set("n", "<leader>t", require("telescope.builtin").tags)
-vim.keymap.set("n", "<leader>d", require("telescope.builtin").diagnostics)
-vim.keymap.set("n", "<leader>g", require("telescope.builtin").live_grep)
-vim.keymap.set("n", "<leader>?", require("telescope.builtin").oldfiles)
+local telescope_builtin = require('telescope.builtin')
+vim.keymap.set("n", "<leader><space>", telescope_builtin.buffers)
+vim.keymap.set("n", "<leader>f", function()
+  telescope_builtin.find_files({ hidden = true })
+end)
+vim.keymap.set("n", "<leader>b", telescope_builtin.current_buffer_fuzzy_find)
+vim.keymap.set("n", "<leader>h", telescope_builtin.help_tags)
+vim.keymap.set("n", "<leader>t", telescope_builtin.tags)
+vim.keymap.set("n", "<leader>d", telescope_builtin.diagnostics)
+vim.keymap.set("n", "<leader>g", telescope_builtin.live_grep)
+vim.keymap.set("n", "<leader>?", telescope_builtin.oldfiles)
 
 -- Treesitter configuration
 require("nvim-treesitter.configs").setup({
@@ -173,7 +214,7 @@ local on_attach = function(_, bufnr)
   vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
   vim.keymap.set("n", "gh", vim.lsp.buf.hover, opts)
   vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
-  vim.keymap.set("n", "gr", require("telescope.builtin").lsp_references, opts)
+  vim.keymap.set("n", "gr", telescope_builtin.lsp_references, opts)
   vim.keymap.set("n", "gt", vim.lsp.buf.type_definition, opts)
   vim.keymap.set("n", "gs", vim.lsp.buf.signature_help, opts)
   vim.keymap.set("n", "<leader>wa", vim.lsp.buf.add_workspace_folder, opts)
@@ -183,8 +224,8 @@ local on_attach = function(_, bufnr)
   end, opts)
   vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
   vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
-  vim.keymap.set("n", "<leader>ds", require("telescope.builtin").lsp_document_symbols, opts)
-  vim.keymap.set("n", "<leader>ws", require("telescope.builtin").lsp_dynamic_workspace_symbols, opts)
+  vim.keymap.set("n", "<leader>ds", telescope_builtin.lsp_document_symbols, opts)
+  vim.keymap.set("n", "<leader>ws", telescope_builtin.lsp_dynamic_workspace_symbols, opts)
 
   -- format on save
   vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
