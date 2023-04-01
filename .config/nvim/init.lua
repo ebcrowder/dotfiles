@@ -13,6 +13,7 @@ require("packer").startup(function(use)
   use("tpope/vim-surround")
   use("tpope/vim-vinegar")
   use("tpope/vim-repeat")
+  use("vim-test/vim-test")
   use("rebelot/kanagawa.nvim")
   use("nvim-lualine/lualine.nvim")
   use({
@@ -91,6 +92,7 @@ require("kanagawa").setup({
   background = {
     dark = "dragon",
   },
+  transparent = true,
 })
 vim.cmd("colorscheme kanagawa")
 

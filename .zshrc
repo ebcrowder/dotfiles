@@ -17,21 +17,6 @@ alias tmux="env TERM=xterm-256color tmux"
 # aws cli
 alias aws='podman run --privileged --rm -it -v ~/.aws:/root/.aws -v $(pwd):/aws amazon/aws-cli'
 
-# go
-export GOPATH="$HOME/go"
-export PATH="$PATH:$GOPATH/bin"
-
-# cargo
-. "$HOME/.cargo/env"
-
-# bat theme
-export BAT_THEME="Nord"
-
-# nvm
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
 # plugins
 source "$HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh"
 source "$HOME/.zsh/zsh-autocomplete/zsh-autocomplete.plugin.zsh"
@@ -40,6 +25,3 @@ source "$HOME/.zsh/powerlevel10k/powerlevel10k.zsh-theme"
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-
-# rbenv
-eval "$(~/.rbenv/bin/rbenv init - zsh)"
