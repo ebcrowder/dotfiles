@@ -81,6 +81,8 @@ vim.o.smartcase = true
 
 --Decrease update time
 vim.o.updatetime = 250
+vim.o.timeout = true
+vim.o.timeoutlen = 300
 vim.wo.signcolumn = "yes"
 
 --Set colorscheme
@@ -180,11 +182,7 @@ vim.keymap.set("n", "<leader>?", telescope_builtin.oldfiles)
 
 -- Treesitter configuration
 require("nvim-treesitter.configs").setup({
-  ensure_installed = { "vim", "help", "c", "lua", "comment",
-    "bash", "html", "css", "json", "jsonc", "tsx", "typescript",
-    "javascript", "markdown", "yaml", "toml", "rust", "go",
-    "python", "php"
-  },
+  ensure_installed = "all",
   highlight = {
     enable = true,
   },
