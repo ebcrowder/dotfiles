@@ -12,7 +12,6 @@ export SAVEHIST=1000
 # aliases
 alias ls="ls --color"
 alias ll="ls -la --color"
-alias tmux="env TERM=xterm-256color tmux"
 
 # aws cli
 alias aws='podman run --privileged --rm -it -v ~/.aws:/root/.aws -v $(pwd):/aws amazon/aws-cli'

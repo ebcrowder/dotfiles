@@ -44,7 +44,7 @@ require("packer").startup(function(use)
   use({ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" })
   use({
     "j-hui/fidget.nvim",
-    config = function() require("fidget").setup() end
+    config = function() require("fidget").setup({ window = { blend = 0 } }) end
   })
   use("neovim/nvim-lspconfig")
   use("williamboman/mason.nvim")
@@ -91,9 +91,6 @@ require("kanagawa").setup({
   colors = {
     theme = { all = { ui = { bg_gutter = "none" } } }
   },
-  background = {
-    dark = "dragon",
-  },
   transparent = true,
 })
 vim.cmd("colorscheme kanagawa")
@@ -119,7 +116,7 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 -- lualine
 local theme = require("lualine.themes.kanagawa")
 theme.normal.c.bg = "NONE"
-local fg = "#c5c9c5"
+local fg = "#DCD7BA"
 require("lualine").setup({
   options = {
     icons_enabled = false,
@@ -227,7 +224,7 @@ local on_attach = function(_, bufnr)
   vim.keymap.set("n", "<leader>ds", telescope_builtin.lsp_document_symbols, opts)
   vim.keymap.set("n", "<leader>ws", telescope_builtin.lsp_dynamic_workspace_symbols, opts)
 
-  -- format on save
+  -- format on save for non-JS LSPs
   vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
   vim.api.nvim_create_autocmd("BufWritePre", {
     group = augroup,
@@ -236,7 +233,7 @@ local on_attach = function(_, bufnr)
       vim.lsp.buf.format({
         bufnr,
         filter = function(client)
-          return client.name ~= "tsserver"
+          return client.name ~= "null-ls" or client.name ~= "tsserver" or client.name ~= "eslint"
         end
       })
     end
@@ -259,7 +256,7 @@ null_ls.setup({
     end
   end,
   sources = {
-    null_ls.builtins.formatting.prettier.with({
+    null_ls.builtins.formatting.prettierd.with({
       prefer_local = "node_modules/.bin",
       condition = function(utils)
         return utils.root_has_file({ "package.json" })
@@ -302,25 +299,25 @@ mason_lspconfig.setup_handlers {
       on_attach = on_attach,
       settings = servers[server_name],
     }
-    -- prevent denols and tsserver from colliding with each other
-    lspconfig.denols.setup {
-      on_attach = on_attach,
-      root_dir = lspconfig.util.root_pattern("deno.json", "deno.jsonc"),
-    }
 
     lspconfig.eslint.setup {
-      on_attach = on_attach,
+      on_attach = function(client)
+        client.server_capabilities.documentFormattingProvider = false
+      end,
       root_dir = lspconfig.util.root_pattern("package.json"),
-      single_file_support = false
     }
 
     lspconfig.tsserver.setup {
-      on_attach = on_attach,
+      on_attach = function(client)
+        client.server_capabilities.documentFormattingProvider = false
+      end,
       root_dir = lspconfig.util.root_pattern("package.json"),
-      single_file_support = false
     }
   end,
 }
+
+-- vim-test
+vim.g["test#runner_commands"] = { "Jest", "Mocha" }
 
 -- luasnip setup
 local luasnip = require("luasnip")
