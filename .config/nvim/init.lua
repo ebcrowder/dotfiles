@@ -302,9 +302,7 @@ mason_lspconfig.setup_handlers {
 
     lspconfig.eslint.setup {
       capabilities = capabilities,
-      on_attach = function(client)
-        client.server_capabilities.documentFormattingProvider = false
-      end,
+      on_attach = on_attach,
       root_dir = lspconfig.util.root_pattern("package.json"),
     }
 
