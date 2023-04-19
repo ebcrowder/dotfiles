@@ -301,6 +301,7 @@ mason_lspconfig.setup_handlers {
     }
 
     lspconfig.eslint.setup {
+      capabilities = capabilities,
       on_attach = function(client)
         client.server_capabilities.documentFormattingProvider = false
       end,
@@ -308,6 +309,7 @@ mason_lspconfig.setup_handlers {
     }
 
     lspconfig.tsserver.setup {
+      capabilities = capabilities,
       on_attach = function(client)
         client.server_capabilities.documentFormattingProvider = false
       end,
