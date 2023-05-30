@@ -14,14 +14,7 @@ require("packer").startup(function(use)
   use("tpope/vim-vinegar")
   use("tpope/vim-repeat")
   use("vim-test/vim-test")
-  use({
-    "rose-pine/neovim",
-    as = "rose-pine",
-    config = function()
-      require("rose-pine").setup()
-      vim.cmd("colorscheme rose-pine")
-    end
-  })
+  use("rebelot/kanagawa.nvim")
   use("nvim-lualine/lualine.nvim")
   use({
     "nvim-telescope/telescope.nvim",
@@ -46,7 +39,11 @@ require("packer").startup(function(use)
   use({
     "lewis6991/gitsigns.nvim",
     requires = { "nvim-lua/plenary.nvim" },
-    config = function() require("gitsigns").setup() end
+    config = function()
+      require("gitsigns").setup({
+        current_line_blame = true
+      })
+    end
   })
   use({ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" })
   use({
@@ -113,14 +110,61 @@ vim.api.nvim_create_autocmd("TextYankPost", {
   pattern = "*",
 })
 
+-- colorscheme
+require("kanagawa").setup({
+  colors = {
+    theme = { all = { ui = { bg_gutter = "none" } } }
+  },
+  transparent = true
+})
+vim.cmd("colorscheme kanagawa")
+
 -- lualine
+local theme = require("lualine.themes.kanagawa")
+theme.normal.c.bg = "NONE"
+local fg = "#DCD7BA"
 require("lualine").setup({
   options = {
     icons_enabled = false,
     component_separators = { left = "", right = "" },
     section_separators = { left = "", right = "" },
     globalstatus = true,
+    theme = theme,
   },
+  sections = {
+    lualine_a = {
+      {},
+    },
+    lualine_b = {
+      {
+        "branch",
+        color = { fg = fg, bg = "NONE" },
+      },
+      {
+        "diff",
+        color = { bg = "NONE" },
+      },
+      {
+        "diagnostics",
+        color = { bg = "NONE" },
+      },
+    },
+    lualine_x = {
+      {},
+    },
+    lualine_y = {
+      {
+        "progress",
+        color = { fg = fg, bg = "NONE" },
+      },
+    },
+    lualine_z = {
+      {
+        "location",
+        color = { fg = fg, bg = "NONE" },
+      },
+    },
+  }
 })
 
 -- Enable telescope fzf native
