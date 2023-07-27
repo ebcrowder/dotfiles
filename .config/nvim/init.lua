@@ -15,6 +15,8 @@ require("packer").startup(function(use)
   use("tpope/vim-repeat")
   use("vim-test/vim-test")
   use("rebelot/kanagawa.nvim")
+  use("ojroques/nvim-osc52")
+  use("b0o/schemastore.nvim")
   use("nvim-lualine/lualine.nvim")
   use({
     "nvim-telescope/telescope.nvim",
@@ -46,10 +48,7 @@ require("packer").startup(function(use)
     end
   })
   use({ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" })
-  use({
-    "j-hui/fidget.nvim",
-    config = function() require("fidget").setup({ window = { blend = 0 } }) end
-  })
+  use("github/copilot.vim")
   use("neovim/nvim-lspconfig")
   use("williamboman/mason.nvim")
   use("williamboman/mason-lspconfig.nvim")
@@ -62,6 +61,19 @@ end)
 
 --Integrate with system clipboard
 vim.o.clipboard = "unnamedplus"
+local function copy(lines, _)
+  require("osc52").copy(table.concat(lines, "\n"))
+end
+
+local function paste()
+  return { vim.fn.split(vim.fn.getreg(""), "\n"), vim.fn.getregtype("") }
+end
+
+vim.g.clipboard = {
+  name = "osc52",
+  copy = { ["+"] = copy, ["*"] = copy },
+  paste = { ["+"] = paste, ["*"] = paste },
+}
 
 --Set highlight on search
 vim.o.hlsearch = false
@@ -172,20 +184,27 @@ require("telescope").load_extension("fzf")
 
 -- Telescope keymaps
 local telescope_builtin = require('telescope.builtin')
-vim.keymap.set("n", "<leader><space>", telescope_builtin.buffers)
+vim.keymap.set("n", "<leader><space>", function()
+  telescope_builtin.buffers({ layout_strategy = "vertical" })
+end)
 vim.keymap.set("n", "<leader>f", function()
-  telescope_builtin.find_files({ hidden = true })
+  telescope_builtin.find_files({ layout_strategy = "vertical", hidden = true })
 end)
 vim.keymap.set("n", "<leader>b", telescope_builtin.current_buffer_fuzzy_find)
 vim.keymap.set("n", "<leader>h", telescope_builtin.help_tags)
 vim.keymap.set("n", "<leader>t", telescope_builtin.tags)
 vim.keymap.set("n", "<leader>d", telescope_builtin.diagnostics)
-vim.keymap.set("n", "<leader>g", telescope_builtin.live_grep)
+vim.keymap.set("n", "<leader>g", function()
+  telescope_builtin.live_grep({ layout_strategy = "vertical" })
+end)
 vim.keymap.set("n", "<leader>?", telescope_builtin.oldfiles)
 
 -- Treesitter configuration
 require("nvim-treesitter.configs").setup({
-  ensure_installed = "all",
+  ensure_installed = {
+    "vim", "c", "lua", "comment", "bash", "html", "css", "scss", "json", "jsonc", "jsdoc", "typescript",
+    "javascript", "markdown", "yaml", "toml", "rust", "go", "python", "php", "ruby", "dockerfile", "sql"
+  },
   highlight = {
     enable = true,
   },
@@ -217,7 +236,9 @@ local on_attach = function(_, bufnr)
   vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
   vim.keymap.set("n", "gh", vim.lsp.buf.hover, opts)
   vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
-  vim.keymap.set("n", "gr", telescope_builtin.lsp_references, opts)
+  vim.keymap.set("n", "gr", function()
+    telescope_builtin.lsp_references({ layout_strategy = "vertical" })
+  end, opts)
   vim.keymap.set("n", "gt", vim.lsp.buf.type_definition, opts)
   vim.keymap.set("n", "gs", vim.lsp.buf.signature_help, opts)
   vim.keymap.set("n", "<leader>wa", vim.lsp.buf.add_workspace_folder, opts)
@@ -287,6 +308,7 @@ local servers = {
   pyright = {},
   rust_analyzer = {},
   dockerls = {},
+  phpactor = {},
   lua_ls = {
     Lua = {
       workspace = { checkThirdParty = false },
@@ -304,6 +326,17 @@ mason_lspconfig.setup_handlers {
       capabilities = capabilities,
       on_attach = on_attach,
       settings = servers[server_name],
+    }
+
+    lspconfig.jsonls.setup {
+      capabilities = capabilities,
+      on_attach = on_attach,
+      settings = {
+        json = {
+          schemas = require("schemastore").json.schemas(),
+          validate = { enable = true },
+        },
+      },
     }
 
     lspconfig.eslint.setup {
@@ -327,6 +360,10 @@ vim.g["test#runner_commands"] = { "Jest", "Mocha" }
 
 -- luasnip setup
 local luasnip = require("luasnip")
+
+-- github copilot
+vim.g.copilot_no_tab_map = true
+vim.api.nvim_set_keymap("i", "<C-J>", 'copilot#Accept("<CR>")', { silent = true, expr = true })
 
 -- nvim-cmp setup
 local cmp = require("cmp")
