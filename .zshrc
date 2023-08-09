@@ -13,9 +13,6 @@ export SAVEHIST=1000
 alias ls="ls --color"
 alias ll="ls -la --color"
 
-# aws cli
-alias aws='podman run --privileged --rm -it -v ~/.aws:/root/.aws -v $(pwd):/aws amazon/aws-cli'
-
 # plugins
 source "$HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh"
 source "$HOME/.zsh/zsh-autocomplete/zsh-autocomplete.plugin.zsh"

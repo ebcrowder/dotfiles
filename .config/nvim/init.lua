@@ -260,7 +260,8 @@ local on_attach = function(_, bufnr)
       vim.lsp.buf.format({
         bufnr,
         filter = function(client)
-          return client.name ~= "null-ls" or client.name ~= "tsserver" or client.name ~= "eslint"
+          return client.name ~= "null-ls" or client.name ~= "tsserver"
+              or client.name ~= "eslint" or client.name ~= "jsonls"
         end
       })
     end
