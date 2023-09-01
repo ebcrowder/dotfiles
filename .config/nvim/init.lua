@@ -1,63 +1,42 @@
 -- Adapted from https://github.com/nvim-lua/kickstart.nvim
--- Install packer
-local install_path = vim.fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
+-- Install vim-plug
+local install_path = vim.fn.stdpath("data") .. "/site"
 
 if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
-  vim.fn.execute("!git clone https://github.com/wbthomason/packer.nvim " .. install_path)
+  vim.fn.execute(
+    "!curl -fLo" ..
+    install_path ..
+    "/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim")
 end
 
-require("packer").startup(function(use)
-  use("wbthomason/packer.nvim")
-  use("tpope/vim-commentary")
-  use("tpope/vim-fugitive")
-  use("tpope/vim-surround")
-  use("tpope/vim-vinegar")
-  use("tpope/vim-repeat")
-  use("vim-test/vim-test")
-  use("rebelot/kanagawa.nvim")
-  use("ojroques/nvim-osc52")
-  use("b0o/schemastore.nvim")
-  use("nvim-lualine/lualine.nvim")
-  use({
-    "nvim-telescope/telescope.nvim",
-    requires = { "nvim-lua/plenary.nvim" },
-    config = function()
-      require("telescope").setup({
-        {
-          defaults = {
-            layout_strategy = "vertical",
-            mappings = {
-              i = {
-                ["<C-u>"] = false,
-                ["<C-d>"] = false,
-              },
-            },
-          },
-        }
-      })
-    end
-  })
-  use({ "nvim-telescope/telescope-fzf-native.nvim", run = "make" })
-  use({
-    "lewis6991/gitsigns.nvim",
-    requires = { "nvim-lua/plenary.nvim" },
-    config = function()
-      require("gitsigns").setup({
-        current_line_blame = true
-      })
-    end
-  })
-  use({ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" })
-  use("github/copilot.vim")
-  use("neovim/nvim-lspconfig")
-  use("williamboman/mason.nvim")
-  use("williamboman/mason-lspconfig.nvim")
-  use("jose-elias-alvarez/null-ls.nvim")
-  use("hrsh7th/nvim-cmp")
-  use("hrsh7th/cmp-nvim-lsp")
-  use("L3MON4D3/LuaSnip")
-  use("saadparwaiz1/cmp_luasnip")
-end)
+-- register plugins
+local Plug = vim.fn["plug#"]
+vim.call("plug#begin")
+Plug "tpope/vim-commentary"
+Plug "tpope/vim-fugitive"
+Plug "tpope/vim-surround"
+Plug "tpope/vim-vinegar"
+Plug "tpope/vim-repeat"
+Plug "vim-test/vim-test"
+Plug "rebelot/kanagawa.nvim"
+Plug "ojroques/nvim-osc52"
+Plug "b0o/schemastore.nvim"
+Plug "nvim-lua/plenary.nvim"
+Plug "nvim-lualine/lualine.nvim"
+Plug "nvim-telescope/telescope.nvim"
+Plug("nvim-telescope/telescope-fzf-native.nvim", { ["do"] = "make" })
+Plug "lewis6991/gitsigns.nvim"
+Plug("nvim-treesitter/nvim-treesitter", { ["do"] = ":TSUpdate" })
+Plug "github/copilot.vim"
+Plug "neovim/nvim-lspconfig"
+Plug "williamboman/mason.nvim"
+Plug "williamboman/mason-lspconfig.nvim"
+Plug "jose-elias-alvarez/null-ls.nvim"
+Plug "hrsh7th/nvim-cmp"
+Plug "hrsh7th/cmp-nvim-lsp"
+Plug "L3MON4D3/LuaSnip"
+Plug "saadparwaiz1/cmp_luasnip"
+vim.call("plug#end")
 
 --Integrate with system clipboard
 vim.o.clipboard = "unnamedplus"
@@ -130,6 +109,27 @@ require("kanagawa").setup({
   transparent = true
 })
 vim.cmd("colorscheme kanagawa")
+
+-- telescope
+require("telescope").setup({
+  {
+    defaults = {
+      layout_strategy = "vertical",
+      mappings = {
+        i = {
+          ["<C-u>"] = false,
+          ["<C-d>"] = false,
+        },
+      },
+    },
+  }
+})
+
+-- gitsigns
+require("gitsigns").setup({
+  current_line_blame = true
+})
+
 
 -- lualine
 local theme = require("lualine.themes.kanagawa")
