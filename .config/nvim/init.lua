@@ -31,7 +31,7 @@ Plug "github/copilot.vim"
 Plug "neovim/nvim-lspconfig"
 Plug "williamboman/mason.nvim"
 Plug "williamboman/mason-lspconfig.nvim"
-Plug "jose-elias-alvarez/null-ls.nvim"
+Plug "stevearc/conform.nvim"
 Plug "hrsh7th/nvim-cmp"
 Plug "hrsh7th/cmp-nvim-lsp"
 Plug "L3MON4D3/LuaSnip"
@@ -251,7 +251,7 @@ local on_attach = function(_, bufnr)
   vim.keymap.set("n", "<leader>ds", telescope_builtin.lsp_document_symbols, opts)
   vim.keymap.set("n", "<leader>ws", telescope_builtin.lsp_dynamic_workspace_symbols, opts)
 
-  -- format on save for non-JS LSPs
+  -- format on save
   vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
   vim.api.nvim_create_autocmd("BufWritePre", {
     group = augroup,
@@ -260,36 +260,27 @@ local on_attach = function(_, bufnr)
       vim.lsp.buf.format({
         bufnr,
         filter = function(client)
-          return client.name ~= "null-ls" or client.name ~= "tsserver"
-              or client.name ~= "eslint" or client.name ~= "jsonls"
+          -- never format with jsonls
+          return client.name ~= "jsonls" or client.name ~= "eslint"
         end
       })
     end
   })
 end
 
--- for tsserver projects, null-ls handles prettier
-local null_ls = require("null-ls")
-null_ls.setup({
-  on_attach = function(client, bufnr)
-    if client.supports_method("textDocument/formatting") then
-      vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
-      vim.api.nvim_create_autocmd("BufWritePre", {
-        group = augroup,
-        buffer = bufnr,
-        callback = function()
-          vim.lsp.buf.format({ bufnr = bufnr })
-        end,
-      })
-    end
-  end,
-  sources = {
-    null_ls.builtins.formatting.prettierd.with({
-      prefer_local = "node_modules/.bin",
-      condition = function(utils)
-        return utils.root_has_file({ "package.json" })
-      end,
-    }),
+-- for ts/js projects, conform.nvim handles prettier
+require("conform").setup({
+  formatters_by_ft = {
+    json = { { "prettierd", "prettier" } },
+    jsonc = { { "prettierd", "prettier" } },
+    javascriptreact = { { "prettierd", "prettier" } },
+    javascript = { { "prettierd", "prettier" } },
+    typescript = { { "prettierd", "prettier" } },
+    typescriptreact = { { "prettierd", "prettier" } },
+  },
+  format_on_save = {
+    timeout_ms = 2000,
+    lsp_fallback = true,
   },
 })
 
@@ -304,12 +295,11 @@ local mason_lspconfig = require "mason-lspconfig"
 
 -- Enable the following language servers
 local servers = {
-  clangd = {},
   gopls = {},
   pyright = {},
   rust_analyzer = {},
   dockerls = {},
-  phpactor = {},
+  terraformls = {},
   lua_ls = {
     Lua = {
       workspace = { checkThirdParty = false },
