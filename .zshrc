@@ -11,5 +11,7 @@ source "$HOME/.zsh/zsh-autocomplete/zsh-autocomplete.plugin.zsh"
 source "$HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh"
 source "$HOME/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 
-# starship
-eval "$(starship init zsh)"
+# pure
+fpath+=($HOME/.zsh/pure)
+autoload -U promptinit; promptinit
+prompt pure
