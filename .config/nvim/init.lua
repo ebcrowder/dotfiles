@@ -230,7 +230,7 @@ vim.diagnostic.config({
 })
 local lspconfig = require("lspconfig")
 local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
-local on_attach = function(_, bufnr)
+local on_attach = function(client, bufnr)
   local opts = { buffer = bufnr }
   vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
   vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
@@ -252,20 +252,22 @@ local on_attach = function(_, bufnr)
   vim.keymap.set("n", "<leader>ws", telescope_builtin.lsp_dynamic_workspace_symbols, opts)
 
   -- format on save
-  vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
-  vim.api.nvim_create_autocmd("BufWritePre", {
-    group = augroup,
-    buffer = bufnr,
-    callback = function()
-      vim.lsp.buf.format({
-        bufnr,
-        filter = function(client)
-          -- never format with jsonls
-          return client.name ~= "jsonls" or client.name ~= "eslint"
-        end
-      })
-    end
-  })
+  if client.supports_method("textDocument/formatting") then
+    vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
+    vim.api.nvim_create_autocmd("BufWritePre", {
+      group = augroup,
+      buffer = bufnr,
+      callback = function()
+        vim.lsp.buf.format({
+          bufnr,
+          filter = function()
+            -- never format with jsonls or eslint
+            return client.name ~= "jsonls" or client.name ~= "eslint"
+          end
+        })
+      end
+    })
+  end
 end
 
 -- for ts/js projects, conform.nvim handles prettier
