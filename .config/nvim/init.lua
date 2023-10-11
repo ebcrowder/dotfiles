@@ -261,8 +261,8 @@ local on_attach = function(client, bufnr)
         vim.lsp.buf.format({
           bufnr,
           filter = function()
-            -- never format with jsonls or eslint
-            return client.name ~= "jsonls" or client.name ~= "eslint"
+            -- never format with jsonls
+            return client.name ~= "jsonls"
           end
         })
       end
@@ -281,7 +281,7 @@ require("conform").setup({
     typescriptreact = { { "prettierd", "prettier" } },
   },
   format_on_save = {
-    timeout_ms = 2000,
+    timeout_ms = 500,
     lsp_fallback = true,
   },
 })
