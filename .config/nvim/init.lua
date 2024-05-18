@@ -12,15 +12,12 @@ end
 -- register plugins
 local Plug = vim.fn["plug#"]
 vim.call("plug#begin")
-Plug "tpope/vim-commentary"
 Plug "tpope/vim-fugitive"
 Plug "tpope/vim-surround"
 Plug "tpope/vim-vinegar"
 Plug "tpope/vim-repeat"
 Plug "vim-test/vim-test"
 Plug "ebcrowder/kanagawa.nvim"
-Plug "ojroques/nvim-osc52"
-Plug "b0o/schemastore.nvim"
 Plug "nvim-lua/plenary.nvim"
 Plug "nvim-lualine/lualine.nvim"
 Plug "nvim-telescope/telescope.nvim"
@@ -37,22 +34,6 @@ Plug "hrsh7th/cmp-nvim-lsp"
 Plug "L3MON4D3/LuaSnip"
 Plug "saadparwaiz1/cmp_luasnip"
 vim.call("plug#end")
-
---Integrate with system clipboard
-vim.o.clipboard = "unnamedplus"
-local function copy(lines, _)
-  require("osc52").copy(table.concat(lines, "\n"))
-end
-
-local function paste()
-  return { vim.fn.split(vim.fn.getreg(""), "\n"), vim.fn.getregtype("") }
-end
-
-vim.g.clipboard = {
-  name = "osc52",
-  copy = { ["+"] = copy, ["*"] = copy },
-  paste = { ["+"] = paste, ["*"] = paste },
-}
 
 --Set highlight on search
 vim.o.hlsearch = false
@@ -79,9 +60,6 @@ vim.o.updatetime = 250
 vim.o.timeout = true
 vim.o.timeoutlen = 300
 vim.wo.signcolumn = "yes"
-
---Set colorscheme
-vim.o.termguicolors = true
 
 -- Set completeopt to have a better completion experience
 vim.opt.completeopt = { "menu", "menuone", "noselect" }
@@ -132,50 +110,12 @@ require("gitsigns").setup({
 
 
 -- lualine
-local theme = require("lualine.themes.kanagawa")
-theme.normal.c.bg = "NONE"
-local fg = "#DCD7BA"
 require("lualine").setup({
   options = {
     icons_enabled = false,
     component_separators = { left = "", right = "" },
     section_separators = { left = "", right = "" },
-    globalstatus = true,
-    theme = theme,
-  },
-  sections = {
-    lualine_a = {
-      {},
-    },
-    lualine_b = {
-      {
-        "branch",
-        color = { fg = fg, bg = "NONE" },
-      },
-      {
-        "diff",
-        color = { bg = "NONE" },
-      },
-      {
-        "diagnostics",
-        color = { bg = "NONE" },
-      },
-    },
-    lualine_x = {
-      {},
-    },
-    lualine_y = {
-      {
-        "progress",
-        color = { fg = fg, bg = "NONE" },
-      },
-    },
-    lualine_z = {
-      {
-        "location",
-        color = { fg = fg, bg = "NONE" },
-      },
-    },
+    globalstatus = true
   }
 })
 
@@ -202,7 +142,7 @@ vim.keymap.set("n", "<leader>?", telescope_builtin.oldfiles)
 -- Treesitter configuration
 require("nvim-treesitter.configs").setup({
   ensure_installed = {
-    "vim", "c", "lua", "comment", "bash", "html", "css", "scss", "json", "jsonc", "jsdoc", "typescript",
+    "vim", "vimdoc", "c", "lua", "comment", "bash", "html", "css", "scss", "json", "jsonc", "jsdoc", "typescript",
     "javascript", "markdown", "yaml", "toml", "rust", "go", "python", "php", "ruby", "dockerfile", "sql"
   },
   highlight = {
@@ -214,8 +154,6 @@ require("nvim-treesitter.configs").setup({
 })
 
 -- Diagnostic keymaps
-vim.keymap.set("n", "[d", vim.diagnostic.goto_prev)
-vim.keymap.set("n", "]d", vim.diagnostic.goto_next)
 vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float)
 vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist)
 
@@ -297,11 +235,6 @@ local mason_lspconfig = require "mason-lspconfig"
 
 -- Enable the following language servers
 local servers = {
-  gopls = {},
-  pyright = {},
-  rust_analyzer = {},
-  dockerls = {},
-  terraformls = {},
   lua_ls = {
     Lua = {
       workspace = { checkThirdParty = false },
@@ -319,17 +252,6 @@ mason_lspconfig.setup_handlers {
       capabilities = capabilities,
       on_attach = on_attach,
       settings = servers[server_name],
-    }
-
-    lspconfig.jsonls.setup {
-      capabilities = capabilities,
-      on_attach = on_attach,
-      settings = {
-        json = {
-          schemas = require("schemastore").json.schemas(),
-          validate = { enable = true },
-        },
-      },
     }
 
     lspconfig.eslint.setup {
