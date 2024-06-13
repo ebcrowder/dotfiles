@@ -1,39 +1,42 @@
--- Adapted from https://github.com/nvim-lua/kickstart.nvim
--- Install vim-plug
-local install_path = vim.fn.stdpath("data") .. "/site"
-
-if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
-  vim.fn.execute(
-    "!curl -fLo" ..
-    install_path ..
-    "/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim")
+-- Plugins
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not (vim.uv or vim.loop).fs_stat(lazypath) then
+  vim.fn.system({
+    "git",
+    "clone",
+    "--filter=blob:none",
+    "https://github.com/folke/lazy.nvim.git",
+    "--branch=stable", -- latest stable release
+    lazypath,
+  })
 end
+vim.opt.rtp:prepend(lazypath)
 
--- register plugins
-local Plug = vim.fn["plug#"]
-vim.call("plug#begin")
-Plug "tpope/vim-fugitive"
-Plug "tpope/vim-surround"
-Plug "tpope/vim-vinegar"
-Plug "tpope/vim-repeat"
-Plug "vim-test/vim-test"
-Plug "ebcrowder/kanagawa.nvim"
-Plug "nvim-lua/plenary.nvim"
-Plug "nvim-lualine/lualine.nvim"
-Plug "nvim-telescope/telescope.nvim"
-Plug("nvim-telescope/telescope-fzf-native.nvim", { ["do"] = "make" })
-Plug "lewis6991/gitsigns.nvim"
-Plug("nvim-treesitter/nvim-treesitter", { ["do"] = ":TSUpdate" })
-Plug "github/copilot.vim"
-Plug "neovim/nvim-lspconfig"
-Plug "williamboman/mason.nvim"
-Plug "williamboman/mason-lspconfig.nvim"
-Plug "stevearc/conform.nvim"
-Plug "hrsh7th/nvim-cmp"
-Plug "hrsh7th/cmp-nvim-lsp"
-Plug "L3MON4D3/LuaSnip"
-Plug "saadparwaiz1/cmp_luasnip"
-vim.call("plug#end")
+require("lazy").setup({
+  "tpope/vim-commentary",
+  "tpope/vim-fugitive",
+  "tpope/vim-surround",
+  "tpope/vim-vinegar",
+  "tpope/vim-repeat",
+  "vim-test/vim-test",
+  "ebcrowder/kanagawa.nvim",
+  "nvim-lua/plenary.nvim",
+  "nvim-lualine/lualine.nvim",
+  "nvim-tree/nvim-web-devicons",
+  "nvim-telescope/telescope.nvim",
+  { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
+  "lewis6991/gitsigns.nvim",
+  { "nvim-treesitter/nvim-treesitter",          build = ":TSUpdate" },
+  "github/copilot.vim",
+  "neovim/nvim-lspconfig",
+  "williamboman/mason.nvim",
+  "williamboman/mason-lspconfig.nvim",
+  "stevearc/conform.nvim",
+  "hrsh7th/nvim-cmp",
+  "hrsh7th/cmp-nvim-lsp",
+  "L3MON4D3/LuaSnip",
+  "saadparwaiz1/cmp_luasnip"
+})
 
 --Set highlight on search
 vim.o.hlsearch = false
@@ -112,7 +115,6 @@ require("gitsigns").setup({
 -- lualine
 require("lualine").setup({
   options = {
-    icons_enabled = false,
     component_separators = { left = "", right = "" },
     section_separators = { left = "", right = "" },
     globalstatus = true
@@ -154,6 +156,8 @@ require("nvim-treesitter.configs").setup({
 })
 
 -- Diagnostic keymaps
+vim.keymap.set("n", "[d", vim.diagnostic.goto_prev)
+vim.keymap.set("n", "]d", vim.diagnostic.goto_next)
 vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float)
 vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist)
 
@@ -217,6 +221,7 @@ require("conform").setup({
     javascript = { { "prettierd", "prettier" } },
     typescript = { { "prettierd", "prettier" } },
     typescriptreact = { { "prettierd", "prettier" } },
+    eruby = { { "erb_format" } },
   },
   format_on_save = {
     timeout_ms = 500,
@@ -235,6 +240,8 @@ local mason_lspconfig = require "mason-lspconfig"
 
 -- Enable the following language servers
 local servers = {
+  rubocop = {},
+  solargraph = {},
   lua_ls = {
     Lua = {
       workspace = { checkThirdParty = false },
