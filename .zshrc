@@ -4,10 +4,9 @@ export SAVEHIST=1000
 
 # File system
 alias ls='eza -lh --group-directories-first --icons'
-alias lsa='ls -a'
+alias ll='ls -la'
 alias lt='eza --tree --level=2 --long --icons --git'
 alias lta='lt -a'
-alias ff="fzf --preview 'bat --style=numbers --color=always {}'"
 
 # Directories
 alias ..='cd ..'
@@ -17,11 +16,7 @@ alias ....='cd ../../..'
 # Tools
 alias n='nvim'
 alias g='git'
-alias d='docker'
 alias r='rails'
-alias bat='bat'
-alias lzg='lazygit'
-alias lzd='lazydocker'
 
 # Git
 alias gcm='git commit -m'

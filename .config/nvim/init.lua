@@ -24,7 +24,7 @@ require("lazy").setup({
   "nvim-lualine/lualine.nvim",
   "nvim-tree/nvim-web-devicons",
   "nvim-telescope/telescope.nvim",
-  { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
+  { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
   "lewis6991/gitsigns.nvim",
   { "nvim-treesitter/nvim-treesitter",          build = ":TSUpdate" },
   "github/copilot.vim",
@@ -170,6 +170,13 @@ vim.diagnostic.config({
     source = "always",
   },
 })
+
+local signs = { Error = "󰅚 ", Warn = "󰀪 ", Hint = "󰌶 ", Info = " " }
+for type, icon in pairs(signs) do
+  local hl = "DiagnosticSign" .. type
+  vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
+end
+
 local lspconfig = require("lspconfig")
 local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
 local on_attach = function(client, bufnr)
