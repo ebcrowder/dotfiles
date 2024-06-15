@@ -1,4 +1,4 @@
--- Plugins
+--Plugins
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
   vim.fn.system({
@@ -16,7 +16,6 @@ require("lazy").setup({
   "tpope/vim-commentary",
   "tpope/vim-fugitive",
   "tpope/vim-surround",
-  "tpope/vim-vinegar",
   "tpope/vim-repeat",
   "vim-test/vim-test",
   "ebcrowder/kanagawa.nvim",
@@ -32,11 +31,26 @@ require("lazy").setup({
   "williamboman/mason.nvim",
   "williamboman/mason-lspconfig.nvim",
   "stevearc/conform.nvim",
+  "stevearc/oil.nvim",
   "hrsh7th/nvim-cmp",
   "hrsh7th/cmp-nvim-lsp",
   "L3MON4D3/LuaSnip",
   "saadparwaiz1/cmp_luasnip"
 })
+
+--Integrate with system clipboard
+vim.o.clipboard = "unnamedplus"
+vim.g.clipboard = {
+  name = "OSC 52",
+  copy = {
+    ["+"] = require("vim.ui.clipboard.osc52").copy("+"),
+    ["*"] = require("vim.ui.clipboard.osc52").copy("*"),
+  },
+  paste = {
+    ["+"] = require("vim.ui.clipboard.osc52").paste("+"),
+    ["*"] = require("vim.ui.clipboard.osc52").paste("*"),
+  },
+}
 
 --Set highlight on search
 vim.o.hlsearch = false
@@ -90,6 +104,10 @@ require("kanagawa").setup({
   transparent = true
 })
 vim.cmd("colorscheme kanagawa")
+
+-- oil.nvim
+require("oil").setup({ view_options = { show_hidden = true } })
+vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
 
 -- telescope
 require("telescope").setup({
