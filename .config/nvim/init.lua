@@ -240,12 +240,12 @@ end
 -- for ts/js projects, conform.nvim handles prettier
 require("conform").setup({
   formatters_by_ft = {
-    json = { { "prettierd", "prettier" } },
-    jsonc = { { "prettierd", "prettier" } },
-    javascriptreact = { { "prettierd", "prettier" } },
-    javascript = { { "prettierd", "prettier" } },
-    typescript = { { "prettierd", "prettier" } },
-    typescriptreact = { { "prettierd", "prettier" } },
+    json = { "prettier" },
+    jsonc = { "prettier" },
+    javascriptreact = { "prettier" },
+    javascript = { "prettier" },
+    typescript = { "prettier" },
+    typescriptreact = { "prettier" },
     eruby = { { "erb_format" } },
   },
   format_on_save = {
@@ -265,8 +265,6 @@ local mason_lspconfig = require "mason-lspconfig"
 
 -- Enable the following language servers
 local servers = {
-  rubocop = {},
-  solargraph = {},
   lua_ls = {
     Lua = {
       workspace = { checkThirdParty = false },
