@@ -18,4 +18,8 @@ cd .zsh && git submodule update --init --recursive
 # to update
 # git submodule update --remote --merge
 
+# system setup
+echo "installing tools..."
+sudo dnf install zsh ripgrep fd-find zoxide eza kitty gh -y
+
 echo "done"
