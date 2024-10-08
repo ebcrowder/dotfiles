@@ -21,3 +21,7 @@ source "$HOME/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 fpath+=($HOME/.zsh/pure)
 autoload -U promptinit; promptinit
 prompt pure
+
+# zoxide
+eval "$(zoxide init zsh)"
+alias cd="z"

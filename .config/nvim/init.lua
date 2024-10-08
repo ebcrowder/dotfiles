@@ -1,7 +1,6 @@
 -- Adapted from https://github.com/nvim-lua/kickstart.nvim
---Plugins
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
----@diagnostic disable-next-line: undefined-field
+--- @diagnostic disable-next-line: undefined-field
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
 	local lazyrepo = "https://github.com/folke/lazy.nvim.git"
 	local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
@@ -12,7 +11,6 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
-	"tpope/vim-commentary",
 	"tpope/vim-fugitive",
 	"tpope/vim-surround",
 	"tpope/vim-repeat",
@@ -439,7 +437,10 @@ require("lazy").setup({
 				-- python = { "isort", "black" },
 				--
 				-- You can use 'stop_after_first' to run the first available formatter from the list
-				-- javascript = { "prettierd", "prettier", stop_after_first = true },
+				javascript = { "prettierd", "prettier", stop_after_first = true },
+				javascriptreact = { "prettierd", "prettier", stop_after_first = true },
+				typescript = { "prettierd", "prettier", stop_after_first = true },
+				typescriptreact = { "prettierd", "prettier", stop_after_first = true },
 			},
 		},
 	},
@@ -580,38 +581,49 @@ require("lazy").setup({
 	{ "windwp/nvim-autopairs", event = "InsertEnter", config = true },
 })
 
---Integrate with system clipboard
+--
+-- General setup
+--
+
+-- Integrate with system clipboard
 vim.o.clipboard = "unnamedplus"
 
---Set highlight on search
+-- Set highlight on search
 vim.o.hlsearch = false
 
---Make line numbers default
+-- Make line numbers default
 vim.wo.number = true
 vim.wo.relativenumber = true
 
---Enable mouse mode
+-- Enable mouse mode
 vim.o.mouse = "a"
 
---Enable break indent
+-- Enable break indent
 vim.o.breakindent = true
 
 --Save undo history
 vim.o.undofile = true
 
---Case insensitive searching UNLESS /C or capital in search
+-- Case insensitive searching UNLESS /C or capital in search
 vim.o.ignorecase = true
 vim.o.smartcase = true
 
---Decrease update time
+-- Decrease update time
 vim.o.updatetime = 250
-vim.o.timeout = true
 vim.o.timeoutlen = 300
+
+-- Enable sign column
 vim.wo.signcolumn = "yes"
 
---Remap space as leader key
+-- Remap space as leader key
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
+
+-- Preview substitutions live, as you type!
+vim.opt.inccommand = "split"
+
+-- Minimal number of screen lines to keep above and below the cursor.
+vim.opt.scrolloff = 10
 
 -- Highlight when yanking (copying) text
 --  Try it with `yap` in normal mode
@@ -621,6 +633,17 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 	group = vim.api.nvim_create_augroup("kickstart-highlight-yank", { clear = true }),
 	callback = function()
 		vim.highlight.on_yank()
+	end,
+})
+
+-- add space for comments e.g. // comment rather than //comment
+-- per https://github.com/neovim/neovim/pull/28176#issuecomment-2051944146
+vim.api.nvim_create_autocmd({ "FileType" }, {
+	desc = "Force commentstring to include spaces",
+	-- group = ...,
+	callback = function(event)
+		local cs = vim.bo[event.buf].commentstring
+		vim.bo[event.buf].commentstring = cs:gsub("(%S)%%s", "%1 %%s"):gsub("%%s(%S)", "%%s %1")
 	end,
 })
 
