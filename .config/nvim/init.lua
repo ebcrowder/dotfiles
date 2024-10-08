@@ -349,7 +349,6 @@ require("lazy").setup({
 				--
 				-- But for many setups, the LSP (`ts_ls`) will work just fine
 				ts_ls = {},
-				eslint = {},
 				phpactor = {},
 				--
 
@@ -382,6 +381,7 @@ require("lazy").setup({
 			local ensure_installed = vim.tbl_keys(servers or {})
 			vim.list_extend(ensure_installed, {
 				"stylua", -- Used to format Lua code
+				"eslint", -- js/ts linter, used by nvim-lint
 			})
 			require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
 
@@ -450,6 +450,17 @@ require("lazy").setup({
 			vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
 		end,
 		opts = { view_options = { show_hidden = true } },
+	},
+	{
+		"mfussenegger/nvim-lint",
+		init = function()
+			require("lint").linters_by_ft = {
+				javascript = { "eslint" },
+				javascriptreact = { "eslint" },
+				typescript = { "eslint" },
+				typescriptreact = { "eslint" },
+			}
+		end,
 	},
 	{
 		-- `lazydev` configures Lua LSP for your Neovim config, runtime and plugins
