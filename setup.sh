@@ -20,6 +20,8 @@ cd .zsh && git submodule update --init --recursive
 
 # system setup
 echo "installing tools..."
-sudo dnf install zsh ripgrep fd-find zoxide eza kitty gh -y
+sudo dnf install zsh neovim ripgrep fd-find zoxide eza kitty gh -y
+sudo dnf copr enable atim/lazygit -y
+sudo dnf install lazygit -y
 
 echo "done"
